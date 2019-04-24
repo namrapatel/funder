@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "418266890250",
+    "firebase_url": "https://funder-a9bf9.firebaseio.com",
+    "project_id": "funder-a9bf9",
+    "storage_bucket": "funder-a9bf9.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:418266890250:android:0582414c81f0bd51",
+        "android_client_info": {
+          "package_name": "com.example.funder"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "418266890250-bau0gfs55c0m48jrd8emv3jeboh3sd7l.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC5Y_6ectsWBrW45PmDRbnbJ-bnlkFtNs8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "418266890250-bau0gfs55c0m48jrd8emv3jeboh3sd7l.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "418266890250-80caa24h1hjtrlqmsmmpoo0i2fng70mr.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.funder"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
