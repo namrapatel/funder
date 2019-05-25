@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
+import 'tabBar/fancy_tab_bar.dart';
+import 'tabBar/tab_item.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -15,6 +17,7 @@ class _HomePageState extends State<HomePage> {
           title: new Text('Dashboard'),
           centerTitle: true,
         ),
+        bottomNavigationBar: FancyTabBar(),
         body: Center(
           child: Container(
             child: new Column(
