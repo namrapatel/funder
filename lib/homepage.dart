@@ -12,10 +12,6 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: new AppBar(
-          title: new Text('Dashboard'),
-          centerTitle: true,
-        ),
         body: Center(
           child: Container(
             child: new Column(
