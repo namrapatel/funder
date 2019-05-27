@@ -25,6 +25,7 @@ dependencies:
   firebase_storage:
     
   cupertino_icons: ^0.1.2
+  charts_flutter: ^0.6.0
   
 
 dev_dependencies:
@@ -49,14 +50,18 @@ flutter:
     - assets/login_logo.png
 
   fonts:
-    - family: WorkSansSemiBold
-      fonts:
-        - asset: assets/fonts/Work_Sans/WorkSans-SemiBold.ttf
+  - family: Varela
+    fonts:
+        - asset: assets/fonts/VarelaRound-Regular.ttf
+        
+    # - family: WorkSansSemiBold
+    #   fonts:
+    #     - asset: assets/fonts/Work_Sans/WorkSans-SemiBold.ttf
 
-    - family: WorkSansBold
-      fonts:
-        - asset: assets/fonts/Work_Sans/WorkSans-Bold.ttf
+    # - family: WorkSansBold
+    #   fonts:
+    #     - asset: assets/fonts/Work_Sans/WorkSans-Bold.ttf
 
-    - family: WorkSansMedium
-      fonts:
-        - asset: assets/fonts/Work_Sans/WorkSans-Medium.ttf
+    # - family: WorkSansMedium
+    #   fonts:
+    #     - asset: assets/fonts/Work_Sans/WorkSans-Medium.ttf

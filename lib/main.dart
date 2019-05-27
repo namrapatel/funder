@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'homepage.dart';
 import 'profilepage.dart';
 import 'groupspage.dart';
+import 'notificationspage.dart';
 
 void main() => runApp(new MyApp());
 
@@ -11,22 +12,27 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         // Define the default Brightness and Colors
         backgroundColor: Colors.orange[400],
-        primaryColor: Colors.blueAccent[400],
+        primaryColor: Colors.orange,
         accentColor: Colors.greenAccent[400],
-
         // Define the default Font Family
-        fontFamily: 'Proxima Nova',
-
+        fontFamily: 'Varela',
         // Define the default TextTheme. Use this to specify the default
         // text styling for headlines, titles, bodies of text, and more.
-        textTheme: TextTheme(
-          headline: TextStyle(fontSize: 72.0, fontWeight: FontWeight.bold),
-          title: TextStyle(fontSize: 36.0, fontStyle: FontStyle.italic),
-          body1: TextStyle(fontSize: 14.0, fontFamily: 'Proxima Nova'),
-        ),
+        // textTheme: TextTheme(
+        //   headline: TextStyle(
+        //       fontSize: 72.0,
+        //       fontWeight: FontWeight.bold,
+        //       fontFamily: 'Varela'),
+        //   title: TextStyle(
+        //       fontSize: 36.0,
+        //       fontStyle: FontStyle.italic,
+        //       fontFamily: 'Varela'),
+        //   body1: TextStyle(fontSize: 14.0, fontFamily: 'Varela'),
+        // ),
       ),
       title: "Funder",
       home: MyHomePage(),
@@ -46,20 +52,20 @@ class _MyHomePageState extends State<MyHomePage>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: new AppBar(
-        actions: <Widget>[
-          IconButton(
-            icon: Icon(Icons.create),
-            onPressed: () {
-              _settingModalBottomSheet(context);
-            },
-          ),
-        ],
-        centerTitle: true,
-        title: new Text('Funder', style: TextStyle(color: Colors.white)),
-        elevation: 0.0,
-        backgroundColor: Colors.blueAccent[400],
-      ),
+      // appBar: new AppBar(
+      //   actions: <Widget>[
+      //     IconButton(
+      //       icon: Icon(Icons.create),
+      //       onPressed: () {
+      //         _settingModalBottomSheet(context);
+      //       },
+      //     ),
+      //   ],
+      //   centerTitle: true,
+      //   title: new Text('Funder', style: TextStyle(color: Colors.white)),
+      //   elevation: 0.0,
+      //   backgroundColor: Colors.blueAccent[400],
+      // ),
       // floatingActionButton: FloatingActionButton(
       //   elevation: 0.0,
       //   onPressed: () {
@@ -77,6 +83,7 @@ class _MyHomePageState extends State<MyHomePage>
             child: HomePage(),
           ),
           Container(color: Colors.white, child: GroupsPage()),
+          Container(color: Colors.white, child: NotificationsPage()),
           Container(
             color: Colors.white,
             child: ProfilePage(),
@@ -91,17 +98,22 @@ class _MyHomePageState extends State<MyHomePage>
         items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(
               icon: Icon(Icons.home,
-                  color: (_page == 0) ? Colors.black : Colors.grey),
+                  color: (_page == 0) ? Colors.amber[800] : Colors.grey),
               title: Container(height: 0.0),
               backgroundColor: Colors.white),
           BottomNavigationBarItem(
               icon: Icon(Icons.group,
-                  color: (_page == 1) ? Colors.black : Colors.grey),
+                  color: (_page == 1) ? Colors.amber[800] : Colors.grey),
+              title: Container(height: 0.0),
+              backgroundColor: Colors.white),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.notifications,
+                  color: (_page == 2) ? Colors.amber[800] : Colors.grey),
               title: Container(height: 0.0),
               backgroundColor: Colors.white),
           BottomNavigationBarItem(
               icon: Icon(Icons.person,
-                  color: (_page == 2) ? Colors.black : Colors.grey),
+                  color: (_page == 3) ? Colors.amber[800] : Colors.grey),
               title: Container(height: 0.0),
               backgroundColor: Colors.white),
         ],
