@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:funder/widgets/CustomBottomBar.dart';
 import 'package:funder/widgets/colorCard.dart';
 import 'package:funder/ui/CustomShapeClipper.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -10,6 +11,7 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+     // appBar: buildBottomBar(context),
         body: Column(
       children: <Widget>[HomePageTopPart()],
     ));
@@ -49,43 +51,52 @@ class _HomePageTopPartState extends State<HomePageTopPart> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    Row( children: <Widget>[
-                    CircleAvatar(
-                      backgroundImage: new AssetImage('assets/namrapatel.png'),
-                    ),
-                    SizedBox(width: 10.0,),
-                    // Padding(padding: EdgeInsetsGeometry,)
-                    Text(
-                      "Namra Patel",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
+                    Row(children: <Widget>[
+                      IconButton(
+                        icon: CircleAvatar(
+                          backgroundImage:
+                              new AssetImage('assets/namrapatel.png'),
+                        ),
+                        onPressed: () {},
                       ),
-                    ),
-                    SizedBox(width: 125.0,),
-                    IconButton(
-                      iconSize: 25.0,
-                      color: Colors.white,
-                      icon: Icon(Icons.search),
-                      onPressed: () {},
-                    ),
-                     IconButton(
-                      iconSize: 25.0,
-                      color: Colors.white,
-                      icon: Icon(Icons.more_vert),
-                      onPressed: () {},
-                    ),
-                  ])],
+                      SizedBox(
+                        width: 10.0,
+                      ),
+                      // Padding(padding: EdgeInsetsGeometry,)
+                      Text(
+                        "Namra Patel",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      SizedBox(
+                        width: 120.0,
+                      ),
+                      IconButton(
+                        iconSize: 25.0,
+                        color: Colors.white,
+                        icon: Icon(Icons.search),
+                        onPressed: () {},
+                      ),
+                      IconButton(
+                        iconSize: 25.0,
+                        color: Colors.white,
+                        icon: Icon(Icons.more_vert),
+                        onPressed: () {},
+                      ),
+                    ])
+                  ],
                 ),
                 Row(
                   // mainAxisAlignment: MainAxisAlignment.center,
                   // // crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
                     buildColorCard(
-                        context, "Pending", 35.17, 1, Colors.blueAccent[700]),
+                        context, "Pending", 354.17, 1, Colors.blueAccent[700]),
                     buildColorCard(
-                        context, "Unpaid", 4978, -1, Color(0xFFff3f5e))
+                        context, "Unpaid", 76.09, -1, Color(0xFFff3f5e))
                   ],
                 ),
               ],

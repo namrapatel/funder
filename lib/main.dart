@@ -12,7 +12,7 @@ class Dime extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: "Funder",
+      title: "Dime",
       home: HomePage(),
       theme: appTheme,
     );
