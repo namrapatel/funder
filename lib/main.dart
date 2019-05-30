@@ -5,40 +5,21 @@ import 'homepage.dart';
 import 'profilepage.dart';
 import 'notificationspage.dart';
 
-void main() => runApp(new MyApp());
+void main() => runApp(Dime());
 
-class MyApp extends StatelessWidget {
+class Dime extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        // brightness: Brightness.dark,
-        // Define the default Brightness and Colors
-        backgroundColor: Colors.greenAccent[400],
-        primaryColor: Colors.greenAccent[400],
-        accentColor: Colors.greenAccent[400],
-        // Define the default Font Family
-        fontFamily: 'Varela',
-        // Define the default TextTheme. Use this to specify the default
-        // text styling for headlines, titles, bodies of text, and more.
-        // textTheme: TextTheme(
-        //   headline: TextStyle(
-        //       fontSize: 72.0,
-        //       fontWeight: FontWeight.bold,
-        //       fontFamily: 'Varela'),
-        //   title: TextStyle(
-        //       fontSize: 36.0,
-        //       fontStyle: FontStyle.italic,
-        //       fontFamily: 'Varela'),
-        //   body1: TextStyle(fontSize: 14.0, fontFamily: 'Varela'),
-        // ),
-      ),
       title: "Funder",
       home: MyHomePage(),
+      theme: appTheme,
     );
   }
 }
+
+ThemeData appTheme = ThemeData(primaryColor: Colors.greenAccent[400], fontFamily: 'Varela');
 
 class MyHomePage extends StatefulWidget {
   _MyHomePageState createState() => _MyHomePageState();
@@ -49,6 +30,7 @@ class _MyHomePageState extends State<MyHomePage>
   int _page = 0;
   PageController pageController;
 
+// This widget builds the bottom app bar using a PageView widget.
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -68,7 +50,7 @@ class _MyHomePageState extends State<MyHomePage>
         physics: NeverScrollableScrollPhysics(),
         onPageChanged: onPageChanged,
       ),
-      
+// Creating the actual bottom app bar using the CupertinoTabBar widget.
       bottomNavigationBar: CupertinoTabBar(
         activeColor: Colors.greenAccent[400],
         items: <BottomNavigationBarItem>[
@@ -150,4 +132,6 @@ void _settingModalBottomSheet(context) {
         );
       });
 }
+
+
 

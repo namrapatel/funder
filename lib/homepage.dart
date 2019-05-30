@@ -4,21 +4,33 @@ import 'ui/tab_1_view.dart';
 import 'ui/tab_2_view.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
+class HomePage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Column(children: <Widget>[
+        HomePageTopPart(),
+        
+      ],)
+    );
+  }
+}
+
 Color primaryColor = Color(0xff0074ff);
-class HomePage extends StatefulWidget {
-  HomePage({Key key, this.title}) : super(key: key);
+class HomePageTopPart extends StatefulWidget {
+  HomePageTopPart({Key key, this.title}) : super(key: key);
 
   final String title;
 
   @override
-  _HomePageState createState() => new _HomePageState();
+  _HomePageTopPartState createState() => new _HomePageTopPartState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _HomePageTopPartState extends State<HomePageTopPart> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body:  ListView(
+        body: ListView(
                     physics: BouncingScrollPhysics(),
                     padding: EdgeInsets.only(
                       left: 20,
