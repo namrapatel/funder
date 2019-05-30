@@ -3,7 +3,6 @@ import 'package:flutter/cupertino.dart';
 //pages
 import 'homepage.dart';
 import 'profilepage.dart';
-import 'groupspage.dart';
 import 'notificationspage.dart';
 
 void main() => runApp(new MyApp());
@@ -14,9 +13,10 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
+        // brightness: Brightness.dark,
         // Define the default Brightness and Colors
-        backgroundColor: Colors.orange[400],
-        primaryColor: Colors.orange,
+        backgroundColor: Colors.greenAccent[400],
+        primaryColor: Colors.greenAccent[400],
         accentColor: Colors.greenAccent[400],
         // Define the default Font Family
         fontFamily: 'Varela',
@@ -52,37 +52,12 @@ class _MyHomePageState extends State<MyHomePage>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: new AppBar(
-      //   actions: <Widget>[
-      //     IconButton(
-      //       icon: Icon(Icons.create),
-      //       onPressed: () {
-      //         _settingModalBottomSheet(context);
-      //       },
-      //     ),
-      //   ],
-      //   centerTitle: true,
-      //   title: new Text('Funder', style: TextStyle(color: Colors.white)),
-      //   elevation: 0.0,
-      //   backgroundColor: Colors.blueAccent[400],
-      // ),
-      // floatingActionButton: FloatingActionButton(
-      //   elevation: 0.0,
-      //   onPressed: () {
-      //     _settingModalBottomSheet(context);
-      //   },
-      //   child: Icon(
-      //     Icons.create,
-      //   ),
-      //   mini: true,
-      // ),
       body: PageView(
         children: [
           Container(
             color: Colors.white,
             child: HomePage(),
           ),
-          Container(color: Colors.white, child: GroupsPage()),
           Container(color: Colors.white, child: NotificationsPage()),
           Container(
             color: Colors.white,
@@ -93,27 +68,23 @@ class _MyHomePageState extends State<MyHomePage>
         physics: NeverScrollableScrollPhysics(),
         onPageChanged: onPageChanged,
       ),
+      
       bottomNavigationBar: CupertinoTabBar(
-        activeColor: Colors.orange,
+        activeColor: Colors.greenAccent[400],
         items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(
               icon: Icon(Icons.home,
-                  color: (_page == 0) ? Colors.amber[800] : Colors.grey),
-              title: Container(height: 0.0),
-              backgroundColor: Colors.white),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.group,
-                  color: (_page == 1) ? Colors.amber[800] : Colors.grey),
+                  color: (_page == 0) ? Colors.greenAccent[400] : Colors.grey),
               title: Container(height: 0.0),
               backgroundColor: Colors.white),
           BottomNavigationBarItem(
               icon: Icon(Icons.notifications,
-                  color: (_page == 2) ? Colors.amber[800] : Colors.grey),
+                  color: (_page == 1) ? Colors.greenAccent[400] : Colors.grey),
               title: Container(height: 0.0),
               backgroundColor: Colors.white),
           BottomNavigationBarItem(
               icon: Icon(Icons.person,
-                  color: (_page == 3) ? Colors.amber[800] : Colors.grey),
+                  color: (_page == 2) ? Colors.amber[800] : Colors.grey),
               title: Container(height: 0.0),
               backgroundColor: Colors.white),
         ],

@@ -4,6 +4,7 @@ import 'ui/tab_1_view.dart';
 import 'ui/tab_2_view.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
+Color primaryColor = Color(0xff0074ff);
 class HomePage extends StatefulWidget {
   HomePage({Key key, this.title}) : super(key: key);
 
@@ -17,51 +18,52 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: ListView(
-        physics: BouncingScrollPhysics(),
-        padding: EdgeInsets.only(
-          left: 20,
-          top: 70,
-        ),
-        children: <Widget>[
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Text(
-                "Overview",
-                style: TextStyle(
-                  fontSize: 35,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              IconButton(
-                iconSize: 25.0,
-                color: Colors.amber[800],
-                icon: Icon(Icons.create),
-                onPressed: () {
-                  _settingModalBottomSheet(context);
-                },
-              ),
-            ],
-          ),
-          Row(
-            // mainAxisAlignment: MainAxisAlignment.center,
-            // // crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-              _buildColorCard(
-                  context, "You are Owed", 35.17, 1, Color(0xFF00E676)),
-              _buildColorCard(context, "You Owe", 4978, -1, Color(0xFFff3f5e))
-            ],
-          ),
-        ],
-      ),
+        body:  ListView(
+                    physics: BouncingScrollPhysics(),
+                    padding: EdgeInsets.only(
+                      left: 20,
+                      top: 70,
+                    ),
+                    children: <Widget>[
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Text(
+                            "Overview",
+                            style: TextStyle(
+                              fontSize: 35,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          IconButton(
+                            iconSize: 25.0,
+                            color: Colors.greenAccent[400],
+                            icon: Icon(Icons.create),
+                            onPressed: () {
+                              _settingModalBottomSheet(context);
+                            },
+                          ),
+                        ],
+                      ),
+                      Row(
+                        // mainAxisAlignment: MainAxisAlignment.center,
+                        // // crossAxisAlignment: CrossAxisAlignment.center,
+                        children: <Widget>[
+                          //  _buildColorCard(
+                          //     context, "You are Owed", 35.17, 1, Color(0xFFFFC107)),
+                          // _buildColorCard(context, "You Owe", 4978, -1, Color(0xFFFFC107))
+                          _buildColorCard(
+                              context, "Pending", 35.17, 1, Color(0xFF00E676)),
+                          _buildColorCard(
+                              context, "Unpaid", 4978, -1, Color(0xFFff3f5e))
+                        ],
+                      ),
+                    ],
+                  ), 
     );
   }
 
-  @override
-  bool get wantKeepAlive => true;
-}
 
 // Function for bottom sheet.
 void _settingModalBottomSheet(context) {
@@ -74,7 +76,8 @@ void _settingModalBottomSheet(context) {
               new ListTile(
                   contentPadding:
                       EdgeInsetsDirectional.fromSTEB(20.0, 20.0, 0.0, 10.0),
-                  leading: new Icon(Icons.call_split),
+                  leading: new Icon(Icons.call_split,
+                      color: Colors.greenAccent[400]),
                   title: new Text('Split a Payment'),
                   subtitle: new Text(
                       'Request to split a payment between a group of people.'),
@@ -86,7 +89,8 @@ void _settingModalBottomSheet(context) {
               new ListTile(
                   contentPadding:
                       EdgeInsetsDirectional.fromSTEB(20.0, 10.0, 0.0, 20.0),
-                  leading: new Icon(Icons.send),
+                  leading:
+                      new Icon(Icons.send, color: Colors.greenAccent[400]),
                   title: new Text('Send to Contact'),
                   subtitle: new Text(
                       'Send money to individuals on your friends list.'),
@@ -97,7 +101,6 @@ void _settingModalBottomSheet(context) {
       });
 }
 
-Widget _buildTabBarController(BuildContext context) {}
 
 Widget _buildColorCard(
     BuildContext context, String text, double amount, int type, Color color) {
@@ -106,7 +109,7 @@ Widget _buildColorCard(
     Container(
       margin: EdgeInsets.only(top: 50, right: 15),
       padding: EdgeInsets.all(15),
-      height: screenAwareSize(90, context),
+      height: screenAwareSize(72.5, context),
       width: _media.width / 2 - 25,
       decoration: BoxDecoration(
           color: color,
@@ -142,4 +145,5 @@ Widget _buildColorCard(
       ),
     )
   ]);
+}
 }
