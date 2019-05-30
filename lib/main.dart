@@ -151,8 +151,3 @@ void _settingModalBottomSheet(context) {
       });
 }
 
-//
-Future navigateToGroupsPage(context) async {
-  Navigator.push(
-      context, MaterialPageRoute(builder: (context) => GroupsPage()));
-}
