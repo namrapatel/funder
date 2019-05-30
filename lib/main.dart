@@ -5,40 +5,21 @@ import 'homepage.dart';
 import 'profilepage.dart';
 import 'notificationspage.dart';
 
-void main() => runApp(new MyApp());
+void main() => runApp(Dime());
 
-class MyApp extends StatelessWidget {
+class Dime extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        // brightness: Brightness.dark,
-        // Define the default Brightness and Colors
-        backgroundColor: Colors.greenAccent[400],
-        primaryColor: Colors.greenAccent[400],
-        accentColor: Colors.greenAccent[400],
-        // Define the default Font Family
-        fontFamily: 'Varela',
-        // Define the default TextTheme. Use this to specify the default
-        // text styling for headlines, titles, bodies of text, and more.
-        // textTheme: TextTheme(
-        //   headline: TextStyle(
-        //       fontSize: 72.0,
-        //       fontWeight: FontWeight.bold,
-        //       fontFamily: 'Varela'),
-        //   title: TextStyle(
-        //       fontSize: 36.0,
-        //       fontStyle: FontStyle.italic,
-        //       fontFamily: 'Varela'),
-        //   body1: TextStyle(fontSize: 14.0, fontFamily: 'Varela'),
-        // ),
-      ),
       title: "Funder",
-      home: MyHomePage(),
+      home: HomePage(),
+      theme: appTheme,
     );
   }
 }
+
+ThemeData appTheme = ThemeData(primaryColor: Colors.greenAccent[400], fontFamily: 'Varela');
 
 class MyHomePage extends StatefulWidget {
   _MyHomePageState createState() => _MyHomePageState();
@@ -49,6 +30,7 @@ class _MyHomePageState extends State<MyHomePage>
   int _page = 0;
   PageController pageController;
 
+// This widget builds the bottom app bar using a PageView widget.
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -68,7 +50,7 @@ class _MyHomePageState extends State<MyHomePage>
         physics: NeverScrollableScrollPhysics(),
         onPageChanged: onPageChanged,
       ),
-      
+// Creating the actual bottom app bar using the CupertinoTabBar widget.
       bottomNavigationBar: CupertinoTabBar(
         activeColor: Colors.greenAccent[400],
         items: <BottomNavigationBarItem>[
@@ -117,37 +99,3 @@ class _MyHomePageState extends State<MyHomePage>
     pageController.dispose();
   }
 }
-
-void _settingModalBottomSheet(context) {
-  showModalBottomSheet(
-      context: context,
-      builder: (BuildContext bc) {
-        return Container(
-          child: new Wrap(
-            children: <Widget>[
-              new ListTile(
-                  contentPadding:
-                      EdgeInsetsDirectional.fromSTEB(20.0, 20.0, 0.0, 10.0),
-                  leading: new Icon(Icons.call_split),
-                  title: new Text('Split a Payment'),
-                  subtitle: new Text(
-                      'Request to split a payment between a group of people.'),
-                  onTap: () => {}),
-              new Divider(
-                height: 1.0,
-                color: Colors.grey,
-              ),
-              new ListTile(
-                  contentPadding:
-                      EdgeInsetsDirectional.fromSTEB(20.0, 10.0, 0.0, 20.0),
-                  leading: new Icon(Icons.send),
-                  title: new Text('Send to Contact'),
-                  subtitle: new Text(
-                      'Send money to individuals on your friends list.'),
-                  onTap: () => {}),
-            ],
-          ),
-        );
-      });
-}
-
