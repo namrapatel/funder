@@ -42,18 +42,18 @@ class _HomePageTopPartState extends State<HomePageTopPart> {
   Widget build(BuildContext context) {
     return Stack(children: <Widget>[
       Container(
-        // height: 600.0,
-        // decoration: BoxDecoration(
-        //   color: Colors.white
-        //   // gradient: LinearGradient(
-        //   //   colors: [firstColor, secondColor],
-        //   // ),
-        // ),
+        height: 305.0,
+        decoration: BoxDecoration(
+          // color: Colors.white
+          gradient: LinearGradient(
+            colors: [firstColor, secondColor],
+          ),
+        ),
         child: Column(
           children: <Widget>[
             Container(
-              color: Colors.white,
-              height: 440.0,
+              // color: Colors.white,
+              height: 305.0,
               child: ListView(
                   physics: BouncingScrollPhysics(),
                   padding: EdgeInsets.only(
@@ -67,134 +67,60 @@ class _HomePageTopPartState extends State<HomePageTopPart> {
                       children: <Widget>[
                         Row(children: <Widget>[
                           IconButton(
+                            iconSize: 25.0,
+                            color: Colors.white,
+                            icon: Icon(Icons.menu),
+                            onPressed: () {},
+                          ),
+                          SizedBox(width: 110,),
+                          Text(
+                            "Dime",
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          SizedBox(width: 120,),
+                          IconButton(
                             icon: CircleAvatar(
                               backgroundImage:
                                   new AssetImage('assets/namrapatel.png'),
                             ),
                             onPressed: () {},
                           ),
-                          SizedBox(
-                            width: 10.0,
-                          ),
-                          Text(
-                            "Namra Patel",
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          SizedBox(
-                            width: 120.0,
-                          ),
-                          IconButton(
-                            iconSize: 25.0,
-                            color: Colors.black,
-                            icon: Icon(Icons.search),
-                            onPressed: () {},
-                          ),
-                          IconButton(
-                            iconSize: 25.0,
-                            color: Colors.black,
-                            icon: Icon(Icons.more_vert),
-                            onPressed: () {},
-                          ),
                         ])
                       ],
                     ),
-                    SizedBox(
-                      height: 10.0,
+                    SizedBox(height: 15.0),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 50.0),
+                      child: Text(
+                        "What would you like to do?",
+                        style: titleTextStyle,
+                      ),
                     ),
+                    // SizedBox(
+                    //   height: ,
+                    // ),
                     Row(
                       children: <Widget>[
-                        buildColorCard(context, "Pending", 354.17, 1,
-                            Colors.blueAccent[700]),
-                        buildColorCard(
-                            context, "Unpaid", 76.09, -1, Color(0xFFff3f5e))
+                        buildColorCard(context, "Send a Payment",
+                            Icon(Icons.input), Colors.white),
+                        buildColorCard(context, "Create a Dime",
+                            Icon(Icons.group_add), Colors.grey[50]),
                       ],
                     ),
                     SizedBox(
-                      height: 35.0,
+                      height: 32.0,
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(right: 15.0),
-                      child: Divider(
-                        color: Colors.grey,
-                        height: 1.0,
-                      ),
-                    ),
-                    SizedBox(height: 5.0,),
-                    Container(
-                      child: Padding(
-                        padding: const EdgeInsets.only(right: 20.0),
-                        child: Container(
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(15),
-                            // boxShadow: [
-                            //   BoxShadow(
-                            //       color: Colors.black.withOpacity(0.2),
-                            //       blurRadius: 16,
-                            //       spreadRadius: 0.2,
-                            //       offset: Offset(0, 8)),
-                            // ]),
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 15.0),
-                            child: Column(
-                              children: <Widget>[
-                                Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Text(
-                                    "What would you like to do?",
-                                    style: titleTextStyle,
-                                  ),
-                                ),
-                                SizedBox(
-                                  height: 20,
-                                ),
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceAround,
-                                  children: <Widget>[
-                                    Column(
-                                      children: <Widget>[
-                                        IconButton(
-                                            onPressed: () {},
-                                            icon: Icon(Icons.input),
-                                            iconSize: 40.0,
-                                            color: Colors.greenAccent[700]),
-                                        Text(
-                                          "Send a Payment",
-                                          style: bodyTextStyle,
-                                        ),
-                                      ],
-                                    ),
-                                    // VerticalDivider(
-                                    //   color: Colors.black,
-                                    //   width: 2.0,
-                                    // ),
-                                    Column(
-                                      children: <Widget>[
-                                        IconButton(
-                                            onPressed: () {},
-                                            icon: Icon(Icons.call_split),
-                                            iconSize: 40.0,
-                                            color: Colors.greenAccent[700]),
-                                        Text(
-                                          "Create a Dime",
-                                          style: bodyTextStyle,
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
+                    // Padding(
+                    //   padding: const EdgeInsets.only(right: 15.0),
+                    //   child: Divider(
+                    //     color: Colors.grey,
+                    //     height: 1.0,
+                    //   ),
+                    // ),
                   ]),
             )
           ],
