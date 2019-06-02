@@ -6,7 +6,7 @@ Widget buildColorCard(
   final _media = MediaQuery.of(context).size;
   return Column(children: <Widget>[
     Container(
-      margin: EdgeInsets.only(top: 50, right: 15),
+      margin: EdgeInsets.only(top: 20, right: 15),
       padding: EdgeInsets.all(15),
       height: screenAwareSize(72.5, context),
       width: _media.width / 2 - 25,
