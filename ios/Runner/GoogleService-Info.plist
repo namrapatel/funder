@@ -3,21 +3,21 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>418266890250-80caa24h1hjtrlqmsmmpoo0i2fng70mr.apps.googleusercontent.com</string>
+	<string>464417786059-4ncmfb6k6j5doifo0ha41go0b5r337tm.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.418266890250-80caa24h1hjtrlqmsmmpoo0i2fng70mr</string>
+	<string>com.googleusercontent.apps.464417786059-4ncmfb6k6j5doifo0ha41go0b5r337tm</string>
 	<key>API_KEY</key>
-	<string>AIzaSyAMaGMAMLn8VGnhCZOI03sEZiWbmFx2TnA</string>
+	<string>AIzaSyDlEBbbMMukjU2XDBMHqLlIBmcJkC2sbsY</string>
 	<key>GCM_SENDER_ID</key>
-	<string>418266890250</string>
+	<string>464417786059</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
 	<string>com.example.funder</string>
 	<key>PROJECT_ID</key>
-	<string>funder-a9bf9</string>
+	<string>dime-87d60</string>
 	<key>STORAGE_BUCKET</key>
-	<string>funder-a9bf9.appspot.com</string>
+	<string>dime-87d60.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -29,8 +29,8 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:418266890250:ios:0582414c81f0bd51</string>
+	<string>1:464417786059:ios:0582414c81f0bd51</string>
 	<key>DATABASE_URL</key>
-	<string>https://funder-a9bf9.firebaseio.com</string>
+	<string>https://dime-87d60.firebaseio.com</string>
 </dict>
 </plist>

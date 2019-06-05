@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:funder/widgets/CustomBottomBar.dart';
+//import 'package:funder/widgets/CustomBottomBar.dart';
 import 'package:funder/widgets/colorCard.dart';
 import 'package:funder/ui/CustomShapeClipper.dart';
 import 'package:firebase_auth/firebase_auth.dart';

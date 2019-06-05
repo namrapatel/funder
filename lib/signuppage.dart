@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 //services
 import 'services/usermanagement.dart';
-
 import 'package:firebase_auth/firebase_auth.dart';
 
 class SignupPage extends StatefulWidget {
@@ -11,52 +10,68 @@ class SignupPage extends StatefulWidget {
 }
 
 class _SignupPageState extends State<SignupPage> {
-  String _email;
-  String _password;
+  String _email, _password;
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
-        body: Center(
-      child: Container(
-          padding: EdgeInsets.all(25.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              TextField(
-                  decoration: InputDecoration(hintText: 'Email'),
-                  onChanged: (value) {
-                    setState(() {
-                      _email = value;
-                    });
-                  }),
-              SizedBox(height: 15.0),
-              TextField(
-                  decoration: InputDecoration(hintText: 'Password'),
-                  onChanged: (value) {
-                    setState(() {
-                      _password = value;
-                    });
-                  }),
-              SizedBox(height: 20.0),
-              RaisedButton(
-                child: Text('Sign Up'),
-                color: Colors.blue,
-                textColor: Colors.white,
-                elevation: 7.0,
-                onPressed: () {
-                  FirebaseAuth.instance
-                      .createUserWithEmailAndPassword(
-                          email: _email, password: _password)
-                      .then((signedInUser) {
-                    UserManagement().storeNewUser(signedInUser, context);
-                  }).catchError((e) {
-                    print(e);
-                  });
-                },
-              ),
-            ],
-          )),
+        body: Form(
+          key: _formKey,
+          child: Container(
+              padding: EdgeInsets.all(25.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  TextFormField(
+                      decoration: InputDecoration(hintText: 'Email'),
+                      onSaved: (value) {
+                        setState(() {
+                          _email = value;
+                        });
+                      }),
+                  SizedBox(height: 15.0),
+                  TextFormField(
+                      decoration: InputDecoration(hintText: 'Password'),
+                      onSaved: (value) {
+                        setState(() {
+                          _password = value;
+                        });
+                      }),
+                  SizedBox(height: 20.0),
+                  RaisedButton(
+                    child: Text('Sign Up'),
+                    color: Colors.blue,
+                    textColor: Colors.white,
+                    elevation: 7.0,
+                    onPressed: createUser,
+
+                      //FirebaseAuth.instance
+                        //  .createUserWithEmailAndPassword(email: _email, password: _password)
+                          //then((signedInUser) {
+                        //UserManagement().storeNewUser(signedInUser, context);
+                      //}).catchError((e) {
+                     //  print(e);
+                     // });
+                
+                  ),
+                ],
+              )),
     ));
+  }
+  void createUser() async{
+    final formState = _formKey.currentState;
+    if(formState.validate()){
+      formState.save();
+      try{
+        FirebaseUser user = await FirebaseAuth.instance.createUserWithEmailAndPassword(email: _email , password: _password);
+        user.sendEmailVerification();
+        Navigator.of(context).pop(); //closes the page
+        //Navigator.pushReplacment(context, MaterialPageRoute(builder: (contect) => HomePage()));
+      }catch(e){
+        print(e.message);
+
+      }
+    }
   }
 }
