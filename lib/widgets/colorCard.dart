@@ -15,14 +15,14 @@ Widget buildColorCard(
     Container(
       margin: EdgeInsets.only(top: 20, right: 15),
       padding: EdgeInsets.all(15),
-      height: screenAwareSize(80.5, context),
+      height: screenAwareSize(79.5, context),
       width: _media.width / 2 - 25,
       decoration: BoxDecoration(
           color: color,
           borderRadius: BorderRadius.circular(15),
           boxShadow: [
             BoxShadow(
-                color: color.withOpacity(0.5),
+                color: Colors.grey[800].withOpacity(0.5),
                 blurRadius: 16,
                 spreadRadius: 0.2,
                 offset: Offset(0, 8)),

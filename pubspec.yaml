@@ -49,7 +49,13 @@ flutter:
   assets:
     - assets/login_logo.png
     - assets/namrapatel.png
-
+    - assets/trip.png
+    - assets/roommates.jpeg
+    - assets/family.png
+    - assets/childhoodhomies.jpeg
+    - assets/lakersnation.jpeg
+    - assets/sorority.jpeg
+    
   fonts:
   - family: Varela
     fonts:

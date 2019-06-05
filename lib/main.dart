@@ -19,7 +19,7 @@ class Dime extends StatelessWidget {
   }
 }
 
-ThemeData appTheme = ThemeData(scaffoldBackgroundColor: Colors.grey[200], primaryColor: Colors.greenAccent[400], fontFamily: 'Varela');
+ ThemeData appTheme = ThemeData(scaffoldBackgroundColor: Colors.white, primaryColor: Colors.greenAccent[400], fontFamily: 'Varela');
 
 class MyHomePage extends StatefulWidget {
   _MyHomePageState createState() => _MyHomePageState();
