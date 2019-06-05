@@ -11,6 +11,7 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      // bottomNavigationBar: BottomBar(),
         body: Column(
       children: <Widget>[HomePageTopPart(), homePageBottomPart],
     ));
@@ -62,7 +63,7 @@ class _HomePageTopPartState extends State<HomePageTopPart> {
                             "Dime",
                             style: TextStyle(
                               color: Colors.white,
-                              fontSize: 20,
+                              fontSize: 22,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
