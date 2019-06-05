@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:funder/homepage.dart';
+import 'package:funder/signuppage.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -7,51 +9,57 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  String _email;
-  String _password;
+  String _email, _password;
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
-     body: Center(
+     body: Form(
+      key: _formKey,
       child: Container(
           padding: EdgeInsets.all(25.0),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              TextField(
-                  decoration: InputDecoration(hintText: 'Email'),
-                  onChanged: (value) {
-                    setState(() {
-                      _email = value;
-                    });
-                  }),
-              SizedBox(height: 15.0),
-              TextField(
-                decoration: InputDecoration(hintText: 'Password'),
-                onChanged: (value) {
-                  setState(() {
-                    _password = value;
-                  });
+              TextFormField(
+                validator: (input){
+                  if(input.isEmpty){
+                    return 'Please Try Again By Entering an Email';
+                  }
                 },
-                obscureText: true,
+                  decoration: InputDecoration(labelText: 'Email'),
+                  onSaved: (input) => _email = input, 
+                  ),
+              SizedBox(height: 15.0),
+              TextFormField(
+                validator: (input){
+                  if(input.isEmpty){
+                    return 'Please Try Again By Entering a Password';
+                  }
+                },
+                  decoration: InputDecoration(labelText: 'Password'),
+                  onSaved: (input) => _password = input, 
+                obscureText: true, //makes the text not visible 
               ),
               SizedBox(height: 20.0),
               RaisedButton(
+                onPressed: signIn,
                 child: Text('Login'),
                 color: Colors.blue,
                 textColor: Colors.white,
                 elevation: 7.0,
-                onPressed: () {
-                  FirebaseAuth.instance
-                      .signInWithEmailAndPassword(
-                          email: _email, password: _password)
-                      .then((FirebaseUser user) {
-                    Navigator.of(context).pushReplacementNamed('/homepage');
-                  }).catchError((e) {
-                    print(e);
-                  });
-                },
+                
+
+                //   FirebaseAuth.instance
+                //       .signInWithEmailAndPassword(
+                //           email: _email, password: _password)
+                //       .then((FirebaseUser user) {
+                //     Navigator.of(context).pushReplacementNamed('/homepage');
+                //   }).catchError((e) {
+                //     print(e);
+                //   });
+                 
               ),
               SizedBox(height: 15.0),
               Text('Don\'t have an account?'),
@@ -62,11 +70,24 @@ class _LoginPageState extends State<LoginPage> {
                 textColor: Colors.white,
                 elevation: 7.0,
                 onPressed: () {
-                  Navigator.of(context).pushNamed('/signup');
+                //Navigator.of(context).pushNamed('/signup');
+                Navigator.push(context, MaterialPageRoute(builder: (contect) => SignupPage()));
                 },
               ),
             ],
           )),
     ));
+  }
+  Future<void> signIn() async{
+    final formState = _formKey.currentState;
+    if(formState.validate()){
+      formState.save();
+      try{
+        FirebaseUser user = await FirebaseAuth.instance.signInWithEmailAndPassword(email: _email , password: _password);
+        Navigator.push(context, MaterialPageRoute(builder: (contect) => HomePage()));
+      }catch(e){
+        print(e.message);
+      }
+    }
   }
 }
