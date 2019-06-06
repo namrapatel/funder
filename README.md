@@ -1,3 +1,3 @@
-# Funder
+# Dime
 
-A revolutionary payment splitting system developed in Flutter. 
+A financial features application for younger people.
