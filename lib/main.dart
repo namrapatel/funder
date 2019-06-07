@@ -19,14 +19,14 @@ class Dime extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: "Dime",
-      home: LoginPage(),
+      home: MyHomePage(),
       theme: appTheme,
     );
   }
   //lklj
 }
 
-ThemeData appTheme = ThemeData(primaryColor: Colors.greenAccent[400], fontFamily: 'Varela');
+ ThemeData appTheme = ThemeData(scaffoldBackgroundColor: Colors.white, primaryColor: Colors.greenAccent[400], fontFamily: 'Varela');
 
 class MyHomePage extends StatefulWidget {
   _MyHomePageState createState() => _MyHomePageState();
@@ -63,17 +63,17 @@ class _MyHomePageState extends State<MyHomePage>
         items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(
               icon: Icon(Icons.home,
-                  color: (_page == 0) ? Colors.greenAccent[400] : Colors.grey),
+                  color: (_page == 0) ? Colors.greenAccent[700] : Colors.grey),
               title: Container(height: 0.0),
               backgroundColor: Colors.white),
           BottomNavigationBarItem(
               icon: Icon(Icons.notifications,
-                  color: (_page == 1) ? Colors.greenAccent[400] : Colors.grey),
+                  color: (_page == 1) ? Colors.greenAccent[700] : Colors.grey),
               title: Container(height: 0.0),
               backgroundColor: Colors.white),
           BottomNavigationBarItem(
               icon: Icon(Icons.person,
-                  color: (_page == 2) ? Colors.amber[800] : Colors.grey),
+                  color: (_page == 2) ? Colors.greenAccent[700] : Colors.grey),
               title: Container(height: 0.0),
               backgroundColor: Colors.white),
         ],
