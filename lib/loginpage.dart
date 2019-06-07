@@ -9,7 +9,8 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  String _email, _password;
+  String _email, _password, _errorMessage;
+
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   @override
@@ -22,6 +23,7 @@ class _LoginPageState extends State<LoginPage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
+              Text("sad"),
               TextFormField(
                 validator: (input){
                   if(input.isEmpty){
@@ -61,6 +63,7 @@ class _LoginPageState extends State<LoginPage> {
                 //   });
                  
               ),
+              
               SizedBox(height: 15.0),
               Text('Don\'t have an account?'),
               SizedBox(height: 10.0),
@@ -86,8 +89,30 @@ class _LoginPageState extends State<LoginPage> {
         FirebaseUser user = await FirebaseAuth.instance.signInWithEmailAndPassword(email: _email , password: _password);
         Navigator.push(context, MaterialPageRoute(builder: (contect) => HomePage()));
       }catch(e){
-        print(e.message);
+        print("afd");
+        
+        _errorMessage = e.message;
+        _showErrorMessage();
       }
     }
+    
   }
+  Widget _showErrorMessage() {
+  
+  if (_errorMessage != null && _errorMessage.length > 0 ) {
+    print(_errorMessage +"ASFDSA");
+    return new Text(
+      _errorMessage,
+      style: TextStyle(
+          fontSize: 13.0,
+          color: Colors.red,
+          height: 1.0,
+          fontWeight: FontWeight.w300), 
+    );
+  } else {
+    return new Container(
+      height: 0.0,
+    );
+  }
+}
 }
