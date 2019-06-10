@@ -9,8 +9,8 @@ class _ViewAllGroupsPageState extends State<ViewAllGroupsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(title: Text("Your Groups")),
       body: Column(children: <Widget>[homePageBottomPart],)
-      
     );
   }
 }
@@ -24,32 +24,16 @@ var regularBlackStyle = TextStyle(
 var homePageBottomPart = Column(
   children: <Widget>[
     Padding(
-      padding: const EdgeInsets.symmetric(vertical: 2.0),
-      child: Row(
-        mainAxisSize: MainAxisSize.max,
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: <Widget>[
-          SizedBox(
-            width: 16.0,
-          ),
-          Text("Your Groups", style: regularBlackStyle),
-          Spacer(),
-          FlatButton(
-            child: Text("VIEW ALL", style: viewAllStyle),
-            onPressed: () {},
-          )
-        ],
-      ),
-    ),
+      padding: const EdgeInsets.symmetric(vertical: 20.0),
+      child:
     Container(
-      height: 450,
+      height: 700,
       child: ListView(
         children: groupCards,
         scrollDirection: Axis.vertical,
       ),
     )
-  ],
-);
+)]);
 
 List<GroupCard> groupCards = [
   GroupCard("assets/roommates.jpeg", "Roommates", 4, 59.34, -1),

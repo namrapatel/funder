@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:funder/viewAllGroupsPage.dart';
 
 //pages
 import 'homepage.dart';
@@ -21,12 +22,18 @@ class Dime extends StatelessWidget {
       title: "Dime",
       home: MyHomePage(),
       theme: appTheme,
+      navigatorKey: key,
+      routes: {
+    // When we navigate to the "/" route, build the FirstScreen Widget
+    '/ViewAllGroupsPage': (context) => ViewAllGroupsPage(),
+    
+  },
     );
   }
   //lklj
 }
 
- ThemeData appTheme = ThemeData(scaffoldBackgroundColor: Colors.white, primaryColor: Colors.greenAccent[400], fontFamily: 'Varela');
+ ThemeData appTheme = ThemeData(scaffoldBackgroundColor: Colors.white, primaryColor: Colors.greenAccent[700], fontFamily: 'Varela');
 
 class MyHomePage extends StatefulWidget {
   _MyHomePageState createState() => _MyHomePageState();

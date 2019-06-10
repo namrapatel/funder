@@ -7,13 +7,44 @@ import 'editProfilePage.dart';
 Color firstColor = Colors.greenAccent[700];
 Color secondColor = Colors.greenAccent[700];
 
+
 class HomePage extends StatelessWidget {
+  final GlobalKey<NavigatorState> navigatorKey = new GlobalKey<NavigatorState>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        // bottomNavigationBar: BottomBar(),
         body: Column(
-      children: <Widget>[HomePageTopPart(), homePageBottomPart],
+      children: <Widget>[HomePageTopPart(), 
+      Padding(
+      padding: const EdgeInsets.symmetric(vertical: 2.0),
+      child: Row(
+        mainAxisSize: MainAxisSize.max,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: <Widget>[
+          SizedBox(
+            width: 16.0,
+          ),
+          Text("Your Groups", style: regularBlackStyle),
+          Spacer(),
+          FlatButton(
+            child: Text("VIEW ALL", style: viewAllStyle),
+            onPressed: () {
+              Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => ViewAllGroupsPage()),
+            );
+            },
+          )
+        ],
+      ),
+    ),
+    Container(
+      height: 450,
+      child: ListView(
+        children: groupCards,
+        scrollDirection: Axis.vertical,
+      ),
+    )],
     ));
   }
 }
@@ -154,11 +185,7 @@ var homePageBottomPart = Column(
           FlatButton(
             child: Text("VIEW ALL", style: viewAllStyle),
             onPressed: () {
-              // Navigator.push(
-              //                     context,
-              //                     MaterialPageRoute(
-              //                       builder: (context) => EditProfilePage(),
-              //                     ));
+             //navigatorKey.currentState.pushNamed('/ViewAllGroupsPage');
             },
           )
         ],
