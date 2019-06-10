@@ -1,17 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:funder/widgets/colorCard.dart';
-import 'notificationspage.dart';
-import 'profilepage.dart';
 
-Color firstColor = Colors.greenAccent[400];
+Color firstColor = Colors.greenAccent[700];
 Color secondColor = Colors.greenAccent[700];
 
 class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // bottomNavigationBar: BottomBar(),
+        // bottomNavigationBar: BottomBar(),
         body: Column(
       children: <Widget>[HomePageTopPart(), homePageBottomPart],
     ));
@@ -155,30 +153,26 @@ var homePageBottomPart = Column(
 );
 
 List<GroupCard> groupCards = [
-  GroupCard("assets/roommates.jpeg", "Roommates", 4, 59.34, true, Colors.red),
-  GroupCard("assets/childhoodhomies.jpeg", "Childhood Homies", 7, 178.33, false,
-      Colors.greenAccent[400]),
-  GroupCard("assets/sorority.jpeg", "Alpha Beta Phi", 44, 11.19, true,
-      Colors.greenAccent[400]),
-  GroupCard("assets/lakersnation.jpeg", "Lakers Nation", 7, 55.90, false,
-      Colors.greenAccent[400]),
-  GroupCard("assets/trip.png", "Backpacking Gang", 13, 24.09, true,
-      Colors.greenAccent[400]),
-  GroupCard("assets/family.png", "Family", 6, 329.11, true, Colors.red),
+  GroupCard("assets/roommates.jpeg", "Roommates", 4, 59.34, -1),
+  GroupCard("assets/childhoodhomies.jpeg", "Childhood Homies", 7, 178.33, 1),
+  GroupCard("assets/sorority.jpeg", "Alpha Beta Phi", 44, 11.19, -1),
+  GroupCard("assets/lakersnation.jpeg", "Lakers Nation", 7, 0.00, 0),
+  GroupCard("assets/trip.png", "Backpacking Gang", 13, 24.09, -1),
+  GroupCard("assets/family.png", "Family", 6, 0.00, 0),
 ];
 
 class GroupCard extends StatelessWidget {
   final String imagePath, groupName;
-  final bool settleType;
+  final int settleType;
   final double settleAmount;
   final int membersNumber;
-  final Color indicatorColor;
   final greenSubStyle =
       TextStyle(color: Colors.greenAccent[700], fontSize: 15.0);
   final redSubStyle = TextStyle(color: Colors.red, fontSize: 15.0);
+  final blackSubStyle = TextStyle(color: Colors.grey, fontSize: 15.0);
 
   GroupCard(this.imagePath, this.groupName, this.membersNumber,
-      this.settleAmount, this.settleType, this.indicatorColor);
+      this.settleAmount, this.settleType);
 
   @override
   Widget build(BuildContext context) {
@@ -202,9 +196,24 @@ class GroupCard extends StatelessWidget {
                     ),
                     Text("${membersNumber.toString()} members "),
                     Spacer(),
-                    Text(
-                      "${settleType == false ? "+" : "-"} \$${settleAmount.toString()}",
-                      style: settleType == false ? greenSubStyle : redSubStyle,
+                    Container(
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.all(Radius.circular(15.0)),
+                          color: settleType == 1
+                              ? Colors.greenAccent[700].withOpacity(0.2)
+                              : settleType == -1
+                                  ? Colors.red.withOpacity(0.2)
+                                  : Colors.grey.withOpacity(0.2)),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 8.0, vertical: 2.0),
+                        child: Text(
+                          "${settleType == 1 ? "+" : settleType == -1 ? "-" : ""} \$${settleAmount.toString()}",
+                          style: settleType == 1
+                              ? greenSubStyle
+                              : settleType == -1 ? redSubStyle : blackSubStyle,
+                        ),
+                      ),
                     ),
                   ],
                 )),
