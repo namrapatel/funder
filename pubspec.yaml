@@ -26,6 +26,7 @@ dependencies:
   firebase_auth:
   cloud_firestore:
   firebase_storage:
+  shared_preferences: ^0.5.1+2
 
   
   
@@ -57,6 +58,9 @@ flutter:
     - assets/childhoodhomies.jpeg
     - assets/lakersnation.jpeg
     - assets/sorority.jpeg
+    - assets/dimelogo.png
+    - assets/dimelogo1.png
+    - assets/dimewhite.png
     
   fonts:
   - family: Varela

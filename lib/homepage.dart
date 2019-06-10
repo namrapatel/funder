@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:funder/viewAllGroupsPage.dart';
 import 'package:funder/widgets/colorCard.dart';
+import 'editProfilePage.dart';
 
 Color firstColor = Colors.greenAccent[700];
 Color secondColor = Colors.greenAccent[700];
@@ -57,22 +59,33 @@ class _HomePageTopPartState extends State<HomePageTopPart> {
                           SizedBox(
                             width: 25,
                           ),
-                          Text(
-                            "Dime",
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 22,
-                              fontWeight: FontWeight.bold,
-                            ),
+                          ImageIcon(
+                            AssetImage("assets/dimelogo1.png"),
+                            size: 33,
+                            color: null,
                           ),
+                          // Text(
+                          //   "Dime",
+                          //   style: TextStyle(
+                          //     color: Colors.white,
+                          //     fontSize: 22,
+                          //     fontWeight: FontWeight.bold,
+                          //   ),
+                          // ),
                           SizedBox(
-                            width: 280,
+                            width: 295,
                           ),
                           IconButton(
                             iconSize: 25.0,
-                            color: Colors.white,
+                            color: Colors.black,
                             icon: Icon(Icons.settings),
-                            onPressed: () {},
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => EditProfilePage(),
+                                  ));
+                            },
                           ),
                         ]),
                       )
@@ -128,16 +141,25 @@ var regularBlackStyle = TextStyle(
 var homePageBottomPart = Column(
   children: <Widget>[
     Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
+      padding: const EdgeInsets.symmetric(vertical: 2.0),
       child: Row(
         mainAxisSize: MainAxisSize.max,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
+          SizedBox(
+            width: 16.0,
+          ),
           Text("Your Groups", style: regularBlackStyle),
           Spacer(),
-          Text(
-            "VIEW ALL (9)",
-            style: viewAllStyle,
+          FlatButton(
+            child: Text("VIEW ALL", style: viewAllStyle),
+            onPressed: () {
+              // Navigator.push(
+              //                     context,
+              //                     MaterialPageRoute(
+              //                       builder: (context) => EditProfilePage(),
+              //                     ));
+            },
           )
         ],
       ),
