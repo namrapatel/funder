@@ -10,8 +10,6 @@ import 'signuppage.dart';
 import 'profilepage.dart';
 import 'notificationspage.dart';
 
-
-
 void main() => runApp(Dime());
 
 class Dime extends StatelessWidget {
@@ -24,16 +22,17 @@ class Dime extends StatelessWidget {
       theme: appTheme,
       navigatorKey: key,
       routes: {
-    // When we navigate to the "/" route, build the FirstScreen Widget
-    '/ViewAllGroupsPage': (context) => ViewAllGroupsPage(),
-    
-  },
+        // When we navigate to the "/" route, build the FirstScreen Widget
+        '/ViewAllGroupsPage': (context) => ViewAllGroupsPage(),
+      },
     );
   }
-  //lklj
 }
 
- ThemeData appTheme = ThemeData(scaffoldBackgroundColor: Colors.white, primaryColor: Colors.greenAccent[700], fontFamily: 'Varela');
+ThemeData appTheme = ThemeData(
+    scaffoldBackgroundColor: Colors.white,
+    primaryColor: Colors.greenAccent[700],
+    fontFamily: 'Varela');
 
 class MyHomePage extends StatefulWidget {
   _MyHomePageState createState() => _MyHomePageState();

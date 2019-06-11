@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 
-class EditProfilePage extends StatelessWidget {
+class EditProfilePage extends StatefulWidget {
+  @override
+  _EditProfilePageState createState() => _EditProfilePageState();
+}
+
+class _EditProfilePageState extends State<EditProfilePage> {
   final TextEditingController usernameController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
-
   @override
   Widget build(BuildContext context) {
     return Material(
@@ -34,8 +38,16 @@ class EditProfilePage extends StatelessWidget {
           padding: const EdgeInsets.all(16.0),
           child: Column(
             children: <Widget>[
-              buildTextField(name: "Username", controller: usernameController),
-              buildTextField(name: "Email", controller: emailController),
+              TextField(
+                  controller: usernameController,
+                  decoration: InputDecoration(
+                    hintText: "Username",
+                  )),
+                   TextField(
+                  controller: emailController,
+                  decoration: InputDecoration(
+                    hintText: "Email",
+                  )),
             ],
           ),
         ),
