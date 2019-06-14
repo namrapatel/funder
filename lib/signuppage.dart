@@ -24,6 +24,7 @@ class _SignupPageState extends State<SignupPage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   TextFormField(
+                      validator: (input) => (input.isEmpty||!input.contains('@')) ? 'Please enter a valid email': null,
                       decoration: InputDecoration(hintText: 'Email'),
                       onSaved: (value) {
                         setState(() {
@@ -32,6 +33,7 @@ class _SignupPageState extends State<SignupPage> {
                       }),
                   SizedBox(height: 15.0),
                   TextFormField(
+                      validator: (input) => (input.isEmpty||input.length<6) ? 'Your password needs at least 6 characters': null,
                       decoration: InputDecoration(hintText: 'Password'),
                       onSaved: (value) {
                         setState(() {
@@ -45,29 +47,23 @@ class _SignupPageState extends State<SignupPage> {
                     textColor: Colors.white,
                     elevation: 7.0,
                     onPressed: createUser,
-
-                      //FirebaseAuth.instance
-                        //  .createUserWithEmailAndPassword(email: _email, password: _password)
-                          //then((signedInUser) {
-                        //UserManagement().storeNewUser(signedInUser, context);
-                      //}).catchError((e) {
-                     //  print(e);
-                     // });
-                
                   ),
                 ],
               )),
-    ));
+        ));
   }
   void createUser() async{
     final formState = _formKey.currentState;
     if(formState.validate()){
       formState.save();
       try{
-        FirebaseUser user = await FirebaseAuth.instance.createUserWithEmailAndPassword(email: _email , password: _password);
+        FirebaseUser user = await FirebaseAuth.instance.createUserWithEmailAndPassword(email: _email , password: _password)
+            .then((signedInUser){
+          UserManagement().storeNewUser(signedInUser, context);
+
+        });
         user.sendEmailVerification();
         Navigator.of(context).pop(); //closes the page
-        //Navigator.pushReplacment(context, MaterialPageRoute(builder: (contect) => HomePage()));
       }catch(e){
         print(e.message);
 
