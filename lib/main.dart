@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-
-import 'editProfilePage.dart';
 //pages
 import 'homepage.dart';
 import 'loginpage.dart';
@@ -26,7 +23,6 @@ class Dime extends StatelessWidget {
         '/loginpage':(BuildContext context)=> new LoginPage(),
         '/signuppage':(BuildContext context)=> new SignupPage(),
         '/profilepage':(BuildContext context)=> new ProfilePage(),
-
       },
       theme: appTheme,
     );

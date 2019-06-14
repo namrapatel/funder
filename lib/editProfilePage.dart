@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'classes/user.dart';
 
 class EditProfilePage extends StatefulWidget {
@@ -9,69 +7,21 @@ class EditProfilePage extends StatefulWidget {
 }
 
 class _EditProfilePageState extends State<EditProfilePage> {
-//  final _firestore = Firestore.instance;
-//  final _auth= FirebaseAuth.instance;
-//  FirebaseUser loggedInUser;
-
-
 
   User currentUser;
   String displayName;
-//  String email;
   String bio;
   final TextEditingController usernameController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
-//  Future<void> getCurrentUser() async{
-//    try{
-//      final user= await _auth.currentUser();
-//      print(user);
-//      print(user.email);
-//
-//      if(user!=null){
-//        loggedInUser=user;
-//        email=loggedInUser.email;
-//        print(email);
-//
-//      }}
-//    catch(e){
-//      print(e);
-//    }
-//  }
+
+
+  //Gets the info from database of the current user when page loads
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     currentUser= new User();
     currentUser.getInfo();
-
-
-//   getCurrentUser();
-//   getInfo();
-
   }
-
-
-//  void getInfo() async {
-//    await getCurrentUser();
-//    print("$email");
-//    DocumentReference documentReference =
-//    _firestore.collection("users").document("$email");
-//    documentReference.get().then((DocumentSnapshot datasnapshot) {
-//      if (datasnapshot.exists) {
-//        String display=datasnapshot.data['display name'].toString();
-//        print(display);
-//      }
-//      else {
-//        print("No such user");
-//      }
-//
-//    });
-//
-//  }
-
-
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -89,6 +39,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
               ),
             ),
             FlatButton(
+              //TODO: get the change picture functionality working
                 onPressed: () {
                   //changeProfilePhoto(context);
                 },
@@ -124,29 +75,12 @@ class _EditProfilePageState extends State<EditProfilePage> {
               ),
             ),
             RaisedButton(
+              //Updates the user's profile changes to Firestore and User class
                 onPressed: (){
-
-//                  String currentEmail= loggedInUser.email;
-//                  currentUser.bio=bio;
-//                  currentUser.displayName=displayName;
                   currentUser.updateData(bio:bio,displayName: displayName);
-                  print(currentUser.getBio());
-//                  if(bio!=null) {
-//                    currentUser.changeBio(bio);
-//                  }
-//                  if(displayName!=null) {
-//                    _firestore.document('users/$currentEmail').updateData({
-//                      'display name': displayName
-//                    });
-//                  }
-
-
                   Navigator.pop(context);
                 },
                 child: Text("Back"))
-            // Padding(
-            //     padding: const EdgeInsets.all(16.0),
-            //     child: MaterialButton(onPressed: () => {}, child: Text("Logout")))
           ],
         ));
   }

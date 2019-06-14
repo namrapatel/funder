@@ -1,8 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
-import 'package:funder/homepage.dart';
-import 'package:flutter/widgets.dart';
+
+//Creates a document in the database for each user, differentiated by email
 
 class UserManagement {
   storeNewUser(user, context) {
@@ -12,14 +11,5 @@ class UserManagement {
       'uid': current.uid,
       'display name': current.displayName
     });
-//    Firestore.instance.collection('users').add({
-//      'email': user.email,
-//      'uid': user.uid
-//    }).then((value) {
-//      Navigator.of(context).pop();
-//      Navigator.of(context).pushReplacementNamed('/homepage');
-//    }).catchError((e) {
-//      print(e);
-//    });
   }
 }

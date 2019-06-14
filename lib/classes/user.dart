@@ -1,16 +1,17 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
+       import 'package:cloud_firestore/cloud_firestore.dart';
        import 'package:firebase_auth/firebase_auth.dart';
 
        class User {
        final _firestore = Firestore.instance;
-         final _auth= FirebaseAuth.instance;
+         final _auth = FirebaseAuth.instance;
          FirebaseUser loggedInUser;
 
          String displayName;
          String email;
-          String bio;
-         String photoUrl;
+         String bio;
 
+
+         //Gets the current logged in user and the email they logged in with
 
          Future<void> getCurrentUser() async{
              try{
@@ -24,6 +25,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
                print(e);
              }
            }
+
+            //Retrieves specific data values from the user's document from firebase
+            //May need to clean some of this up and make it more efficient, remove the 'then'
 
            Future<void> getInfo() async {
                await getCurrentUser();
@@ -44,6 +48,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
              }
 
+           //User constructor with optional parameters, checks whether values are valid too
+
           User({String bio,String displayName}){
           if(bio!=null){
            this.bio= bio;
@@ -55,6 +61,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
           }
 
+           //Updates the data changed on both the firestore and the instance variables
 
           void updateData({String bio, String displayName}){
 
@@ -72,7 +79,17 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
        }
 
+        //Getters for the instance variables
+
            String getBio(){
            return bio;
+           }
+
+           String getDisplayName(){
+           return displayName;
+           }
+
+           String getEmail(){
+           return email;
            }
        }

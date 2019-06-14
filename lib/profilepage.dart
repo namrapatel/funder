@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/widgets.dart';
-import 'loginpage.dart';
 import 'classes/user.dart';
-import 'package:modal_progress_hud/modal_progress_hud.dart';
+
 class ProfilePage extends StatefulWidget {
   @override
   _ProfilePageState createState() => _ProfilePageState();
@@ -13,15 +12,19 @@ class _ProfilePageState extends State<ProfilePage> {
 
   User currentUser;
   String bio;
+  String displayName;
+
+  //Initializes the state when the page first loads and retrieves the users data from firestore
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     currentUser= new User();
-    currentUser.getInfo().then((_) =>setState(() { bio = currentUser.getBio();  }));
+    currentUser.getInfo().then((_) =>setState(() {
+      bio = currentUser.getBio();
+      displayName= currentUser.getDisplayName();
+    }));
 
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -52,9 +55,10 @@ class _ProfilePageState extends State<ProfilePage> {
               SizedBox(
                 height: 15.0,
               ),
-              bio==null
+              //checks if data has been received, if not shows a progress indicator until profile is set up
+              displayName==null
                   ? CircularProgressIndicator()
-                  :Text('$bio', style: TextStyle(fontSize: 30.0, ))
+                  :Text('$displayName', style: TextStyle(fontSize: 30.0, ))
             ],
           ),
         ));
