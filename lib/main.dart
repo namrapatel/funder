@@ -7,8 +7,6 @@ import 'signuppage.dart';
 import 'profilepage.dart';
 import 'notificationspage.dart';
 
-
-
 void main() => runApp(Dime());
 
 class Dime extends StatelessWidget {
@@ -19,18 +17,20 @@ class Dime extends StatelessWidget {
       title: "Dime",
       home: LoginPage(),
       routes: <String, WidgetBuilder>{
-        '/homepage':(BuildContext context)=> new MyHomePage(),
-        '/loginpage':(BuildContext context)=> new LoginPage(),
-        '/signuppage':(BuildContext context)=> new SignupPage(),
-        '/profilepage':(BuildContext context)=> new ProfilePage(),
+        '/homepage': (BuildContext context) => new MyHomePage(),
+        '/loginpage': (BuildContext context) => new LoginPage(),
+        '/signuppage': (BuildContext context) => new SignupPage(),
+        '/profilepage': (BuildContext context) => new ProfilePage(),
       },
       theme: appTheme,
     );
   }
-//lklj
 }
 
-ThemeData appTheme = ThemeData(scaffoldBackgroundColor: Colors.white, primaryColor: Colors.greenAccent[400], fontFamily: 'Varela');
+ThemeData appTheme = ThemeData(
+    scaffoldBackgroundColor: Colors.white,
+    primaryColor: Colors.greenAccent[400],
+    fontFamily: 'Varela');
 
 class MyHomePage extends StatefulWidget {
   _MyHomePageState createState() => _MyHomePageState();

@@ -33,6 +33,7 @@ class _SignupPageState extends State<SignupPage> {
                   TextFormField(
                       validator: (input) => (input.isEmpty||input.length<6) ? 'Your password needs at least 6 characters': null,
                       decoration: InputDecoration(hintText: 'Password'),
+                      obscureText: true,
                       onSaved: (value) {
                         setState(() {
                           _password = value;

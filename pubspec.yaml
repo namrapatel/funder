@@ -17,9 +17,6 @@ environment:
   sdk: ">=2.2.2 <3.0.0"
 
 dependencies:
-
-
-
   flutter:
     sdk: flutter
 
@@ -67,15 +64,3 @@ flutter:
     - family: Varela
       fonts:
         - asset: assets/fonts/VarelaRound-Regular.ttf
-
-      # - family: WorkSansSemiBold
-      #   fonts:
-      #     - asset: assets/fonts/Work_Sans/WorkSans-SemiBold.ttf
-
-      # - family: WorkSansBold
-      #   fonts:
-      #     - asset: assets/fonts/Work_Sans/WorkSans-Bold.ttf
-
-      # - family: WorkSansMedium
-      #   fonts:
-      #     - asset: assets/fonts/Work_Sans/WorkSans-Medium.ttf
