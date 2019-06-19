@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/widgets.dart';
 import 'classes/user.dart';
-
+import 'package:shared_preferences/shared_preferences.dart';
 class ProfilePage extends StatefulWidget {
   @override
   _ProfilePageState createState() => _ProfilePageState();
@@ -13,6 +13,7 @@ class _ProfilePageState extends State<ProfilePage> {
   String bio;
   String displayName;
   String photoUrl;
+  SharedPreferences pref;
 
   //Initializes the state when the page first loads and retrieves the users data from firestore
   @override
@@ -39,9 +40,12 @@ Widget build(BuildContext context) {
             RaisedButton(
                 color: Colors.greenAccent[700],
                 child: Text('Logout'),
-                onPressed: () {
+                onPressed: () async{
+                  pref = await SharedPreferences.getInstance();
+                  pref.clear();
                   FirebaseAuth.instance.signOut().then((value) {
                     Navigator.of(context).pushReplacementNamed('/loginpage');
+
                   }).catchError((e) {
                     print(e);
                   });

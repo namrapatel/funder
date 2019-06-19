@@ -4,6 +4,7 @@ import 'package:funder/viewAllGroupsPage.dart';
 import 'package:funder/widgets/colorCard.dart';
 import 'editProfilePage.dart';
 
+
 Color firstColor = Colors.greenAccent[700];
 Color secondColor = Colors.greenAccent[700];
 
@@ -14,38 +15,38 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         body: Column(
-      children: <Widget>[HomePageTopPart(), 
-      Padding(
-      padding: const EdgeInsets.symmetric(vertical: 2.0),
-      child: Row(
-        mainAxisSize: MainAxisSize.max,
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: <Widget>[
-          SizedBox(
-            width: 16.0,
-          ),
-          Text("Your Groups", style: regularBlackStyle),
-          Spacer(),
-          FlatButton(
-            child: Text("VIEW ALL", style: viewAllStyle),
-            onPressed: () {
-              Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => ViewAllGroupsPage()),
-            );
-            },
-          )
-        ],
-      ),
-    ),
-    Container(
-      height: 450,
-      child: ListView(
-        children: groupCards,
-        scrollDirection: Axis.vertical,
-      ),
-    )],
-    ));
+          children: <Widget>[HomePageTopPart(),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 2.0),
+              child: Row(
+                mainAxisSize: MainAxisSize.max,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  SizedBox(
+                    width: 16.0,
+                  ),
+                  Text("Your Groups", style: regularBlackStyle),
+                  Spacer(),
+                  FlatButton(
+                    child: Text("VIEW ALL", style: viewAllStyle),
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => ViewAllGroupsPage()),
+                      );
+                    },
+                  )
+                ],
+              ),
+            ),
+            Container(
+              height: 450,
+              child: ListView(
+                children: groupCards,
+                scrollDirection: Axis.vertical,
+              ),
+            )],
+        ));
   }
 }
 
@@ -185,7 +186,7 @@ var homePageBottomPart = Column(
           FlatButton(
             child: Text("VIEW ALL", style: viewAllStyle),
             onPressed: () {
-             //navigatorKey.currentState.pushNamed('/ViewAllGroupsPage');
+              //navigatorKey.currentState.pushNamed('/ViewAllGroupsPage');
             },
           )
         ],
@@ -216,7 +217,7 @@ class GroupCard extends StatelessWidget {
   final double settleAmount;
   final int membersNumber;
   final greenSubStyle =
-      TextStyle(color: Colors.greenAccent[700], fontSize: 15.0);
+  TextStyle(color: Colors.greenAccent[700], fontSize: 15.0);
   final redSubStyle = TextStyle(color: Colors.red, fontSize: 15.0);
   final blackSubStyle = TextStyle(color: Colors.grey, fontSize: 15.0);
 
@@ -251,8 +252,8 @@ class GroupCard extends StatelessWidget {
                           color: settleType == 1
                               ? Colors.greenAccent[700].withOpacity(0.2)
                               : settleType == -1
-                                  ? Colors.red.withOpacity(0.2)
-                                  : Colors.grey.withOpacity(0.2)),
+                              ? Colors.red.withOpacity(0.2)
+                              : Colors.grey.withOpacity(0.2)),
                       child: Padding(
                         padding: const EdgeInsets.symmetric(
                             horizontal: 8.0, vertical: 2.0),
