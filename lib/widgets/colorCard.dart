@@ -1,21 +1,28 @@
 import 'package:flutter/material.dart';
-import 'package:funder/utils/screen_size.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-final bodyTextStyle = TextStyle(color: Colors.black, fontFamily: "Varela");
+
+final bodyTextStyle = TextStyle(
+  color: Colors.black,
+  fontFamily: "Varela",
+  fontSize: ScreenUtil(allowFontScaling: true).setSp(14.0),
+);
 final titleTextStyle = TextStyle(
     color: Colors.black,
     fontFamily: "Varela",
-    fontSize: 20.0,
+    fontSize: ScreenUtil(allowFontScaling: true).setSp(20.0),
     fontWeight: FontWeight.bold);
 
 Widget buildColorCard(
-    BuildContext context, String text, Icon icon, Color color) {
+    BuildContext context, String text, IconData icon, Color color) {
   final _media = MediaQuery.of(context).size;
   return Column(children: <Widget>[
     Container(
-      margin: EdgeInsets.only(top: 20, right: 15),
-      padding: EdgeInsets.all(15),
-      height: screenAwareSize(79.5, context),
+      margin: EdgeInsets.only(
+          top: ScreenUtil.instance.setHeight(20),
+          right: ScreenUtil.instance.setWidth(15)),
+      padding: EdgeInsets.all(ScreenUtil.instance.setWidth(12)),
+      height: ScreenUtil.instance.setHeight(100),
       width: _media.width / 2 - 25,
       decoration: BoxDecoration(
           color: color,
@@ -28,7 +35,7 @@ Widget buildColorCard(
                 offset: Offset(0, 8)),
           ]),
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           // Text(
@@ -42,14 +49,14 @@ Widget buildColorCard(
           Center(
             child: Column(
               children: <Widget>[
-                IconButton(
-                    onPressed: () {},
-                    icon: icon,
-                    iconSize: 40.0,
-                    color: Colors.black),
-                SizedBox(
-                  height: 6.0,
+                Padding(
+                  padding: const EdgeInsets.all(0.0),
+                  child: Icon(
+                      icon,
+                      size: ScreenUtil.instance.setHeight(40),
+                      color: Colors.black),
                 ),
+                SizedBox(height: ScreenUtil.instance.setHeight(6.4)),
                 Text(
                   text,
                   style: bodyTextStyle,
