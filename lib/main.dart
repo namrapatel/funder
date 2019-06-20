@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 //pages
 import 'homepage.dart';
 import 'loginpage.dart';
 import 'signuppage.dart';
 import 'profilepage.dart';
 import 'notificationspage.dart';
+
 
 
 void main() => runApp(Dime());
@@ -16,23 +19,14 @@ class Dime extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: "Dime",
-      home: MyHomePage(),
-      routes: <String, WidgetBuilder>{
-        '/homepage': (BuildContext context) => new MyHomePage(),
-        '/loginpage': (BuildContext context) => new LoginPage(),
-        '/signuppage': (BuildContext context) => new SignupPage(),
-        '/profilepage': (BuildContext context) => new ProfilePage(),
-      },
+      home: LoginPage(),
       theme: appTheme,
     );
   }
+  //lklj
 }
 
-ThemeData appTheme = ThemeData(
-  // scaffoldBackgroundColor: Colors.white70,
-    scaffoldBackgroundColor: Colors.white,
-    primaryColor: Colors.greenAccent[700],
-    fontFamily: 'Varela');
+ ThemeData appTheme = ThemeData(scaffoldBackgroundColor: Colors.white, primaryColor: Colors.greenAccent[400], fontFamily: 'Varela');
 
 class MyHomePage extends StatefulWidget {
   _MyHomePageState createState() => _MyHomePageState();
