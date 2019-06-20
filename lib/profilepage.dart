@@ -57,9 +57,6 @@ Widget build(BuildContext context) {
                 :CircleAvatar(
                 backgroundImage: NetworkImage(photoUrl),
                 radius: 150.0),
-          // Change AssetImage to NetworkImage and within the brackets of the
-          // constructor you'll be able to place a link to the location of the image file
-          // that you wish to put inside the CircleAvatar.
           SizedBox(
             height: 15.0,
           ),

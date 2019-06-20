@@ -38,14 +38,14 @@ class _LoginPageState extends State<LoginPage> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  new TextField(
+                  new TextFormField(
                     onEditingComplete: onEdit,
                     controller: username,
                     decoration: InputDecoration(
                         hintText: "username",
                         hintStyle: new TextStyle(color: Colors.grey.withOpacity(0.3))),
                   ),
-                  new TextField(
+                  new TextFormField(
                     onEditingComplete: onEdit,
                       controller: password,
                       obscureText: true,
@@ -59,16 +59,7 @@ class _LoginPageState extends State<LoginPage> {
                     title: new Text("Remember me"),
                     controlAffinity: ListTileControlAffinity.leading,
                   ),
-//                  TextFormField(
-//                    decoration: InputDecoration(labelText: 'Email'),
-//                    onSaved: (input) => _email = input,
-//                  ),
                   SizedBox(height: 15.0),
-//                  TextFormField(
-//                    decoration: InputDecoration(labelText: 'Password'),
-//                    onSaved: (input) => _password = input,
-//                    obscureText: true, //makes the text not visible
-//                  ),
                   SizedBox(height: 20.0),
                   RaisedButton(
                     onPressed: signIn,
@@ -112,7 +103,6 @@ class _LoginPageState extends State<LoginPage> {
       sharedPreferences.setBool("check", checkValue);
       sharedPreferences.setString("username", username.text);
       sharedPreferences.setString("password", password.text);
-//      getCredential();
     });
   }
 
@@ -126,12 +116,6 @@ class _LoginPageState extends State<LoginPage> {
           username.text = sharedPreferences.getString("username");
           password.text = sharedPreferences.getString("password");
           signIn();
-//          FirebaseAuth.instance.signInWithEmailAndPassword(
-//              email: sharedPreferences.getString("username"), password: sharedPreferences.getString("password"));
-//          Navigator.of(context).push(
-//              MaterialPageRoute(builder: (context) => MyHomePage()));
-//
-
         } else {
           username.clear();
           password.clear();
@@ -143,33 +127,7 @@ class _LoginPageState extends State<LoginPage> {
     });
   }
 
-//  _navigator() {
-//    if (username.text.length != 0 || password.text.length != 0) {
-//      Navigator.of(context).pushAndRemoveUntil(
-//          new MaterialPageRoute(
-//              builder: (BuildContext context) => new HomeScreen()),
-//              (Route<dynamic> route) => false);
-//    } else {
-//      showDialog(
-//          context: context,
-//          barrierDismissible: false,
-//          child: new CupertinoAlertDialog(
-//            content: new Text(
-//              "username or password \ncan't be empty",
-//              style: new TextStyle(fontSize: 16.0),
-//            ),
-//            actions: <Widget>[
-//              new FlatButton(
-//                  onPressed: () {
-//                    Navigator.pop(context);
-//                  },
-//                  child: new Text("OK"))
-//            ],
-//          ));
-//    }
-//  }
-//}
-//
+
 Future<void> signIn() async{
     if(username.text.length!=0 && password.text.length!=0) {
       _email = username.text;

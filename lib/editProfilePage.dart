@@ -38,8 +38,7 @@ setState(() {
       url= currentUser.getPhotoUrl();
 
     }));
-//    showImage();
-    //call getimage to set the initial image if there is any
+
   }
 
   @override
@@ -64,22 +63,6 @@ setState(() {
               //TODO: get the change picture functionality working
                 onPressed: () {
                   setImage();
-//                  setState(() {
-//                    currentUser.setImage();
-//                  });
-////                  currentUser.setImage();
-//
-//
-////                  _image=currentUser.getImage();
-////                  showImage();
-//
-//
-//
-//
-//
-//
-//                  //calls set image function which includes sending to firestore
-//                  //changeProfilePhoto(context);
                 },
                 child: Text(
                   "Change Photo",
@@ -149,59 +132,7 @@ setState(() {
     var downloadUrl=await (await task.onComplete).ref.getDownloadURL();
     url=downloadUrl.toString();
 
-
   }
-
-//  Widget selectImage(){
-//    return Container(
-//      child: Column(
-//        children: <Widget>[
-//          Image.file(_image,height: 50,width: 50),
-//          RaisedButton(
-//            elevation:7.0,
-//            child:Text('make changes'),
-//            color: Colors.blue,
-//            onPressed: () async {
-//              await uploadImage();
-//              currentUser.updateData(bio:bio,displayName: displayName, photoUrl: url);
-//              print(url);
-//              print(bio);
-//              print(displayName);
-
-//              final StorageReference firebaseStorageRef=
-//                  FirebaseStorage.instance.ref().child('profilepic.jpg');
-//              StorageUploadTask task= firebaseStorageRef.putFile(_image);
-////              firebaseStorageRef.getDownloadURL().addOnSuccessListener(new OnSuccessListener<Uri>() {
-////
-////              public void onSuccess(Uri uri) {
-////              String url = uri.toString();
-////              Upload upload = new Upload(et_localization, url);
-////              String uploadId = mDataBaseRef.push().getKey();
-////              mDataBaseRef.child(uploadId).setValue(upload);
-////              }
-////              });
-////              String photoUrl= firebaseStorageRef.getDownloadURL().toString();
-//
-////              task.onComplete.then((value){
-//////                String photoUrl= value..toString();
-//                currentUser.updateData(bio:bio,displayName: displayName, photoUrl: photoUrl);
-
-
-//
-//              }
-//
-//
-//
-//              },
-//          )
-//
-//
-//        ],
-//      ),
-//
-//
-//    );
-//    }
 
   Widget buildTextField({String name, TextEditingController controller}) {
     return Column(
