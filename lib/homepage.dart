@@ -5,6 +5,7 @@ import 'package:funder/viewAllGroupsPage.dart';
 import 'package:funder/widgets/colorCard.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+
 Color firstColor = Colors.greenAccent[700];
 Color secondColor = Colors.greenAccent[700];
 
@@ -23,11 +24,13 @@ class HomePage extends StatelessWidget {
 
     return Scaffold(
         body: Column(
+
       children: <Widget>[
         HomePageTopPart(),
         HomePageBottomPart(),
       ],
     ));
+
   }
 }
 
@@ -169,6 +172,8 @@ class HomePageBottomPart extends StatelessWidget {
               )
             ],
           ),
+
+
         ),
         Container(
           height: ScreenUtil.instance.setHeight(510),
@@ -181,6 +186,7 @@ class HomePageBottomPart extends StatelessWidget {
     );
   }
 }
+
 
 List<GroupCard> groupCards = [
   GroupCard("assets/roommates.jpeg", "Roommates", 4, 59.34, -1),
@@ -195,6 +201,8 @@ class GroupCard extends StatelessWidget {
   final String imagePath, groupName;
   final int settleType, membersNumber;
   final double settleAmount;
+
+
   final greenSubStyle = TextStyle(
       color: Colors.greenAccent[700],
       fontSize: ScreenUtil(allowFontScaling: true).setSp(15.0));
@@ -204,6 +212,7 @@ class GroupCard extends StatelessWidget {
   final blackSubStyle = TextStyle(
       color: Colors.grey,
       fontSize: ScreenUtil(allowFontScaling: true).setSp(15.0));
+
 
   GroupCard(this.imagePath, this.groupName, this.membersNumber,
       this.settleAmount, this.settleType);
@@ -217,6 +226,7 @@ class GroupCard extends StatelessWidget {
       child: Row(children: <Widget>[
         Expanded(
           child: Container(
+
             height: ScreenUtil.instance.setHeight(90.0),
             child: Column(
               children: <Widget>[
@@ -274,6 +284,7 @@ class GroupCard extends StatelessWidget {
                               ),
                             ],
                           )),
+
                     ),
                   ),
                 ),
