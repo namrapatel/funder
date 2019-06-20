@@ -66,3 +66,6 @@ flutter:
     - family: Varela
       fonts:
         - asset: assets/fonts/VarelaRound-Regular.ttf
+    - family: Proxima Nova
+      fonts:
+        - asset: assets/fonts/proxima-nova.ttf    

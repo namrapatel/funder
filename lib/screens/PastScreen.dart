@@ -113,7 +113,7 @@ class PastCard extends StatelessWidget {
                             ),
                             title: Text(
                               requestReason,
-                              style: regularBlackStyle,
+                              // style: regularBlackStyle,
                             ),
                             subtitle: Column(
                               children: <Widget>[
