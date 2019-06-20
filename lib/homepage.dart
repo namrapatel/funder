@@ -4,7 +4,7 @@ import 'package:funder/widgets/colorCard.dart';
 import 'notificationspage.dart';
 import 'profilepage.dart';
 
-Color firstColor = Colors.greenAccent[400];
+Color firstColor = Colors.greenAccent[700];
 Color secondColor = Colors.greenAccent[700];
 
 class HomePage extends StatelessWidget {
@@ -13,8 +13,13 @@ class HomePage extends StatelessWidget {
     return Scaffold(
       // bottomNavigationBar: BottomBar(),
         body: Column(
-      children: <Widget>[HomePageTopPart(), homePageBottomPart],
+
+      children: <Widget>[
+        HomePageTopPart(),
+        HomePageBottomPart(),
+      ],
     ));
+
   }
 }
 
@@ -127,32 +132,47 @@ var regularBlackStyle = TextStyle(
   fontSize: 18.0,
 );
 
-var homePageBottomPart = Column(
-  children: <Widget>[
-    Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
-      child: Row(
-        mainAxisSize: MainAxisSize.max,
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: <Widget>[
-          Text("Your Groups", style: regularBlackStyle),
-          Spacer(),
-          Text(
-            "VIEW ALL (9)",
-            style: viewAllStyle,
-          )
-        ],
-      ),
-    ),
-    Container(
-      height: 450,
-      child: ListView(
-        children: groupCards,
-        scrollDirection: Axis.vertical,
-      ),
-    )
-  ],
-);
+class HomePageBottomPart extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: <Widget>[
+        Padding(
+          padding: EdgeInsets.symmetric(
+              vertical: ScreenUtil.instance.setHeight(1.0)),
+          child: Row(
+            mainAxisSize: MainAxisSize.max,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              SizedBox(width: ScreenUtil.instance.setWidth(16.0)),
+              Text("Your Groups", style: regularBlackStyle),
+              Spacer(),
+              FlatButton(
+                child: Text("VIEW ALL", style: viewAllStyle),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => ViewAllGroupsPage()),
+                  );
+                },
+              )
+            ],
+          ),
+
+
+        ),
+        Container(
+          height: ScreenUtil.instance.setHeight(510),
+          child: ListView(
+            children: groupCards,
+            scrollDirection: Axis.vertical,
+          ),
+        )
+      ],
+    );
+  }
+}
 
 List<GroupCard> groupCards = [
   GroupCard("assets/roommates.jpeg", "Roommates", 4, 59.34, true, Colors.red),
@@ -171,11 +191,18 @@ class GroupCard extends StatelessWidget {
   final String imagePath, groupName;
   final bool settleType;
   final double settleAmount;
-  final int membersNumber;
-  final Color indicatorColor;
-  final greenSubStyle =
-      TextStyle(color: Colors.greenAccent[700], fontSize: 15.0);
-  final redSubStyle = TextStyle(color: Colors.red, fontSize: 15.0);
+
+  final greenSubStyle = TextStyle(
+      color: Colors.greenAccent[700],
+      fontSize: ScreenUtil(allowFontScaling: true).setSp(15.0));
+  final redSubStyle = TextStyle(
+      color: Colors.red,
+      fontSize: ScreenUtil(allowFontScaling: true).setSp(15.0));
+  final blackSubStyle = TextStyle(
+      color: Colors.grey,
+      fontSize: ScreenUtil(allowFontScaling: true).setSp(15.0));
+
+
 
   GroupCard(this.imagePath, this.groupName, this.membersNumber,
       this.settleAmount, this.settleType, this.indicatorColor);
@@ -187,13 +214,68 @@ class GroupCard extends StatelessWidget {
       child: Row(children: <Widget>[
         Expanded(
           child: Container(
-            height: 100.0,
-            child: ListTile(
-                leading: CircleAvatar(
-                    radius: 30.0, backgroundImage: AssetImage(this.imagePath)),
-                title: Text(
-                  groupName,
-                  style: regularBlackStyle,
+
+            height: ScreenUtil.instance.setHeight(90.0),
+            child: Column(
+              children: <Widget>[
+                Container(
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(
+                        vertical: ScreenUtil.instance.setHeight(3)),
+                    child: GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => GroupsDetailPage()),
+                        );
+                      },
+                      child: ListTile(
+                          leading: Container(
+                            child: CircleAvatar(
+                                radius: 30.0,
+                                backgroundImage: AssetImage(this.imagePath)),
+                          ),
+                          title: Text(
+                            groupName,
+                            style: regularBlackStyle,
+                          ),
+                          subtitle: Row(
+                            children: <Widget>[
+                              Text("${membersNumber.toString()} members "),
+                              Spacer(),
+                              Container(
+                                decoration: BoxDecoration(
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(15.0)),
+                                    color: settleType == 1
+                                        ? Colors.greenAccent[700]
+                                            .withOpacity(0.2)
+                                        : settleType == -1
+                                            ? Colors.red.withOpacity(0.2)
+                                            : Colors.grey.withOpacity(0.2)),
+                                child: Padding(
+                                  padding: EdgeInsets.symmetric(
+                                      horizontal:
+                                          ScreenUtil.instance.setWidth(8.0),
+                                      vertical:
+                                          ScreenUtil.instance.setHeight(3.0)),
+                                  child: Text(
+                                    "${settleType == 1 ? "+" : settleType == -1 ? "-" : ""} \$${settleAmount.toString()}",
+                                    style: settleType == 1
+                                        ? greenSubStyle
+                                        : settleType == -1
+                                            ? redSubStyle
+                                            : blackSubStyle,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          )),
+
+                    ),
+                  ),
+
                 ),
                 subtitle: Row(
                   children: <Widget>[

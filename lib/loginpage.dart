@@ -3,8 +3,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:funder/homepage.dart';
 import 'package:funder/resetpasswordpage.dart';
 import 'package:funder/signuppage.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:async';
+import 'main.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
 
 class LoginPage extends StatefulWidget {
   @override
@@ -12,14 +14,29 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  String _email="", _password, _errorMessage;
+
+  String _email, _password, _errorMessage;
   bool loggedIn= false; 
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  TextEditingController username = new TextEditingController();
+  TextEditingController password = new TextEditingController();
+
+  bool checkValue = false;
+
+  SharedPreferences sharedPreferences;
+
+  @override
+  void initState() {
+    super.initState();
+    getCredential();
+  }
+
 
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
+
      body: Form(
       key: _formKey,
       child: Container(
@@ -29,16 +46,27 @@ class _LoginPageState extends State<LoginPage> {
             children: <Widget>[
               getUserEmail(),
               gertUserPassword(),
+              CheckboxListTile(
+                    value: checkValue,
+                    onChanged: _onChanged,
+                    title: new Text("Remember me"),
+                    controlAffinity: ListTileControlAffinity.leading,
+                  ),
+              SizedBox(height 15.0),
+              SizedBox(height: 20.0),
               loginButton(),
               signUpButton(),
               _showErrorMessage(),
               Text('Don\'t have an account?'),
               forgotPasswordButton(),
               Text(_email),
+
+              
             ],
           )),
     ));
   }
+
 
   void saveEmail(){
     String user =  _email;
@@ -97,40 +125,87 @@ class _LoginPageState extends State<LoginPage> {
     return Padding(
         padding: const EdgeInsets.fromLTRB(0.0, 10.0, 0.0, 0.0),
         child: new TextFormField(
-          
+          onEditingComplete: onEdit,
+                    controller: username,
+                    decoration: InputDecoration(
+                        hintText: "username",
+                        hintStyle: new TextStyle(color: Colors.grey.withOpacity(0.3))),
           validator: (input){
             if(input.isEmpty){
                return 'Please Try Again By Entering an Email';
             }
           },
-          decoration: InputDecoration(labelText: 'Email'),
-          onSaved: (input) => _email = input, 
           )
-          // SizedBox(height: 15.0)
-         , //           SizedBox(height: 20.0),
-                    
-          //           SizedBox(height: 15.0),
-          
-          //           SizedBox(height: 10.0),
     );
   }
   Widget gertUserPassword(){
     return Padding(
     padding: const EdgeInsets.fromLTRB(0.0, 10.0, 0.0, 0.0),
     child: new TextFormField(
+      onEditingComplete: onEdit,
+                      controller: password,
+                      obscureText: true,
+                      decoration: InputDecoration(
+                          hintText: "password",
+                          hintStyle:
+                          new TextStyle(color: Colors.grey.withOpacity(0.3)))),
       validator: (input) {
         if(input.isEmpty){
           return 'Please Try Again By Entering a Password';
           }
         },
-        decoration: InputDecoration(labelText: 'Password'),
-        onSaved: (input) => _password = input, 
-        obscureText: true, //makes the text not visible 
         ),
 
+
     );
+
   }
-  Future<void> signIn() async{
+
+  void onEdit(){
+    if(username.text.length!=0) {
+      _email = username.text;
+    }
+    if(password.text.length!=0) {
+      _password = password.text;
+    }
+  }
+  _onChanged(bool value) async {
+    sharedPreferences = await SharedPreferences.getInstance();
+    setState(() {
+      checkValue = value;
+      sharedPreferences.setBool("check", checkValue);
+      sharedPreferences.setString("username", username.text);
+      sharedPreferences.setString("password", password.text);
+    });
+  }
+
+  getCredential() async {
+    sharedPreferences = await SharedPreferences.getInstance();
+    setState(() {
+      checkValue = sharedPreferences.getBool("check");
+      print(checkValue);
+      if (checkValue != null) {
+        if (checkValue) {
+          username.text = sharedPreferences.getString("username");
+          password.text = sharedPreferences.getString("password");
+          signIn();
+        } else {
+          username.clear();
+          password.clear();
+          sharedPreferences.clear();
+        }
+      } else {
+        checkValue = false;
+      }
+    });
+  }
+
+
+Future<void> signIn() async{
+    if(username.text.length!=0 && password.text.length!=0) {
+      _email = username.text;
+      _password = password.text;
+    }
     final formState = _formKey.currentState;
     if(formState.validate()){
       formState.save();
