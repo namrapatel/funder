@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'classes/user.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+
 
 class EditProfilePage extends StatefulWidget {
   @override
@@ -10,7 +12,6 @@ class EditProfilePage extends StatefulWidget {
 }
 
 class _EditProfilePageState extends State<EditProfilePage> {
-
   User currentUser;
   String displayName;
   String bio;
@@ -18,6 +19,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
   String url;
   final TextEditingController usernameController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
+
 
   Future<void> setImage() async {
    var sampleImage = await ImagePicker.pickImage(source: ImageSource.gallery);
@@ -31,20 +33,20 @@ setState(() {
   @override
   void initState() {
     super.initState();
+
     currentUser= new User();
     currentUser.getInfo().then((_) => setState(() {
       bio = currentUser.getBio();
       displayName = currentUser.getDisplayName();
       url= currentUser.getPhotoUrl();
-
     }));
-
   }
 
   @override
   Widget build(BuildContext context) {
     return Material(
         child: Column(
+
           children: <Widget>[
             SizedBox(
               height: 100,
@@ -131,6 +133,7 @@ setState(() {
 
     var downloadUrl=await (await task.onComplete).ref.getDownloadURL();
     url=downloadUrl.toString();
+
 
   }
 
