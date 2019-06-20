@@ -30,7 +30,7 @@ class Dime extends StatelessWidget {
 
 ThemeData appTheme = ThemeData(
   // scaffoldBackgroundColor: Colors.white70,
-    scaffoldBackgroundColor: Colors.grey[100],
+    scaffoldBackgroundColor: Colors.white,
     primaryColor: Colors.greenAccent[700],
     fontFamily: 'Varela');
 

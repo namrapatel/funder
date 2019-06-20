@@ -56,16 +56,12 @@ class _HomePageTopPartState extends State<HomePageTopPart> {
   Widget build(BuildContext context) {
     return Stack(children: <Widget>[
       Container(
-        height: ScreenUtil.instance.setHeight(235.0),
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            colors: [firstColor, secondColor],
-          ),
-        ),
+        height: ScreenUtil.instance.setHeight(250.0),
+        decoration: BoxDecoration(color: Colors.greenAccent[700]),
         child: Column(
           children: <Widget>[
             Container(
-              height: ScreenUtil.instance.setHeight(235.0),
+              height: ScreenUtil.instance.setHeight(250.0),
               child: Column(
                 children: <Widget>[
                   SizedBox(height: ScreenUtil.instance.setHeight(60)),
@@ -98,7 +94,6 @@ class _HomePageTopPartState extends State<HomePageTopPart> {
                   //     )
                   //   ],
                   // ),
-                  SizedBox(height: ScreenUtil.instance.setHeight(0.0)),
                   Padding(
                     padding: EdgeInsets.only(
                         left: ScreenUtil.instance.setWidth(17.5)),
@@ -176,7 +171,7 @@ class HomePageBottomPart extends StatelessWidget {
           ),
         ),
         Container(
-          height: ScreenUtil.instance.setHeight(525),
+          height: ScreenUtil.instance.setHeight(510),
           child: ListView(
             children: groupCards,
             scrollDirection: Axis.vertical,
@@ -216,101 +211,72 @@ class GroupCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding:
-          EdgeInsets.symmetric(horizontal: ScreenUtil.instance.setHeight(4.0)),
+      padding: EdgeInsets.symmetric(
+          horizontal: ScreenUtil.instance.setWidth(4.0),
+          vertical: ScreenUtil.instance.setHeight(4)),
       child: Row(children: <Widget>[
         Expanded(
           child: Container(
-            height: ScreenUtil.instance.setHeight(105.0),
+            height: ScreenUtil.instance.setHeight(90.0),
             child: Column(
               children: <Widget>[
-                Padding(
-                  padding: EdgeInsets.symmetric(
-                    horizontal: ScreenUtil.instance.setWidth(8),
-                  ),
-                  child: Container(
-                    decoration: new BoxDecoration(
-                        color: Colors.white,
-                        // boxShadow: [
-                        //   BoxShadow(
-                        //     color: Colors.grey[350].withOpacity(0.6),
-                        //     blurRadius: 16,
-                        //     spreadRadius: 0.2,
-                        //     offset: Offset(0, 8),
-                        //   )
-                        // ],
-                        borderRadius: BorderRadius.all(Radius.circular(15.0))),
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(
-                          vertical: ScreenUtil.instance.setHeight(3)),
-                      child: GestureDetector(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => GroupsDetailPage()),
-                          );
-                        },
-                        child: ListTile(
-                            leading: Container(
-                              padding: EdgeInsets.only(
-                                  right: ScreenUtil.instance.setWidth(15.0)),
-                              decoration: new BoxDecoration(
-                                  border: new Border(
-                                      right: new BorderSide(
-                                          width:
-                                              ScreenUtil.instance.setWidth(1.0),
-                                          color: Colors.grey[300]))),
-                              child: CircleAvatar(
-                                  radius: 30.0,
-                                  backgroundImage: AssetImage(this.imagePath)),
-                            ),
-                            title: Text(
-                              groupName,
-                              style: regularBlackStyle,
-                            ),
-                            subtitle: Row(
-                              children: <Widget>[
-                                Text("${membersNumber.toString()} members "),
-                                Spacer(),
-                                Container(
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.all(
-                                          Radius.circular(15.0)),
-                                      color: settleType == 1
-                                          ? Colors.greenAccent[700]
-                                              .withOpacity(0.2)
-                                          : settleType == -1
-                                              ? Colors.red.withOpacity(0.2)
-                                              : Colors.grey.withOpacity(0.2)),
-                                  child: Padding(
-                                    padding: EdgeInsets.symmetric(
-                                        horizontal:
-                                            ScreenUtil.instance.setWidth(8.0),
-                                        vertical:
-                                            ScreenUtil.instance.setHeight(2.0)),
-                                    child: Text(
-                                      "${settleType == 1 ? "+" : settleType == -1 ? "-" : ""} \$${settleAmount.toString()}",
-                                      style: settleType == 1
-                                          ? greenSubStyle
-                                          : settleType == -1
-                                              ? redSubStyle
-                                              : blackSubStyle,
-                                    ),
+                Container(
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(
+                        vertical: ScreenUtil.instance.setHeight(3)),
+                    child: GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => GroupsDetailPage()),
+                        );
+                      },
+                      child: ListTile(
+                          leading: Container(
+                            child: CircleAvatar(
+                                radius: 30.0,
+                                backgroundImage: AssetImage(this.imagePath)),
+                          ),
+                          title: Text(
+                            groupName,
+                            style: regularBlackStyle,
+                          ),
+                          subtitle: Row(
+                            children: <Widget>[
+                              Text("${membersNumber.toString()} members "),
+                              Spacer(),
+                              Container(
+                                decoration: BoxDecoration(
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(15.0)),
+                                    color: settleType == 1
+                                        ? Colors.greenAccent[700]
+                                            .withOpacity(0.2)
+                                        : settleType == -1
+                                            ? Colors.red.withOpacity(0.2)
+                                            : Colors.grey.withOpacity(0.2)),
+                                child: Padding(
+                                  padding: EdgeInsets.symmetric(
+                                      horizontal:
+                                          ScreenUtil.instance.setWidth(8.0),
+                                      vertical:
+                                          ScreenUtil.instance.setHeight(3.0)),
+                                  child: Text(
+                                    "${settleType == 1 ? "+" : settleType == -1 ? "-" : ""} \$${settleAmount.toString()}",
+                                    style: settleType == 1
+                                        ? greenSubStyle
+                                        : settleType == -1
+                                            ? redSubStyle
+                                            : blackSubStyle,
                                   ),
                                 ),
-                              ],
-                            )),
-                      ),
+                              ),
+                            ],
+                          )),
                     ),
                   ),
                 ),
-                // SizedBox(
-                //   height: ScreenUtil.instance.setHeight(7),
-                // ),
-                // Divider(
-                //   indent: ScreenUtil.instance.setHeight(90),
-                //     height: ScreenUtil.instance.setHeight(1.0)),
               ],
             ),
           ),

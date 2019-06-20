@@ -75,7 +75,7 @@ class GroupsDetailPage extends StatelessWidget {
                   tabs: [
                     Tab(
                         icon: Icon(Icons.inbox, color: Colors.greenAccent[700]),
-                        text: "Requests"),
+                        text: "Dimes"),
                     Tab(
                         icon:
                             Icon(Icons.history, color: Colors.greenAccent[700]),

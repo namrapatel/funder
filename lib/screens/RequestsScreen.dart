@@ -23,12 +23,12 @@ class RequestsScreen extends StatelessWidget {
 }
 
 List<RequestCard> requestCards = [
-  RequestCard("Shehab Salem", "assets/shehabsalem.jpeg", "Sarah's Birthday", 35.13,
-      -1, -1, 4, "August 9th, 2019"),
-  RequestCard("Namra Patel", "assets/namrapatel.png", "Saturday's Groceries", 34.99,
-      1, 1, 4, "August 7th, 2019"),
-  RequestCard("Sean Mei", "assets/seanmei.jpeg", "Uber to Masonville",
-      4.15, -1, -1, 4, "June 30th, 2019"),
+  RequestCard("Shehab Salem", "assets/shehabsalem.jpeg", "Sarah's Birthday",
+      35.13, -1, -1, 4, "August 9th, 2019"),
+  RequestCard("Namra Patel", "assets/namrapatel.png", "Saturday's Groceries",
+      34.99, 1, 1, 4, "August 7th, 2019"),
+  RequestCard("Sean Mei", "assets/seanmei.jpeg", "Uber to Masonville", 4.15, -1,
+      -1, 4, "June 30th, 2019"),
 ];
 
 class RequestCard extends StatelessWidget {
@@ -56,146 +56,138 @@ class RequestCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(children: <Widget>[
-      Expanded(
+    final screenH = ScreenUtil.instance.setHeight;
+    final screenW = ScreenUtil.instance.setWidth;
+    final screenF = ScreenUtil.instance.setSp;
+    return Padding(
+        padding: EdgeInsets.symmetric(
+            vertical: screenH(10.0), horizontal: screenW(10)),
         child: Container(
-          height: ScreenUtil.instance.setHeight(166.0),
+          height: screenH(140),
+          decoration: new BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.all(Radius.circular(15.0))),
           child: Column(
             children: <Widget>[
-              Padding(
-                padding: EdgeInsets.symmetric(
-                  horizontal: ScreenUtil.instance.setWidth(12),
-                ),
-                child: Container(
-                  height: 140,
-                  decoration: new BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.all(Radius.circular(15.0))),
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(
-                        vertical: ScreenUtil.instance.setHeight(10)),
-                    child: GestureDetector(
-                      onTap: () {
-                        // Navigator.push(
-                        //   context,
-                        //   MaterialPageRoute(
-                        //       builder: (context) => GroupsDetailPage()
-                        //       ),
-                        // );
-                      },
-                      child: ListTile(
-                          leading: Container(
-                            width: 40,
-                            height: 200,
-                            child: Column(
-                              children: <Widget>[
-                                CircleAvatar(
-                                    radius: 20,
-                                    backgroundImage:
-                                        AssetImage(this.requesterImage)),
-                              ],
-                            ),
-                          ),
-                          title: Text(
+              Row(
+                children: <Widget>[
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: screenH(15.0)),
+                    child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          CircleAvatar(
+                            radius: screenH(20),
+                            backgroundImage: AssetImage(this.requesterImage),
+                          )
+                        ]),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(top: screenH(10.0)),
+                    child: Container(
+                      height: screenH(80),
+                      width: screenW(310),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Text(
                             requestReason,
-                            style: regularBlackStyle,
+                            style: TextStyle(fontSize: 18),
                           ),
-                          subtitle: Column(
+                          Text("$date",
+                              style: TextStyle(
+                                  fontSize: screenF(14),
+                                  color: Colors.grey[600])),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
                             children: <Widget>[
-                              Row(
-                                children: <Widget>[
-                                  Text("$date",
-                                      style: TextStyle(
-                                          fontSize:
-                                              ScreenUtil.instance.setSp(14))),
-                                  Spacer(),
-                                  Container(
-                                    decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(15.0)),
-                                        color: settleType == 1
-                                            ? Colors.greenAccent[700]
-                                                .withOpacity(0.2)
-                                            : settleType == -1
-                                                ? Colors.red.withOpacity(0.2)
-                                                : Colors.grey.withOpacity(0.2)),
-                                    child: Padding(
-                                      padding: EdgeInsets.symmetric(
-                                          horizontal:
-                                              ScreenUtil.instance.setWidth(8.0),
-                                          vertical: ScreenUtil.instance
-                                              .setHeight(2.0)),
-                                      child: Text(
-                                        "${settleType == 1 ? "+" : settleType == -1 ? "-" : ""} \$${requestValue.toString()}",
-                                        style: settleType == 1
-                                            ? greenSubStyle
-                                            : settleType == -1
-                                                ? redSubStyle
-                                                : blackSubStyle,
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: <Widget>[
-                                  CircleAvatar(
-                                      backgroundImage:
-                                          AssetImage("assets/namrapatel.png"),
-                                      radius: 10),
-                                  SizedBox(
-                                    width: 5,
-                                  ),
-                                  CircleAvatar(
-                                      backgroundImage:
-                                          AssetImage("assets/shehabsalem.jpeg"),
-                                      radius: 10),
-                                  SizedBox(
-                                    width: 5,
-                                  ),
-                                  CircleAvatar(
-                                      backgroundImage:
-                                          AssetImage("assets/seanmei.jpeg"),
-                                      radius: 10),
-                                ],
-                              ),
+                              CircleAvatar(
+                                  backgroundImage:
+                                      AssetImage("assets/namrapatel.png"),
+                                  radius: screenH(10)),
                               SizedBox(
-                                height: 5,
+                                width: 5,
                               ),
-                              Row(
-                                children: <Widget>[
-                                  FlatButton(
-                                    shape: new RoundedRectangleBorder(
-                                        borderRadius:
-                                            new BorderRadius.circular(30.0)),
-                                    onPressed: () {},
-                                    color: Colors.grey[100],
-                                    child: Text("Cancel"),
+                              CircleAvatar(
+                                  backgroundImage:
+                                      AssetImage("assets/shehabsalem.jpeg"),
+                                  radius: screenH(10)),
+                              SizedBox(
+                                width: 5,
+                              ),
+                              CircleAvatar(
+                                  backgroundImage:
+                                      AssetImage("assets/seanmei.jpeg"),
+                                  radius: screenH(10)),
+                              Spacer(),
+                              Container(
+                                decoration: BoxDecoration(
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(15.0)),
+                                    color: settleType == 1
+                                        ? Colors.greenAccent[700]
+                                            .withOpacity(0.2)
+                                        : settleType == -1
+                                            ? Colors.red.withOpacity(0.2)
+                                            : Colors.grey.withOpacity(0.2)),
+                                child: Padding(
+                                  padding: EdgeInsets.symmetric(
+                                      horizontal: screenW(8.0),
+                                      vertical: screenH(2.0)),
+                                  child: Text(
+                                    "${settleType == 1 ? "+" : settleType == -1 ? "-" : ""} \$${requestValue.toString()}",
+                                    style: settleType == 1
+                                        ? greenSubStyle
+                                        : settleType == -1
+                                            ? redSubStyle
+                                            : blackSubStyle,
                                   ),
-                                  SizedBox(width: 10),
-                                  FlatButton(
-                                    shape: new RoundedRectangleBorder(
-                                        borderRadius:
-                                            new BorderRadius.circular(30.0)),
-                                    onPressed: () {},
-                                    color: requestType == -1 ? Colors.greenAccent[700] : Colors.blueGrey,
-                                    textColor: Colors.white,
-                                    child: Text(
-                                        requestType == -1 ? "Pay" : "Remind"),
-                                  ),
-                                ],
-                              )
+                                ),
+                              ),
                             ],
-                          )),
+                          ),
+                        ],
+                      ),
+                    ),
+                  )
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Container(
+                    height: screenH(40),
+                    width: screenH(180),
+                    child: FlatButton(
+                      shape: new RoundedRectangleBorder(
+                          borderRadius: new BorderRadius.circular(10.0)),
+                      onPressed: () {},
+                      color: Colors.grey[100],
+                      child: Text("Cancel"),
                     ),
                   ),
-                ),
-              ),
+                  SizedBox(width: screenW(10)),
+                  Container(
+                    height: screenH(40),
+                    width: screenW(180),
+                    child: FlatButton(
+                      shape: new RoundedRectangleBorder(
+                          borderRadius: new BorderRadius.circular(10.0)),
+                      onPressed: () {},
+                      color: requestType == -1
+                          ? Colors.greenAccent[700]
+                          : Colors.blueGrey,
+                      textColor: Colors.white,
+                      child: Text(requestType == -1 ? "Pay" : "Remind"),
+                    ),
+                  ),
+                  SizedBox(
+                    height: screenH(20),
+                  )
+                ],
+              )
             ],
           ),
-        ),
-      )
-    ]);
+        ));
   }
 }
