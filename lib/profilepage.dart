@@ -9,12 +9,14 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'editProfilePage.dart';
 
 
+
 class ProfilePage extends StatefulWidget {
   @override
   _ProfilePageState createState() => _ProfilePageState();
 }
 
 class _ProfilePageState extends State<ProfilePage> {
+
   User currentUser;
   String bio;
   String displayName;
@@ -34,18 +36,10 @@ class _ProfilePageState extends State<ProfilePage> {
   }));
 }
 
-
-
   @override
   Widget build(BuildContext context) {
-     double defaultScreenWidth = 414.0;
-    double defaultScreenHeight = 896.0;
-    ScreenUtil.instance = ScreenUtil(
-      width: defaultScreenWidth,
-      height: defaultScreenHeight,
-      allowFontScaling: true,
-    )..init(context);
     return Container(
+
         child: Center(
       child: Column(
         children: <Widget>[
