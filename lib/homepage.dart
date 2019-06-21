@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:funder/screens/ChatScreen.dart';
 
 Color firstColor = Colors.greenAccent[700];
 Color secondColor = Colors.greenAccent[700];
@@ -86,7 +85,7 @@ List<RecentCard> recentsCard = [
   RecentCard("Namra", "assets/namrapatel.png"),
   RecentCard("Sean", "assets/seanmei.jpeg"),
   RecentCard("Shehab", "assets/shehabsalem.jpeg"),
-  RecentCard("Namra", "assets/namrapatel.png"),
+  RecentCard("Taher", "assets/taher.jpeg"),
   RecentCard("Sean", "assets/seanmei.jpeg"),
   RecentCard("Shehab", "assets/shehabsalem.jpeg")
 ];
@@ -150,10 +149,10 @@ class _HomePageTwoState extends State<HomePageTwo> {
             )),
         SizedBox(height: 10),
         Container(
-          height: 170,
+          height: 145,
           child: ListView(
             padding: const EdgeInsets.only(
-              bottom: 40.0,
+              bottom: 15.0,
             ),
             scrollDirection: Axis.horizontal,
             children: requestCards,
@@ -167,8 +166,8 @@ class _HomePageTwoState extends State<HomePageTwo> {
 List<RequestCard> requestCards = [
   RequestCard("Shehab Salem", "assets/shehabsalem.jpeg", "Sarah's Birthday",
       35.13, -1, -1, 4, "2m ago"),
-  RequestCard("Namra Patel", "assets/namrapatel.png", "Saturday's Groceries",
-      34.99, 1, 1, 4, "17 hours ago"),
+  RequestCard("Lakers Nation", "assets/lakersnation.jpeg",
+      "Saturday's Groceries", 34.99, 1, 1, 4, "17 hours ago"),
   RequestCard("Sean Mei", "assets/seanmei.jpeg", "Uber to Masonville", 4.15, -1,
       -1, 4, "2 days ago"),
 ];
@@ -351,6 +350,97 @@ class HomePageThree extends StatefulWidget {
 class _HomePageThreeState extends State<HomePageThree> {
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Column(
+      children: <Widget>[
+        Row(
+          children: <Widget>[
+            Align(
+                alignment: Alignment.centerLeft,
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 20.0),
+                  child: Text("Your Groups",
+                      style: TextStyle(fontSize: 15, color: Colors.grey[700])),
+                )),
+            SizedBox(
+              width: 170,
+            ),
+            FlatButton(
+              onPressed: () {},
+              child: Text("VIEW ALL",
+                  style:
+                      TextStyle(fontSize: 13, color: Colors.greenAccent[700])),
+            ),
+          ],
+        ),
+        Container(
+          height: 245,
+          child: ListView(
+            padding: EdgeInsets.only(bottom: 15),
+            scrollDirection: Axis.horizontal,
+            children: groupsCard,
+          ),
+        )
+      ],
+    );
+  }
+}
+
+List<GroupCard> groupsCard = [
+  GroupCard("Roommates", "assets/roommates.jpeg"),
+  GroupCard("Lakers Nation", "assets/lakersnation.jpeg"),
+  GroupCard("Childhood Homies", "assets/childhoodhomies.jpeg"),
+  GroupCard("Family", "assets/family.jpeg"),
+];
+
+class GroupCard extends StatelessWidget {
+  final String personName, profilePic;
+  GroupCard(this.personName, this.profilePic);
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(left: 15.0),
+      child: Container(
+          width: 150,
+          decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(10),
+              boxShadow: [
+                BoxShadow(
+                    color: Colors.grey[600].withOpacity(0.3),
+                    blurRadius: 10,
+                    spreadRadius: 0.2,
+                    offset: Offset(6, 6)),
+              ]),
+          child: Column(
+            children: <Widget>[
+              Container(
+                child: Padding(
+                    padding: const EdgeInsets.only(top: 15.0),
+                    child: Container(
+                      height: 70,
+                      width:70,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(50),
+                        color: Colors.greenAccent[700].withOpacity(0.3),
+                      ),
+                      child: Container(
+                        height:40,
+                        width:40,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(50),
+                          color: Colors.greenAccent[700],
+                        ),
+                        child: Icon(Icons.add, size: 60, color: Colors.white),
+                      ),
+                    )),
+              ),
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 12.0, vertical: 7),
+                child: Text(this.personName),
+              )
+            ],
+          )),
+    );
   }
 }
