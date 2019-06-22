@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:funder/homepage.dart';
+
 import 'package:funder/resetpasswordpage.dart';
 import 'package:funder/signuppage.dart';
 import 'dart:async';

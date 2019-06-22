@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'classes/user.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+
 
 
 class EditProfilePage extends StatefulWidget {
