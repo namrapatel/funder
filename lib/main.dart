@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:funder/worldpage.dart';
 //pages
 import 'homepage.dart';
 import 'loginpage.dart';
 import 'signuppage.dart';
 import 'profilepage.dart';
 import 'notificationspage.dart';
+import 'worldpage.dart';
 
 
 void main() => runApp(Dime());
@@ -29,7 +31,6 @@ class Dime extends StatelessWidget {
 }
 
 ThemeData appTheme = ThemeData(
-  // scaffoldBackgroundColor: Colors.white70,
     scaffoldBackgroundColor: Colors.grey[200],
     primaryColor: Colors.greenAccent[700],
     fontFamily: 'Varela');
@@ -53,6 +54,10 @@ class _MyHomePageState extends State<MyHomePage>
             color: Colors.white,
             child: HomePage(),
           ),
+          Container(
+            color: Colors.white,
+            child: WorldPage(),
+          ),
           Container(color: Colors.white, child: NotificationsPage()),
           Container(
             color: Colors.white,
@@ -72,14 +77,19 @@ class _MyHomePageState extends State<MyHomePage>
                   color: (_page == 0) ? Colors.greenAccent[700] : Colors.grey),
               title: Container(height: 0.0),
               backgroundColor: Colors.white),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.notifications,
+              BottomNavigationBarItem(
+              icon: Icon(Icons.explore,
                   color: (_page == 1) ? Colors.greenAccent[700] : Colors.grey),
               title: Container(height: 0.0),
               backgroundColor: Colors.white),
           BottomNavigationBarItem(
-              icon: Icon(Icons.person,
+              icon: Icon(Icons.notifications,
                   color: (_page == 2) ? Colors.greenAccent[700] : Colors.grey),
+              title: Container(height: 0.0),
+              backgroundColor: Colors.white),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.person,
+                  color: (_page == 3) ? Colors.greenAccent[700] : Colors.grey),
               title: Container(height: 0.0),
               backgroundColor: Colors.white),
         ],
