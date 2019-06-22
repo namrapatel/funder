@@ -72,8 +72,12 @@ flutter:
     - assets/dimewhite.png
     - assets/seanmei.jpeg
     - assets/shehabsalem.jpeg
+    - assets/taher.jpeg
 
   fonts:
     - family: Varela
       fonts:
         - asset: assets/fonts/VarelaRound-Regular.ttf
+    - family: Proxima Nova
+      fonts:
+        - asset: assets/fonts/proxima-nova.ttf    

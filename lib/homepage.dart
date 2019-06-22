@@ -1,172 +1,179 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:funder/widgets/colorCard.dart';
-import 'notificationspage.dart';
-import 'profilepage.dart';
+
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+
 
 Color firstColor = Colors.greenAccent[700];
 Color secondColor = Colors.greenAccent[700];
+final screenH = ScreenUtil.instance.setHeight;
+final screenW = ScreenUtil.instance.setWidth;
+final screenF = ScreenUtil.instance.setSp;
 
 class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // bottomNavigationBar: BottomBar(),
+
         body: Column(
-
-      children: <Widget>[
-        HomePageTopPart(),
-        HomePageBottomPart(),
-      ],
-    ));
-
+            children: <Widget>[HomePageOne(), HomePageTwo(), HomePageThree()]));
   }
 }
 
-final bodyTextStyle = TextStyle(color: Colors.black, fontFamily: "Varela");
-final titleTextStyle = TextStyle(
-  color: Colors.grey[100],
-  fontFamily: "Varela",
-  fontSize: 24.0,
-);
-
-class HomePageTopPart extends StatefulWidget {
-  HomePageTopPart({Key key, this.title}) : super(key: key);
-
-  final String title;
-
+class HomePageOne extends StatefulWidget {
   @override
-  _HomePageTopPartState createState() => new _HomePageTopPartState();
+  _HomePageOneState createState() => _HomePageOneState();
 }
 
-class _HomePageTopPartState extends State<HomePageTopPart> {
+class _HomePageOneState extends State<HomePageOne> {
   @override
   Widget build(BuildContext context) {
-    return Stack(children: <Widget>[
-      Container(
-        height: 305.0,
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            colors: [firstColor, secondColor],
+    double defaultScreenWidth = 414.0;
+    double defaultScreenHeight = 896.0;
+    ScreenUtil.instance = ScreenUtil(
+      width: defaultScreenWidth,
+      height: defaultScreenHeight,
+      allowFontScaling: true,
+    )..init(context);
+
+    return Column(children: <Widget>[
+      SizedBox(
+        height: screenH(45),
+      ),
+      Row(
+        children: <Widget>[
+          SizedBox(
+            width: screenW(5),
           ),
+          IconButton(
+            onPressed: () {},
+            color: Colors.black,
+            icon: Icon(Icons.menu),
+            iconSize: screenH(25.0),
+          ),
+          Spacer(),
+          Text(
+            "Dime",
+            style: TextStyle(
+                color: Colors.greenAccent[700],
+                fontSize: screenF(20),
+                fontWeight: FontWeight.bold),
+          ),
+          Spacer(),
+          // SizedBox(width: 278),
+          IconButton(
+            onPressed: () {},
+            color: Colors.black,
+            icon: Icon(Icons.search),
+            iconSize: screenH(25.0),
+          ),
+        ],
+      ),
+      SizedBox(height: screenH(15)),
+      Align(
+          alignment: Alignment.centerLeft,
+          child: Padding(
+            padding: EdgeInsets.only(left: screenW(20.0)),
+            child: Text("Recents",
+                style:
+                    TextStyle(fontSize: screenF(15), color: Colors.grey[700])),
+          )),
+      SizedBox(height: screenH(10)),
+      Container(
+        height: screenH(125),
+        child: ListView(
+          padding: EdgeInsets.only(
+            bottom: screenH(15.0),
+          ),
+          scrollDirection: Axis.horizontal,
+          children: recentsCard,
         ),
-        child: Column(
-          children: <Widget>[
-            Container(
-              height: 305.0,
-              child: Column(
-                children: <Widget>[
-                  Row(
-                    children: <Widget>[
-                      Padding(
-                        padding: const EdgeInsets.only(top: 40.0),
-                        child: Row(children: <Widget>[
-                          SizedBox(
-                            width: 25,
-                          ),
-                          Text(
-                            "Dime",
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 22,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          SizedBox(
-                            width: 280,
-                          ),
-                          IconButton(
-                            iconSize: 25.0,
-                            color: Colors.white,
-                            icon: Icon(Icons.settings),
-                            onPressed: () {},
-                          ),
-                        ]),
-                      )
-                    ],
-                  ),
-                  SizedBox(height: 20.0),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 17.5),
-                    child: Column(
-                      children: <Widget>[
-                        Padding(
-                          padding: const EdgeInsets.only(right: 15.0),
-                          child: Text(
-                            "What would you like to do?",
-                            style: titleTextStyle,
-                          ),
-                        ),
-                        SizedBox(
-                          height: 8.0,
-                        ),
-                        InkWell(
-                          onTap: () {
-                            setState(() {});
-                          },
-                          child: Row(
-                            children: <Widget>[
-                              buildColorCard(context, "Create a Group",
-                                  Icon(Icons.group_add), Colors.grey[50]),
-                              buildColorCard(context, "Send a Dime",
-                                  Icon(Icons.send), Colors.white),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            )
-          ],
-        ),
-      )
+      ),
     ]);
   }
 }
 
-var viewAllStyle = TextStyle(color: Colors.greenAccent[700], fontSize: 14.0);
-var regularBlackStyle = TextStyle(
-  color: Colors.black,
-  fontSize: 18.0,
-);
+List<RecentCard> recentsCard = [
+  RecentCard("Namra", "assets/namrapatel.png"),
+  RecentCard("Sean", "assets/seanmei.jpeg"),
+  RecentCard("Shehab", "assets/shehabsalem.jpeg"),
+  RecentCard("Taher", "assets/taher.jpeg"),
+  RecentCard("Sean", "assets/seanmei.jpeg"),
+  RecentCard("Shehab", "assets/shehabsalem.jpeg")
+];
 
-class HomePageBottomPart extends StatelessWidget {
+
+
+class RecentCard extends StatelessWidget {
+  final String personName, profilePic;
+  RecentCard(this.personName, this.profilePic);
+  @override
+  Widget build(BuildContext context) {
+
+    return Padding(
+      padding: EdgeInsets.only(left: screenW(15.0)),
+      child: Container(
+          width: screenW(100),
+          decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(10),
+              boxShadow: [
+                BoxShadow(
+                    color: Colors.grey[600].withOpacity(0.3),
+                    blurRadius: screenW(10),
+                    spreadRadius: 0.2,
+                    offset: Offset(6, 6)),
+              ]),
+          child: Column(
+            children: <Widget>[
+              Container(
+                child: Padding(
+                  padding: EdgeInsets.only(top: screenH(15.0)),
+                  child: CircleAvatar(
+                      backgroundImage: AssetImage(this.profilePic),
+                      radius: screenW(22)),
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.symmetric(
+                    horizontal: screenW(12.0), vertical: screenH(5)),
+                child: Text(this.personName),
+              )
+            ],
+          )),
+    );
+  }
+}
+
+
+class HomePageTwo extends StatefulWidget {
+  @override
+  _HomePageTwoState createState() => _HomePageTwoState();
+}
+
+class _HomePageTwoState extends State<HomePageTwo> {
   @override
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
-        Padding(
-          padding: EdgeInsets.symmetric(
-              vertical: ScreenUtil.instance.setHeight(1.0)),
-          child: Row(
-            mainAxisSize: MainAxisSize.max,
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              SizedBox(width: ScreenUtil.instance.setWidth(16.0)),
-              Text("Your Groups", style: regularBlackStyle),
-              Spacer(),
-              FlatButton(
-                child: Text("VIEW ALL", style: viewAllStyle),
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => ViewAllGroupsPage()),
-                  );
-                },
-              )
-            ],
-          ),
-
-
-        ),
+        SizedBox(height: screenH(10)),
+        Align(
+            alignment: Alignment.centerLeft,
+            child: Padding(
+              padding: EdgeInsets.only(left: screenW(20.0)),
+              child: Text("Requests",
+                  style: TextStyle(
+                      fontSize: screenF(15), color: Colors.grey[700])),
+            )),
+        SizedBox(height: screenH(10)),
         Container(
-          height: ScreenUtil.instance.setHeight(510),
+          height: screenH(165),
           child: ListView(
-            children: groupCards,
-            scrollDirection: Axis.vertical,
+            padding: EdgeInsets.only(
+              bottom: screenH(15.0),
+            ),
+            scrollDirection: Axis.horizontal,
+            children: requestCards,
           ),
         )
       ],
@@ -174,24 +181,19 @@ class HomePageBottomPart extends StatelessWidget {
   }
 }
 
-List<GroupCard> groupCards = [
-  GroupCard("assets/roommates.jpeg", "Roommates", 4, 59.34, true, Colors.red),
-  GroupCard("assets/childhoodhomies.jpeg", "Childhood Homies", 7, 178.33, false,
-      Colors.greenAccent[400]),
-  GroupCard("assets/sorority.jpeg", "Alpha Beta Phi", 44, 11.19, true,
-      Colors.greenAccent[400]),
-  GroupCard("assets/lakersnation.jpeg", "Lakers Nation", 7, 55.90, false,
-      Colors.greenAccent[400]),
-  GroupCard("assets/trip.png", "Backpacking Gang", 13, 24.09, true,
-      Colors.greenAccent[400]),
-  GroupCard("assets/family.png", "Family", 6, 329.11, true, Colors.red),
+
+List<RequestCard> requestCards = [
+  RequestCard("Shehab Salem", "assets/shehabsalem.jpeg", "Sarah's Birthday",
+      35.13, -1, -1, 4, "2m ago"),
+  RequestCard("Lakers Nation", "assets/lakersnation.jpeg",
+      "Saturday's Groceries", 34.99, 1, 1, 4, "17 hours ago"),
+  RequestCard("Sean Mei", "assets/seanmei.jpeg", "Uber to Masonville", 4.15, -1,
+      -1, 4, "2 days ago"),
 ];
 
-class GroupCard extends StatelessWidget {
-  final String imagePath, groupName;
-  final bool settleType;
-  final double settleAmount;
-
+class RequestCard extends StatelessWidget {
+  final String requesterName, requesterImage, requestReason, date;
+  final double requestValue, settleType, membersNumber, requestType;
   final greenSubStyle = TextStyle(
       color: Colors.greenAccent[700],
       fontSize: ScreenUtil(allowFontScaling: true).setSp(15.0));
@@ -202,97 +204,264 @@ class GroupCard extends StatelessWidget {
       color: Colors.grey,
       fontSize: ScreenUtil(allowFontScaling: true).setSp(15.0));
 
-
-
-  GroupCard(this.imagePath, this.groupName, this.membersNumber,
-      this.settleAmount, this.settleType, this.indicatorColor);
+  RequestCard(
+      this.requesterName,
+      this.requesterImage,
+      this.requestReason,
+      this.requestValue,
+      this.requestType,
+      this.settleType,
+      this.membersNumber,
+      this.date);
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 4.0),
-      child: Row(children: <Widget>[
-        Expanded(
-          child: Container(
-
-            height: ScreenUtil.instance.setHeight(90.0),
-            child: Column(
-              children: <Widget>[
-                Container(
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(
-                        vertical: ScreenUtil.instance.setHeight(3)),
-                    child: GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => GroupsDetailPage()),
-                        );
-                      },
-                      child: ListTile(
-                          leading: Container(
-                            child: CircleAvatar(
-                                radius: 30.0,
-                                backgroundImage: AssetImage(this.imagePath)),
+      padding: EdgeInsets.only(left: screenW(15.0)),
+      child: Container(
+        height: screenH(140),
+        decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(10),
+            boxShadow: [
+              BoxShadow(
+                  color: Colors.grey[600].withOpacity(0.3),
+                  blurRadius: screenW(10),
+                  spreadRadius: 0.2,
+                  offset: Offset(6, 6)),
+            ]),
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: screenW(10.0),),
+          child: Column(
+            children: <Widget>[
+              Row(
+                children: <Widget>[
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: screenH(15.0)),
+                    child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          CircleAvatar(
+                            radius: screenH(20),
+                            backgroundImage: AssetImage(this.requesterImage),
+                          )
+                        ]),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(top: screenH(10.0)),
+                    child: Container(
+                      height: screenH(90),
+                      width: screenW(200),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Text(
+                            requestReason,
+                            style: TextStyle(fontSize: screenF(18)),
                           ),
-                          title: Text(
-                            groupName,
-                            style: regularBlackStyle,
-                          ),
-                          subtitle: Row(
+                          Text("$date",
+                              style: TextStyle(
+                                  fontSize: screenF(14),
+                                  color: Colors.grey[600])),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
                             children: <Widget>[
-                              Text("${membersNumber.toString()} members "),
-                              Spacer(),
-                              Container(
-                                decoration: BoxDecoration(
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(15.0)),
-                                    color: settleType == 1
-                                        ? Colors.greenAccent[700]
-                                            .withOpacity(0.2)
-                                        : settleType == -1
-                                            ? Colors.red.withOpacity(0.2)
-                                            : Colors.grey.withOpacity(0.2)),
-                                child: Padding(
-                                  padding: EdgeInsets.symmetric(
-                                      horizontal:
-                                          ScreenUtil.instance.setWidth(8.0),
-                                      vertical:
-                                          ScreenUtil.instance.setHeight(3.0)),
-                                  child: Text(
-                                    "${settleType == 1 ? "+" : settleType == -1 ? "-" : ""} \$${settleAmount.toString()}",
-                                    style: settleType == 1
-                                        ? greenSubStyle
-                                        : settleType == -1
-                                            ? redSubStyle
-                                            : blackSubStyle,
+                              CircleAvatar(
+                                  backgroundImage:
+                                      AssetImage("assets/namrapatel.png"),
+                                  radius: screenH(10)),
+                              SizedBox(
+                                width: 5,
+                              ),
+                              CircleAvatar(
+                                  backgroundImage:
+                                      AssetImage("assets/shehabsalem.jpeg"),
+                                  radius: screenH(10)),
+                              SizedBox(
+                                width: 5,
+                              ),
+                              CircleAvatar(
+                                  backgroundImage:
+                                      AssetImage("assets/seanmei.jpeg"),
+                                  radius: screenH(10)),
+                              Padding(
+                                padding: EdgeInsets.only(left: screenW(45.0)),
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                      borderRadius:
+                                          BorderRadius.all(Radius.circular(15.0)),
+                                      color: settleType == 1
+                                          ? Colors.greenAccent[700]
+                                              .withOpacity(0.2)
+                                          : settleType == -1
+                                              ? Colors.red.withOpacity(0.2)
+                                              : Colors.grey.withOpacity(0.2)),
+                                  child: Padding(
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: screenW(8.0),
+                                        vertical: screenH(3.0)),
+                                    child: Text(
+                                      "${settleType == 1 ? "+" : settleType == -1 ? "-" : ""} \$${requestValue.toString()}",
+                                      style: settleType == 1
+                                          ? greenSubStyle
+                                          : settleType == -1
+                                              ? redSubStyle
+                                              : blackSubStyle,
+                                    ),
                                   ),
                                 ),
                               ),
                             ],
-                          )),
-
+                          ),
+                        ],
+                      ),
+                    ),
+                  )
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Container(
+                    height: screenH(40),
+                    width: screenH(140),
+                    child: FlatButton(
+                      shape: new RoundedRectangleBorder(
+                          borderRadius: new BorderRadius.circular(10.0)),
+                      onPressed: () {},
+                      color: Colors.grey[100],
+                      child: Text(requestType == -1 ? "Message" : "Cancel"),
+                      textColor: Colors.grey[700],
                     ),
                   ),
+                  SizedBox(width: screenW(10)),
+                  Container(
+                    height: screenH(40),
+                    width: screenW(120),
+                    child: FlatButton(
+                      shape: new RoundedRectangleBorder(
+                          borderRadius: new BorderRadius.circular(10.0)),
+                      onPressed: () {},
+                      color: requestType == -1
+                          ? Colors.greenAccent[700].withOpacity(0.2)
+                          : Colors.blueGrey.withOpacity(0.2),
+                      textColor: requestType == -1
+                          ? Colors.greenAccent[700]
+                          : Colors.blueGrey,
+                      child: Text(requestType == -1 ? "Pay Now" : "Remind"),
+                    ),
+                  ),
+                ],
+              )
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
 
-                ),
-                subtitle: Row(
-                  children: <Widget>[
-                    SizedBox(
-                      width: 1.0,
-                    ),
-                    Text("${membersNumber.toString()} members "),
-                    Spacer(),
-                    Text(
-                      "${settleType == false ? "+" : "-"} \$${settleAmount.toString()}",
-                      style: settleType == false ? greenSubStyle : redSubStyle,
-                    ),
-                  ],
+class HomePageThree extends StatefulWidget {
+  @override
+  _HomePageThreeState createState() => _HomePageThreeState();
+}
+
+class _HomePageThreeState extends State<HomePageThree> {
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: <Widget>[
+        Row(
+          children: <Widget>[
+            Align(
+                alignment: Alignment.centerLeft,
+                child: Padding(
+                  padding: EdgeInsets.only(left: screenW(20.0)),
+                  child: Text("Your Groups",
+                      style: TextStyle(
+                          fontSize: screenF(15), color: Colors.grey[700])),
                 )),
+            SizedBox(
+              width: screenW(170),
+            ),
+            FlatButton(
+              onPressed: () {},
+              child: Text("VIEW ALL",
+                  style: TextStyle(
+                      fontSize: screenF(13), color: Colors.greenAccent[700])),
+            ),
+          ],
+        ),
+        Container(
+          height: screenH(270),
+          child: ListView(
+            padding: EdgeInsets.only(bottom: screenH(15)),
+            scrollDirection: Axis.horizontal,
+            children: groupsCard,
           ),
         )
-      ]),
+      ],
+    );
+  }
+}
+
+List<GroupCard> groupsCard = [
+  GroupCard("Roommates", "assets/roommates.jpeg"),
+  GroupCard("Lakers Nation", "assets/lakersnation.jpeg"),
+  GroupCard("Childhood Homies", "assets/childhoodhomies.jpeg"),
+  GroupCard("Family", "assets/family.jpeg"),
+];
+
+class GroupCard extends StatelessWidget {
+  final String personName, profilePic;
+  GroupCard(this.personName, this.profilePic);
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.only(left: screenW(15.0)),
+      child: Container(
+          width: screenW(150),
+          decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(10),
+              boxShadow: [
+                BoxShadow(
+                    color: Colors.grey[600].withOpacity(0.3),
+                    blurRadius: screenW(10),
+                    spreadRadius: 0.2,
+                    offset: Offset(6, 6)),
+              ]),
+          child: Column(
+            children: <Widget>[
+              Container(
+                child: Padding(
+                    padding: EdgeInsets.only(top: screenH(15.0)),
+                    child: Container(
+                      height: screenH(70),
+                      width: screenH(70),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(50),
+                        color: Colors.greenAccent[700].withOpacity(0.3),
+                      ),
+                      child: Container(
+                        height: screenH(40),
+                        width: screenW(40),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(50),
+                          color: Colors.greenAccent[700],
+                        ),
+                        child: Icon(Icons.add,
+                            size: screenH(60), color: Colors.white),
+                      ),
+                    )),
+              ),
+              Padding(
+                padding: EdgeInsets.symmetric(
+                    horizontal: screenW(12.0), vertical: screenH(7)),
+                child: Text(this.personName),
+              )
+            ],
+          )),
     );
   }
 }
