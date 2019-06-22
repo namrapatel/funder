@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:funder/worldpage.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 //pages
 import 'homepage.dart';
 import 'loginpage.dart';
-import 'signuppage.dart';
 import 'profilepage.dart';
 import 'notificationspage.dart';
 import 'worldpage.dart';
