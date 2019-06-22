@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:funder/worldpage.dart';
-//pages
+import 'signuppage.dart';
 import 'homepage.dart';
 import 'loginpage.dart';
 import 'profilepage.dart';
