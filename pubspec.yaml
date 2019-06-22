@@ -19,13 +19,24 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+ 
 
   firebase_auth:
   cloud_firestore:
   firebase_storage:
   shared_preferences: ^0.5.1+2
   modal_progress_hud: ^0.1.3
+
+  image_picker:
+
+
   flutter_screenutil: ^0.5.2
+  image_picker:
+
+
+  
+
+
 
 
 

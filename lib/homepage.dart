@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+
 
 Color firstColor = Colors.greenAccent[700];
 Color secondColor = Colors.greenAccent[700];
@@ -9,11 +11,10 @@ final screenW = ScreenUtil.instance.setWidth;
 final screenF = ScreenUtil.instance.setSp;
 
 class HomePage extends StatelessWidget {
-  final GlobalKey<NavigatorState> navigatorKey =
-      new GlobalKey<NavigatorState>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+
         body: Column(
             children: <Widget>[HomePageOne(), HomePageTwo(), HomePageThree()]));
   }
@@ -101,11 +102,14 @@ List<RecentCard> recentsCard = [
   RecentCard("Shehab", "assets/shehabsalem.jpeg")
 ];
 
+
+
 class RecentCard extends StatelessWidget {
   final String personName, profilePic;
   RecentCard(this.personName, this.profilePic);
   @override
   Widget build(BuildContext context) {
+
     return Padding(
       padding: EdgeInsets.only(left: screenW(15.0)),
       child: Container(
@@ -141,6 +145,7 @@ class RecentCard extends StatelessWidget {
   }
 }
 
+
 class HomePageTwo extends StatefulWidget {
   @override
   _HomePageTwoState createState() => _HomePageTwoState();
@@ -175,6 +180,7 @@ class _HomePageTwoState extends State<HomePageTwo> {
     );
   }
 }
+
 
 List<RequestCard> requestCards = [
   RequestCard("Shehab Salem", "assets/shehabsalem.jpeg", "Sarah's Birthday",
