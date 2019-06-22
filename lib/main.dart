@@ -21,6 +21,12 @@ class Dime extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: "Dime",
       home: LoginPage(),
+      routes: <String, WidgetBuilder>{
+        '/homepage': (BuildContext context) => new MyHomePage(),
+        '/loginpage': (BuildContext context) => new LoginPage(),
+        '/signuppage': (BuildContext context) => new SignupPage(),
+        '/profilepage': (BuildContext context) => new ProfilePage(),
+      },
       theme: appTheme,
     );
   }
