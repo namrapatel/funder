@@ -52,7 +52,7 @@ class _LoginPageState extends State<LoginPage> {
                     title: new Text("Remember me"),
                     controlAffinity: ListTileControlAffinity.leading,
                   ),
-              SizedBox(height 15.0),
+              SizedBox(height: 15.0),
               SizedBox(height: 20.0),
               loginButton(),
               signUpButton(),
@@ -148,7 +148,7 @@ class _LoginPageState extends State<LoginPage> {
                       decoration: InputDecoration(
                           hintText: "password",
                           hintStyle:
-                          new TextStyle(color: Colors.grey.withOpacity(0.3)))),
+                          new TextStyle(color: Colors.grey.withOpacity(0.3))),
       validator: (input) {
         if(input.isEmpty){
           return 'Please Try Again By Entering a Password';

@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:funder/worldpage.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-//pages
+import 'signuppage.dart';
 import 'homepage.dart';
 import 'loginpage.dart';
-import 'signuppage.dart';
 import 'profilepage.dart';
 import 'notificationspage.dart';
 import 'worldpage.dart';
@@ -20,7 +18,13 @@ class Dime extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: "Dime",
-      home: LoginPage(),
+      home: MyHomePage(),
+      routes: <String, WidgetBuilder>{
+        '/homepage': (BuildContext context) => new MyHomePage(),
+        '/loginpage': (BuildContext context) => new LoginPage(),
+        '/signuppage': (BuildContext context) => new SignupPage(),
+        '/profilepage': (BuildContext context) => new ProfilePage(),
+      },
       theme: appTheme,
     );
   }
