@@ -56,7 +56,7 @@ class _WorldPageOneState extends State<WorldPageOne> {
         DefaultTabController(
           length: 2,
           child: TabBar(
-            indicatorColor: Colors.greenAccent[700],
+            indicatorColor: Colors.blueAccent[700],
             tabs: <Widget>[
               Tab(
                 icon: Icon(Icons.language),
