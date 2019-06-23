@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'screens/contactListScreen.dart';
+import 'package:funder/screens/contactListScreen.dart';
 
 Color firstColor = Colors.greenAccent[700];
 Color secondColor = Colors.greenAccent[700];
@@ -40,7 +42,9 @@ class _HomePageOneState extends State<HomePageOne> {
       Container(
           height: screenH(260),
           decoration: BoxDecoration(
-            color: Colors.blueAccent[700],
+            gradient: LinearGradient(
+                colors: [Colors.blueAccent[400], Colors.blueAccent[700]]),
+            // color: Colors.blueAccent[700],
             boxShadow: [
               BoxShadow(
                   color: Colors.blueAccent[700].withOpacity(0.6),
@@ -80,9 +84,15 @@ class _HomePageOneState extends State<HomePageOne> {
                 Spacer(),
                 // SizedBox(width: 278),
                 IconButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => ContactListScreen(),
+                        ));
+                  },
                   color: Colors.white,
-                  icon: Icon(Icons.search),
+                  icon: Icon(Icons.add),
                   iconSize: screenH(25.0),
                 ),
               ],
