@@ -62,6 +62,7 @@ flutter:
     - assets/seanmei.jpeg
     - assets/shehabsalem.jpeg
     - assets/taher.jpeg
+    - assets/defaultprofile.png
 
   fonts:
     - family: Varela

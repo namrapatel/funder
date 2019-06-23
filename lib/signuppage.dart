@@ -61,7 +61,7 @@ class _SignupPageState extends State<SignupPage> {
           UserManagement().storeNewUser(signedInUser, context);
 
         });
-        user.sendEmailVerification();
+//        user.sendEmailVerification();
         Navigator.of(context).pop(); //closes the page
       }catch(e){
         print(e.message);

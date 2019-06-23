@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'classes/user.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
+import 'profilepage.dart';
+
 
 
 
@@ -27,6 +29,8 @@ class _EditProfilePageState extends State<EditProfilePage> {
 setState(() {
   _image = sampleImage;
 });
+   uploadImage();
+
   }
 
   //Gets the info from database of the current user when page loads
@@ -36,9 +40,15 @@ setState(() {
 
     currentUser= new User();
     currentUser.getInfo().then((_) => setState(() {
-      bio = currentUser.getBio();
-      displayName = currentUser.getDisplayName();
-      url= currentUser.getPhotoUrl();
+      if(currentUser.getBio()!=null) {
+        bio = currentUser.getBio();
+      }
+      if(currentUser.getDisplayName()!=null) {
+        displayName = currentUser.getDisplayName();
+      }
+      if(currentUser.getPhotoUrl()!=null) {
+        url = currentUser.getPhotoUrl();
+      }
     }));
   }
 
@@ -54,10 +64,10 @@ setState(() {
             Padding(
               padding: const EdgeInsets.only(top: 16.0, bottom: 8.0),
               child:
-                  currentUser.getPhotoUrl()== null
-                  ? Text('You currently have no profile picture')//call set image which sets it on the current page and also sends to firestore,
+                  url== null
+                  ? CircularProgressIndicator()
                   : CircleAvatar(
-                      backgroundImage: NetworkImage(currentUser.getPhotoUrl()),
+                      backgroundImage: NetworkImage(url),
                       radius: 75.0),
 
             ),
@@ -100,15 +110,14 @@ setState(() {
             ),
             RaisedButton(
               //Updates the user's profile changes to Firestore and User class
-                onPressed: () async{
-                  if(_image!=null){
-                    await uploadImage();
-                  }
+                onPressed: () {
+
 
                   currentUser.updateData(bio:bio,displayName: displayName, photoUrl: url);
                   print("current user url is:"+ currentUser.getPhotoUrl());
                   print(bio);
                   print(displayName);
+                  Navigator.of(context).push(MaterialPageRoute(builder: (context) => ProfilePage()));
                   //either sets the image and sends to databse here or in earlier method
 
 
@@ -118,6 +127,7 @@ setState(() {
 
                onPressed: () {
                  Navigator.pop(context);
+//                 url=currentUser.getPhotoUrl();
                },
                 child: Text("Back")),
 
@@ -132,7 +142,10 @@ setState(() {
     StorageUploadTask task= firebaseStorageRef.putFile(_image);
 
     var downloadUrl=await (await task.onComplete).ref.getDownloadURL();
-    url=downloadUrl.toString();
+    setState(() {
+      url=downloadUrl.toString();
+    });
+
     print(url);
 
 

@@ -97,7 +97,7 @@
           _firestore.collection('users').document('$uid').setData({
           'email':this.email,
           'bio':this.bio,
-          'displayName':this.displayName,
+          'display name':this.displayName,
           'photoUrl':this.photoUrl
 
           });

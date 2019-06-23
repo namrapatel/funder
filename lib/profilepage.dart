@@ -29,16 +29,23 @@ class _ProfilePageState extends State<ProfilePage> {
     super.initState();
     currentUser = new User();
     currentUser.getInfo().then((_) => setState(() {
-          bio = currentUser.getBio();
-          displayName = currentUser.getDisplayName();
-          photoUrl= currentUser.getPhotoUrl();
+      if(currentUser.getBio()!=null) {
+        bio = currentUser.getBio();
+      }
+      if(currentUser.getDisplayName()!=null) {
+        displayName = currentUser.getDisplayName();
+      }
+      if(currentUser.getPhotoUrl()!=null) {
+        photoUrl = currentUser.getPhotoUrl();
+      }
           print(photoUrl);
   }));
 }
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return Scaffold(
+        body:Container(
 
         child: Center(
       child: Column(
@@ -96,6 +103,6 @@ class _ProfilePageState extends State<ProfilePage> {
                   ))
         ],
       ),
-    ));
-  }
+    )));
+    }
 }
