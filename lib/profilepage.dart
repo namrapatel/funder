@@ -85,7 +85,10 @@ class _ProfilePageState extends State<ProfilePage> {
             height: 15.0,
           ),
           //checks if data has been received, if not shows a progress indicator until profile is set up
+          //should set a default image for new users in user management so it displays that the first time user
+          //clicks on their profile
           displayName == null
+
               ? CircularProgressIndicator()
               : Text('$displayName',
                   style: TextStyle(

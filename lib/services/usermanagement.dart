@@ -5,11 +5,12 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 class UserManagement {
   storeNewUser(user, context) {
+
     FirebaseUser current= user;
-    String currentEmail= current.email;
-    Firestore.instance.collection('users').document('$currentEmail').setData({
-      'uid': current.uid,
-      'display name': current.displayName
+    String uid= current.uid;
+    Firestore.instance.collection('users').document('$uid').setData({
+      'email': current.email,
+      'display name': 'You currently don\'t have a display name'
     });
   }
 }

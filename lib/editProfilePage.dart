@@ -64,7 +64,7 @@ setState(() {
             FlatButton(
               //TODO: get the change picture functionality working
                 onPressed: () {
-                  setImage();
+                 setImage();
                 },
                 child: Text(
                   "Change Photo",
@@ -133,6 +133,7 @@ setState(() {
 
     var downloadUrl=await (await task.onComplete).ref.getDownloadURL();
     url=downloadUrl.toString();
+    print(url);
 
 
   }
