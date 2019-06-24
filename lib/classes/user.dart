@@ -14,6 +14,7 @@
          File _image;
          String photoUrl;
          String uid;
+         List<String> requests;
 
         Future<void> setImage() async {
              _image = await ImagePicker.pickImage(source: ImageSource.gallery);
@@ -55,6 +56,7 @@
                    bio=datasnapshot.data['bio'].toString();
                    email=datasnapshot.data['email'].toString();
                    photoUrl= datasnapshot.data['photoUrl'].toString();
+                   requests = datasnapshot.data['requests'];
                  }
                  else {
                    print("No such user");
@@ -120,6 +122,15 @@
 
            String getPhotoUrl(){
            return photoUrl;
+           }
+
+            String getUid(){
+             return uid;
+             }
+
+
+           List<String> getRequests(){
+           return requests;
            }
 
        }

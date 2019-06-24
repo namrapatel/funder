@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-
+import 'classes/user.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 
 Color firstColor = Colors.greenAccent[700];
@@ -9,8 +10,61 @@ Color secondColor = Colors.greenAccent[700];
 final screenH = ScreenUtil.instance.setHeight;
 final screenW = ScreenUtil.instance.setWidth;
 final screenF = ScreenUtil.instance.setSp;
+final _firestore= Firestore.instance;
+List<RequestCard> requestCards;
+User currentUser;
+String bio;
+String displayName;
+String photoUrl;
+List<String> myRequests;
+String uid;
 
-class HomePage extends StatelessWidget {
+
+String requesterName;
+String requesterImage;
+String requestReason;
+String requestValue;
+double requestType;
+double settleType;
+double membersNumber;
+String date;
+
+
+
+class HomePage extends StatefulWidget {
+  @override
+  _HomePageState createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+//  final _firestore= Firestore.instance;
+//  User currentUser;
+//  String bio;
+//  String displayName;
+//  String photoUrl;
+//  List<String> requests;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+//    currentUser = new User();
+//    currentUser.getInfo().then((_) => setState(() {
+//      if(currentUser.getBio()!=null) {
+//        bio = currentUser.getBio();
+//      }
+//      if(currentUser.getDisplayName()!=null) {
+//        displayName = currentUser.getDisplayName();
+//      }
+//      if(currentUser.getPhotoUrl()!=null) {
+//        photoUrl = currentUser.getPhotoUrl();
+//      }
+//      if(currentUser.getRequests()!=null){
+//        requests=currentUser.getRequests();
+//      }
+//  }));
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -20,12 +74,14 @@ class HomePage extends StatelessWidget {
   }
 }
 
+
+
 class HomePageOne extends StatefulWidget {
   @override
   _HomePageOneState createState() => _HomePageOneState();
 }
 
-class _HomePageOneState extends State<HomePageOne> {
+class _HomePageOneState extends State<HomePageOne>  {
   @override
   Widget build(BuildContext context) {
     double defaultScreenWidth = 414.0;
@@ -153,6 +209,28 @@ class HomePageTwo extends StatefulWidget {
 
 class _HomePageTwoState extends State<HomePageTwo> {
   @override
+  void initState(){
+    // TODO: implement initState
+    super.initState();
+    currentUser = new User();
+   currentUser.getInfo().then((_) => setState(() {
+    if(currentUser.getBio()!=null) {
+      bio = currentUser.getBio();
+    }
+    if(currentUser.getDisplayName()!=null) {
+      displayName = currentUser.getDisplayName();
+    }
+    if(currentUser.getPhotoUrl()!=null) {
+      photoUrl = currentUser.getPhotoUrl();
+    }
+    if(currentUser.getRequests()!=null){
+      myRequests=currentUser.getRequests();
+    }
+    if(currentUser.getUid()!=null){
+      uid=currentUser.getUid();
+    }}));
+  }
+  @override
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
@@ -168,13 +246,54 @@ class _HomePageTwoState extends State<HomePageTwo> {
         SizedBox(height: screenH(10)),
         Container(
           height: screenH(165),
-          child: ListView(
-            padding: EdgeInsets.only(
-              bottom: screenH(15.0),
-            ),
-            scrollDirection: Axis.horizontal,
-            children: requestCards,
-          ),
+          child: StreamBuilder<QuerySnapshot> (
+            stream: _firestore.collection('requests').snapshots(),
+            builder: (context,snapshot) {
+              if (!snapshot.hasData) {
+                return Center(
+                  child: CircularProgressIndicator(
+                    backgroundColor: Colors.lightBlueAccent,
+                  ),
+                );
+              }
+
+              for (int request = 0; request < myRequests.length; request++) {
+                final String requestID = myRequests[request];
+                final requestDoc = _firestore.collection('requests').document(
+                    '$requestID');
+                requestDoc.get().then((DocumentSnapshot datasnapshot) {
+                  if (datasnapshot.exists) {
+                    requesterName = datasnapshot.data['recipient'].toString();
+                    print(requesterName);
+                    requesterImage = "assets/shehabsalem.jpeg";
+                    requestReason = datasnapshot.data['event'].toString();
+                    requestValue = datasnapshot.data['amount'].toString();
+                    requestType = 1;
+                    settleType = 1;
+                    membersNumber = 2;
+                    date = '10m ago';
+                    requestCards.add(RequestCard(
+                        requesterName,
+                        requesterImage,
+                        requestReason,
+                        requestValue,
+                        requestType,
+                        settleType,
+                        membersNumber,
+                        date));
+                  }
+                }
+                );
+
+                return ListView(
+                  padding: EdgeInsets.only(
+                    bottom: screenH(15.0),
+                  ),
+                  scrollDirection: Axis.horizontal,
+                  children: requestCards,
+                );
+              }
+            }),
         )
       ],
     );
@@ -182,18 +301,18 @@ class _HomePageTwoState extends State<HomePageTwo> {
 }
 
 
-List<RequestCard> requestCards = [
-  RequestCard("Shehab Salem", "assets/shehabsalem.jpeg", "Sarah's Birthday",
-      35.13, -1, -1, 4, "2m ago"),
-  RequestCard("Lakers Nation", "assets/lakersnation.jpeg",
-      "Saturday's Groceries", 34.99, 1, 1, 4, "17 hours ago"),
-  RequestCard("Sean Mei", "assets/seanmei.jpeg", "Uber to Masonville", 4.15, -1,
-      -1, 4, "2 days ago"),
-];
+//List<RequestCard> requestCards = [
+//  RequestCard("Shehab Salem", "assets/shehabsalem.jpeg", "Sarah's Birthday",
+//      35.13, -1, -1, 4, "2m ago"),
+//  RequestCard("Lakers Nation", "assets/lakersnation.jpeg",
+//      "Saturday's Groceries", 34.99, 1, 1, 4, "17 hours ago"),
+//  RequestCard("Sean Mei", "assets/seanmei.jpeg", "Uber to Masonville", 4.15, -1,
+//      -1, 4, "2 days ago"),
+//];
 
 class RequestCard extends StatelessWidget {
-  final String requesterName, requesterImage, requestReason, date;
-  final double requestValue, settleType, membersNumber, requestType;
+  final String requesterName, requesterImage, requestReason, date,requestValue;
+  final double settleType, membersNumber, requestType;
   final greenSubStyle = TextStyle(
       color: Colors.greenAccent[700],
       fontSize: ScreenUtil(allowFontScaling: true).setSp(15.0));
