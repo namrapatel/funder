@@ -5,18 +5,19 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 
+
 Color firstColor = Colors.greenAccent[700];
 Color secondColor = Colors.greenAccent[700];
 final screenH = ScreenUtil.instance.setHeight;
 final screenW = ScreenUtil.instance.setWidth;
 final screenF = ScreenUtil.instance.setSp;
 final _firestore= Firestore.instance;
-List<RequestCard> requestCards;
+
 User currentUser;
 String bio;
 String displayName;
 String photoUrl;
-List<String> myRequests;
+List<dynamic> myRequests;
 String uid;
 
 
@@ -37,6 +38,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+
 //  final _firestore= Firestore.instance;
 //  User currentUser;
 //  String bio;
@@ -208,23 +210,28 @@ class HomePageTwo extends StatefulWidget {
 }
 
 class _HomePageTwoState extends State<HomePageTwo> {
+
   @override
   void initState(){
-    // TODO: implement initState
+
     super.initState();
     currentUser = new User();
    currentUser.getInfo().then((_) => setState(() {
     if(currentUser.getBio()!=null) {
       bio = currentUser.getBio();
+
     }
     if(currentUser.getDisplayName()!=null) {
       displayName = currentUser.getDisplayName();
+
     }
     if(currentUser.getPhotoUrl()!=null) {
       photoUrl = currentUser.getPhotoUrl();
     }
     if(currentUser.getRequests()!=null){
       myRequests=currentUser.getRequests();
+      print('homepage requests');
+      print(myRequests);
     }
     if(currentUser.getUid()!=null){
       uid=currentUser.getUid();
@@ -235,6 +242,7 @@ class _HomePageTwoState extends State<HomePageTwo> {
     return Column(
       children: <Widget>[
         SizedBox(height: screenH(10)),
+
         Align(
             alignment: Alignment.centerLeft,
             child: Padding(
@@ -246,45 +254,50 @@ class _HomePageTwoState extends State<HomePageTwo> {
         SizedBox(height: screenH(10)),
         Container(
           height: screenH(165),
-          child: StreamBuilder<QuerySnapshot> (
-            stream: _firestore.collection('requests').snapshots(),
-            builder: (context,snapshot) {
-              if (!snapshot.hasData) {
-                return Center(
-                  child: CircularProgressIndicator(
-                    backgroundColor: Colors.lightBlueAccent,
-                  ),
-                );
-              }
+          child:Column(
+          children: <Widget>[
+        myRequests==null
+        ?CircularProgressIndicator()
+        : StreamBuilder<QuerySnapshot> (
+              stream: _firestore.collection('requests').snapshots(),
+              builder: (context,snapshot) {
+                if (!snapshot.hasData) {
+                  return Center(
+                    child: CircularProgressIndicator(
+                      backgroundColor: Colors.lightBlueAccent,
+                    ),
+                  );
+                }
+                final docs =snapshot.data.documents;
+                List<RequestCard> requestCards=[];
+                for(var doc in docs){
+                  for(int request = 0; request < myRequests.length; request++){
+                    if(doc.documentID==myRequests[request]){
+                      requesterName = doc.data['requester'].toString();
+                      print(requesterName);
+                      requesterImage = "assets/shehabsalem.jpeg";
+                      requestReason = doc.data['event'].toString();
+                      print(requestReason);
 
-              for (int request = 0; request < myRequests.length; request++) {
-                final String requestID = myRequests[request];
-                final requestDoc = _firestore.collection('requests').document(
-                    '$requestID');
-                requestDoc.get().then((DocumentSnapshot datasnapshot) {
-                  if (datasnapshot.exists) {
-                    requesterName = datasnapshot.data['recipient'].toString();
-                    print(requesterName);
-                    requesterImage = "assets/shehabsalem.jpeg";
-                    requestReason = datasnapshot.data['event'].toString();
-                    requestValue = datasnapshot.data['amount'].toString();
-                    requestType = 1;
-                    settleType = 1;
-                    membersNumber = 2;
-                    date = '10m ago';
-                    requestCards.add(RequestCard(
-                        requesterName,
-                        requesterImage,
-                        requestReason,
-                        requestValue,
-                        requestType,
-                        settleType,
-                        membersNumber,
-                        date));
+                      requestValue = doc.data['amount'].toString();
+                      print(requestValue);
+                      requestType = 1;
+                      settleType = 1;
+                      membersNumber = 2;
+                      date = '10m ago';
+                      requestCards.add(RequestCard(
+                          requesterName,
+                          requesterImage,
+                          requestReason,
+                          requestValue,
+                          requestType,
+                          settleType,
+                          membersNumber,
+                          date));
+
+                    }
                   }
                 }
-                );
-
                 return ListView(
                   padding: EdgeInsets.only(
                     bottom: screenH(15.0),
@@ -292,10 +305,45 @@ class _HomePageTwoState extends State<HomePageTwo> {
                   scrollDirection: Axis.horizontal,
                   children: requestCards,
                 );
-              }
-            }),
+
+//                for (int request = 0; request < myRequests.length; request++){
+//                  final String requestID = myRequests[request];
+//                  print(requestID);
+//                  DocumentReference requestDoc = _firestore.collection("requests").document(
+//                      "$requestID");
+//                  print(requestDoc);
+//
+//                  requestDoc.get().then((DocumentSnapshot datasnapshot) {
+//                    if (datasnapshot.exists) {
+//                      print('exists');
+//                      requesterName = datasnapshot.data['recipient'].toString();
+//                      print(requesterName);
+//                      requesterImage = "assets/shehabsalem.jpeg";
+//                      requestReason = datasnapshot.data['event'].toString();
+//                      requestValue = datasnapshot.data['amount'].toString();
+//                      requestType = 1;
+//                      settleType = 1;
+//                      membersNumber = 2;
+//                      date = '10m ago';
+//                      requestCards.add(RequestCard(
+//                          requesterName,
+//                          requesterImage,
+//                          requestReason,
+//                          requestValue,
+//                          requestType,
+//                          settleType,
+//                          membersNumber,
+//                          date));
+//                    }
+//                  }
+//                  );
+//
+//
+//                }
+              }),
+            ],
         )
-      ],
+        )],
     );
   }
 }

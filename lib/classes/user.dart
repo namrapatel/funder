@@ -14,7 +14,7 @@
          File _image;
          String photoUrl;
          String uid;
-         List<String> requests;
+         List<dynamic> requests;
 
         Future<void> setImage() async {
              _image = await ImagePicker.pickImage(source: ImageSource.gallery);
@@ -57,6 +57,8 @@
                    email=datasnapshot.data['email'].toString();
                    photoUrl= datasnapshot.data['photoUrl'].toString();
                    requests = datasnapshot.data['requests'];
+                   print(requests);
+                   print('this shit is not null');
                  }
                  else {
                    print("No such user");
@@ -129,7 +131,7 @@
              }
 
 
-           List<String> getRequests(){
+           List<dynamic> getRequests(){
            return requests;
            }
 

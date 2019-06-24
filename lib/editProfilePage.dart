@@ -19,6 +19,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
   String bio;
   File _image;
   String url;
+  List<dynamic> myRequests;
   final TextEditingController usernameController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
 
@@ -48,6 +49,10 @@ setState(() {
       }
       if(currentUser.getPhotoUrl()!=null) {
         url = currentUser.getPhotoUrl();
+      }
+      if(currentUser.getRequests()!=null){
+        myRequests=currentUser.getRequests();
+
       }
     }));
   }
