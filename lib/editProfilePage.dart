@@ -50,10 +50,10 @@ setState(() {
       if(currentUser.getPhotoUrl()!=null) {
         url = currentUser.getPhotoUrl();
       }
-      if(currentUser.getRequests()!=null){
-        myRequests=currentUser.getRequests();
-
-      }
+//      if(currentUser.getRequests()!=null){
+//        myRequests=currentUser.getRequests();
+//
+//      }
     }));
   }
 

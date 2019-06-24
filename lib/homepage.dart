@@ -17,7 +17,7 @@ User currentUser;
 String bio;
 String displayName;
 String photoUrl;
-List<dynamic> myRequests;
+//List<dynamic> myRequests;
 String uid;
 
 
@@ -223,16 +223,11 @@ class _HomePageTwoState extends State<HomePageTwo> {
     }
     if(currentUser.getDisplayName()!=null) {
       displayName = currentUser.getDisplayName();
-
     }
     if(currentUser.getPhotoUrl()!=null) {
       photoUrl = currentUser.getPhotoUrl();
     }
-    if(currentUser.getRequests()!=null){
-      myRequests=currentUser.getRequests();
-      print('homepage requests');
-      print(myRequests);
-    }
+
     if(currentUser.getUid()!=null){
       uid=currentUser.getUid();
     }}));
@@ -256,10 +251,10 @@ class _HomePageTwoState extends State<HomePageTwo> {
           height: screenH(165),
           child:Column(
           children: <Widget>[
-        myRequests==null
+        uid==null
         ?CircularProgressIndicator()
         : StreamBuilder<QuerySnapshot> (
-              stream: _firestore.collection('requests').snapshots(),
+              stream: _firestore.collection('users').document('$uid').collection('requests').snapshots(),
               builder: (context,snapshot) {
                 if (!snapshot.hasData) {
                   return Center(
@@ -271,8 +266,7 @@ class _HomePageTwoState extends State<HomePageTwo> {
                 final docs =snapshot.data.documents;
                 List<RequestCard> requestCards=[];
                 for(var doc in docs){
-                  for(int request = 0; request < myRequests.length; request++){
-                    if(doc.documentID==myRequests[request]){
+
                       requesterName = doc.data['requester'].toString();
                       print(requesterName);
                       requesterImage = "assets/shehabsalem.jpeg";
@@ -285,61 +279,48 @@ class _HomePageTwoState extends State<HomePageTwo> {
                       settleType = 1;
                       membersNumber = 2;
                       date = '10m ago';
-                      requestCards.add(RequestCard(
-                          requesterName,
-                          requesterImage,
-                          requestReason,
-                          requestValue,
-                          requestType,
-                          settleType,
-                          membersNumber,
-                          date));
 
-                    }
-                  }
+                        requestCards.add(RequestCard(
+                            requesterName,
+                            requesterImage,
+                            requestReason,
+                            requestValue,
+                            requestType,
+                            settleType,
+                            membersNumber,
+                            date));
+
+
+
                 }
-                return ListView(
-                  padding: EdgeInsets.only(
-                    bottom: screenH(15.0),
-                  ),
-                  scrollDirection: Axis.horizontal,
-                  children: requestCards,
+                SizedBox(height: screenH(10));
+                return Container(
+                height: screenH(165),
+                child: ListView.builder(
+                padding: EdgeInsets.only(
+                bottom: screenH(15.0),
+                ),
+                shrinkWrap: true,
+                scrollDirection: Axis.horizontal,
+                itemCount: requestCards.length,
+                itemBuilder: (BuildContext context, int index) {
+                      return requestCards[index];
+                    }
+                ),
                 );
-
-//                for (int request = 0; request < myRequests.length; request++){
-//                  final String requestID = myRequests[request];
-//                  print(requestID);
-//                  DocumentReference requestDoc = _firestore.collection("requests").document(
-//                      "$requestID");
-//                  print(requestDoc);
-//
-//                  requestDoc.get().then((DocumentSnapshot datasnapshot) {
-//                    if (datasnapshot.exists) {
-//                      print('exists');
-//                      requesterName = datasnapshot.data['recipient'].toString();
-//                      print(requesterName);
-//                      requesterImage = "assets/shehabsalem.jpeg";
-//                      requestReason = datasnapshot.data['event'].toString();
-//                      requestValue = datasnapshot.data['amount'].toString();
-//                      requestType = 1;
-//                      settleType = 1;
-//                      membersNumber = 2;
-//                      date = '10m ago';
-//                      requestCards.add(RequestCard(
-//                          requesterName,
-//                          requesterImage,
-//                          requestReason,
-//                          requestValue,
-//                          requestType,
-//                          settleType,
-//                          membersNumber,
-//                          date));
+//                return new ListView.builder(
+//                  padding: EdgeInsets.only(
+//                    bottom: screenH(15.0),
+//                  ),
+//                  scrollDirection: Axis.horizontal,
+//                  shrinkWrap: true,
+//                  itemCount: requestCards.length,
+//                    itemBuilder: (BuildContext context, int index) {
+//                      return requestCards[index];
 //                    }
-//                  }
-//                  );
-//
-//
-//                }
+//                );
+
+
               }),
             ],
         )

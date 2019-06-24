@@ -14,7 +14,7 @@
          File _image;
          String photoUrl;
          String uid;
-         List<dynamic> requests;
+         
 
         Future<void> setImage() async {
              _image = await ImagePicker.pickImage(source: ImageSource.gallery);
@@ -56,9 +56,7 @@
                    bio=datasnapshot.data['bio'].toString();
                    email=datasnapshot.data['email'].toString();
                    photoUrl= datasnapshot.data['photoUrl'].toString();
-                   requests = datasnapshot.data['requests'];
-                   print(requests);
-                   print('this shit is not null');
+
                  }
                  else {
                    print("No such user");
@@ -70,7 +68,7 @@
 
            //User constructor with optional parameters, checks whether values are valid too
 
-          User({String bio,String displayName, File image}){
+          User({String bio,String displayName, String uid}){
           if(bio!=null){
            this.bio= bio;
            print(this.bio);
@@ -78,8 +76,8 @@
           if(displayName!=null){
           this.displayName = displayName;
          }
-          if(image!=null){
-                  this._image= image;
+          if(uid!=null){
+                  this.uid= uid;
                   }
 
           }
@@ -131,8 +129,6 @@
              }
 
 
-           List<dynamic> getRequests(){
-           return requests;
-           }
+
 
        }
