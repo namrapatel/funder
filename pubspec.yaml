@@ -1,5 +1,5 @@
-name: funder
-description: A new Flutter project.
+name: Dime
+description: A financial features application for younger people.
 
 # The following defines the version and build number for your application.
 # A version number is three numbers separated by dots, like 1.2.43
@@ -16,8 +16,8 @@ version: 1.0.0+1
 environment:
   sdk: ">=2.2.2 <3.0.0"
 
-dev_dependencies:
-  flutter_test:
+dependencies:
+  flutter:
     sdk: flutter
 
 dev_dependencies:
