@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:funder/screens/InvitesScreen.dart';
-import 'package:funder/screens/WorldwideScreen.dart';
-import 'screens/WorldwideScreen.dart';
-import 'screens/InvitesScreen.dart';
+// import 'package:flutter_screenutil/flutter_screenutil.dart';
+// import 'package:funder/screens/InvitesScreen.dart';
+// import 'package:funder/screens/WorldwideScreen.dart';
+// import 'screens/WorldwideScreen.dart';
+// import 'screens/InvitesScreen.dart';
 
 class WorldPage extends StatelessWidget {
   @override

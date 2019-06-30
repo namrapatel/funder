@@ -13,6 +13,7 @@
          String bio;
          File _image;
          String photoUrl;
+         String uid;
 
         Future<void> setImage() async {
              _image = await ImagePicker.pickImage(source: ImageSource.gallery);
@@ -33,6 +34,7 @@
                if(user!=null){
                  loggedInUser=user;
                  email=loggedInUser.email;
+                 uid= loggedInUser.uid;
                }}
              catch(e){
                print(e);
@@ -46,11 +48,12 @@
                await getCurrentUser();
 
                DocumentReference documentReference =
-               _firestore.collection("users").document("$email");
+               _firestore.collection("users").document("$uid");
                await documentReference.get().then((DocumentSnapshot datasnapshot) {
                  if (datasnapshot.exists) {
-                   displayName=datasnapshot.data['displayName'].toString();
+                   displayName=datasnapshot.data['display name'].toString();
                    bio=datasnapshot.data['bio'].toString();
+                   email=datasnapshot.data['email'].toString();
                    photoUrl= datasnapshot.data['photoUrl'].toString();
                  }
                  else {
@@ -79,7 +82,7 @@
 
            //Updates the data changed on both the firestore and the instance variables
 
-          void updateData({String bio, String displayName, String photoUrl}){
+          void updateData({String email, String bio, String displayName, String photoUrl}){
 
           if(bio!=null){
            this.bio=bio;
@@ -91,9 +94,10 @@
            if(photoUrl!=null){
            this.photoUrl= photoUrl;
            }
-          _firestore.collection('users').document('$email').setData({
+          _firestore.collection('users').document('$uid').setData({
+          'email':this.email,
           'bio':this.bio,
-          'displayName':this.displayName,
+          'display name':this.displayName,
           'photoUrl':this.photoUrl
 
           });
