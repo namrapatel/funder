@@ -19,7 +19,11 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
- 
+
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
 
 dev_dependencies:
   flutter_test:
@@ -29,10 +33,8 @@ dev_dependencies:
   firebase_storage:
   shared_preferences: ^0.5.1+2
   modal_progress_hud: ^0.1.3
-
-  image_picker: 
-
   flutter_screenutil: ^0.5.2
+  image_picker:
 
 
 # For information on the generic Dart part of this file, see the
@@ -62,7 +64,11 @@ flutter:
     - assets/seanmei.jpeg
     - assets/shehabsalem.jpeg
     - assets/taher.jpeg
+    - assets/purplecharacters.png
+    - assets/bluecharacters.png
+    - assets/greencharacters.png
     - assets/defaultprofile.png
+
 
   fonts:
     - family: Varela
