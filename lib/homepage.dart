@@ -251,10 +251,10 @@ class RequestCard extends StatelessWidget {
             borderRadius: BorderRadius.circular(10),
             boxShadow: [
               BoxShadow(
-                  color: Colors.blueGrey.withOpacity(0.09),
-                  blurRadius: screenW(10),
-                  spreadRadius: 0.1,
-                  offset: Offset(6, 6)),
+                  color: Colors.blueGrey.withOpacity(0.2),
+                  blurRadius: screenW(8),
+                  spreadRadius: 0.2,
+                  offset: Offset(1, 6)),
             ]),
         child: Padding(
           padding: EdgeInsets.symmetric(
@@ -461,11 +461,11 @@ class GroupCard extends StatelessWidget {
               color: Colors.white,
               borderRadius: BorderRadius.circular(10),
               boxShadow: [
-                // BoxShadow(
-                //     color: Colors.blueGrey.withOpacity(0.2),
-                //     blurRadius: screenW(10),
-                //     spreadRadius: 0.1,
-                //     offset: Offset(1, 1)),
+                BoxShadow(
+                    color: Colors.blueGrey.withOpacity(0.2),
+                    blurRadius: screenW(8),
+                    spreadRadius: 0.2,
+                    offset: Offset(0, 6)),
               ]),
           child: Column(
             children: <Widget>[

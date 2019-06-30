@@ -59,14 +59,16 @@ class _WorldPageOneState extends State<WorldPageOne> {
             indicatorColor: Colors.blueAccent[700],
             tabs: <Widget>[
               Tab(
-                icon: Icon(Icons.language),
-                text: "Worldwide",
+                child: Text("Worldwide", style: TextStyle(color: Colors.black)),
+                icon: Icon(
+                  Icons.language,
+                  color: Colors.black,
+                ),
+                // text: "Worldwide",
               ),
               Tab(
-                icon: Icon(
-                  Icons.inbox,
-                ),
-                text: "Invites",
+                icon: Icon(Icons.inbox, color: Colors.black),
+                child: Text("Invites", style: TextStyle(color: Colors.black)),
               )
             ],
           ),
