@@ -38,7 +38,7 @@ class _ContactListScreenState extends State<ContactListScreen> {
       body: Container(
         child: ListView(
           padding: EdgeInsets.only(
-            bottom: 15.0,
+            bottom: screenH(15.0),
           ),
           scrollDirection: Axis.vertical,
           children: contacts,
@@ -95,7 +95,7 @@ class _ContactTileState extends State<ContactTile> {
             ),
             Divider(
               color: Colors.grey[400],
-              height: 1,
+              height: screenH(1),
             )
           ],
         ));
