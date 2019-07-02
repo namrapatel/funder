@@ -7,6 +7,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'editProfilePage.dart';
+import 'loginpage.dart';
 
 
 
@@ -17,29 +18,18 @@ class ProfilePage extends StatefulWidget {
 
 class _ProfilePageState extends State<ProfilePage> {
 
-  User currentUser;
-  String bio;
-  String displayName;
-  String photoUrl;
+  String displayName=currentUserModel.displayName;
+  String bio=currentUserModel.bio;
+
+  String url=currentUserModel.photoUrl;
+  String uid= currentUserModel.uid;
   SharedPreferences pref;
 
   //Initializes the state when the page first loads and retrieves the users data from firestore
   @override
   void initState() {
     super.initState();
-    currentUser = new User();
-    currentUser.getInfo().then((_) => setState(() {
-      if(currentUser.getBio()!=null) {
-        bio = currentUser.getBio();
-      }
-      if(currentUser.getDisplayName()!=null) {
-        displayName = currentUser.getDisplayName();
-      }
-      if(currentUser.getPhotoUrl()!=null) {
-        photoUrl = currentUser.getPhotoUrl();
-      }
-          print(photoUrl);
-  }));
+
 }
 
   @override
@@ -79,11 +69,11 @@ class _ProfilePageState extends State<ProfilePage> {
                   });
                 }),
           SizedBox(height: 30.0),
-          photoUrl==null
+          url==null
                 ?CircularProgressIndicator()
 
                 :CircleAvatar(
-                backgroundImage: NetworkImage(photoUrl),
+                backgroundImage: NetworkImage(url),
                 radius: 150.0),
           // Change AssetImage to NetworkImage and within the brackets of the
           // constructor you'll be able to place a link to the location of the image file
