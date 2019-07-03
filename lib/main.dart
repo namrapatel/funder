@@ -16,7 +16,7 @@ class Dime extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: "Dime",
-      home: MyHomePage(),
+      home: LoginPage(),
       routes: <String, WidgetBuilder>{
         '/homepage': (BuildContext context) => new MyHomePage(),
         '/loginpage': (BuildContext context) => new LoginPage(),

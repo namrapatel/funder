@@ -4,7 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'signuppage.dart';
 import 'main.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:funder/classes/user.dart';
+import 'package:Dime/classes/user.dart';
 
 User currentUserModel;
 class LoginPage extends StatefulWidget {

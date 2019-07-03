@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:funder/homepage.dart';
-import 'package:funder/screens/individualTransaction.dart';
+import 'package:Dime/homepage.dart';
+import 'individualTransaction.dart';
 
 class ContactListScreen extends StatefulWidget {
   @override

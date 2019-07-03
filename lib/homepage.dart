@@ -14,7 +14,7 @@ import 'profilepage.dart';
 
 
 import 'screens/contactListScreen.dart';
-import 'package:funder/screens/contactListScreen.dart';
+import 'package:Dime/screens/contactListScreen.dart';
 
 Color firstColor = Colors.greenAccent[700];
 Color secondColor = Colors.greenAccent[700];
@@ -168,8 +168,10 @@ class _HomePageOneState extends State<HomePageOne>  {
           child: uid==null
         ?CircularProgressIndicator()
         : StreamBuilder<QuerySnapshot> (
-              stream: _firestore.collection('users').document('$uid').collection('requests').snapshots(),
+              stream: _firestore.collection('users').document('$uid').collection('requests').orderBy('timestamp',descending: true).snapshots(),
               builder: (context,snapshot) {
+                print(uid);
+                print('wtf');
                 if (!snapshot.hasData) {
                   return Center(
                     child: CircularProgressIndicator(
@@ -178,41 +180,31 @@ class _HomePageOneState extends State<HomePageOne>  {
                   );
                 }
                 final docs =snapshot.data.documents;
-                List<RequestCard> requestCards=[];
+                List<RecentCard> recentCards=[];
+
+
                 for(var doc in docs){
-                      String requesterId= doc.data['requesterId'].toString();
-                      String requesterName = doc.data['requesterName'].toString();
-                      String requesterPhoto = doc.data['requesterPhoto'].toString();
-                      List requestedFromIds= doc.data['requestedFromIds'];
-                      List requestedFromNames = doc.data['requestedFromNames'];
-                      List requestedFromPhotos = doc.data['requestedFromPhotos'];
-                      String event = doc.data['event'].toString();
-                      String amount = doc.data['amount'].toString();
-                      String type =doc.data['type'].toString();
-
-
-                      var storedDate=  doc.data['timestamp'];
-
-                      String elapsedTime=timeago.format(storedDate.toDate());
-
-
-                      String timestamp='$elapsedTime';
-
-                        requestCards.add(RequestCard(
-                          requesterPhoto: requesterPhoto,
-                          requesterId: requesterId,
-                          requesterName: requesterName,
-                          requestedFromIds: requestedFromIds,
-                          requestedFromNames: requestedFromNames,
-                          requestedFromPhotos: requestedFromPhotos,
-                          event:event,
-                          amount:amount,
-                          type:type,
-                          timestamp:timestamp
-                            ));
-
-
-
+                  String requesterId = doc.data['requesterId'].toString();
+                  String requesterName = doc.data['requesterName'].toString();
+                  String requesterPhoto = doc.data['requesterPhoto'].toString();
+                  print(uid);
+                  print(currentUserModel.uid);
+                  if (currentUserModel.uid !=requesterId) {
+                    recentCards.add(RecentCard(personId: requesterId,
+                        personName: requesterName,
+                        profilePic: requesterPhoto));
+                  }
+                  List requestedFromIds = doc.data['requestedFromIds'];
+                  List requestedFromNames = doc.data['requestedFromNames'];
+                  List requestedFromPhotos = doc.data['requestedFromPhotos'];
+                  for(int i=0;i<requestedFromIds.length;i++) {
+                    if (currentUserModel.uid != requestedFromIds[i]) {
+                      recentCards.add(RecentCard(
+                          personId: requestedFromIds[i],
+                          personName: requestedFromNames[i],
+                          profilePic: requestedFromPhotos[i]));
+                    }
+                  }
                 }
                 SizedBox(height: screenH(10));
                 return Container(
@@ -223,9 +215,9 @@ class _HomePageOneState extends State<HomePageOne>  {
                 ),
                 shrinkWrap: true,
                 scrollDirection: Axis.horizontal,
-                itemCount: requestCards.length,
+                itemCount: recentCards.length,
                 itemBuilder: (BuildContext context, int index) {
-                      return requestCards[index];
+                      return recentCards[index];
                     }
                 ),
                 );
@@ -600,6 +592,8 @@ class HomePageThree extends StatefulWidget {
 class _HomePageThreeState extends State<HomePageThree> {
   String uid= currentUserModel.uid;
 
+
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -646,8 +640,8 @@ class _HomePageThreeState extends State<HomePageThree> {
           for(var doc in docs){
           String groupName= doc.data['groupName'];
            String groupPic= doc.data['groupPic'];
-            double balanceValue= doc.data['balanceValue'];
-            double settleType= doc.data['settleType'];
+            int balanceValue= doc.data['balanceValue'];
+            int settleType= doc.data['settleType'];
             
             
           groupCards.add(GroupCard(groupName: groupName,groupPic: groupPic,balanceValue:balanceValue,settleType:settleType));
@@ -680,7 +674,7 @@ class _HomePageThreeState extends State<HomePageThree> {
 
 class GroupCard extends StatelessWidget {
   final String groupName,groupPic;
-  final double balanceValue,settleType;
+  final int balanceValue,settleType;
   final greenSubStyle = TextStyle(
       color: Colors.greenAccent[700],
       fontSize: ScreenUtil(allowFontScaling: true).setSp(12.0));
@@ -720,7 +714,7 @@ class GroupCard extends StatelessWidget {
                         child: ClipRRect(
                             borderRadius: new BorderRadius.circular(5.0),
                             child: Image(
-                              image: AssetImage(this.groupPic),
+                              image: NetworkImage(this.groupPic),
                             )),
                       ),
                     )),

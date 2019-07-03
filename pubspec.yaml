@@ -35,7 +35,6 @@ dev_dependencies:
 
 
   flutter_screenutil: ^0.5.2
-  image_picker:
 
 
 # For information on the generic Dart part of this file, see the
