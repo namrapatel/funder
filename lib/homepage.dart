@@ -6,11 +6,15 @@ import 'classes/user.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'loginpage.dart';
+import 'package:timeago/timeago.dart' as timeago;
+import 'package:queries/collections.dart';
+import 'profilepage.dart';
+
 
 
 import 'screens/contactListScreen.dart';
 import 'package:funder/screens/contactListScreen.dart';
-
 
 Color firstColor = Colors.greenAccent[700];
 Color secondColor = Colors.greenAccent[700];
@@ -18,23 +22,12 @@ final screenH = ScreenUtil.instance.setHeight;
 final screenW = ScreenUtil.instance.setWidth;
 final screenF = ScreenUtil.instance.setSp;
 final _firestore= Firestore.instance;
-List<RequestCard> requestCards;
-User currentUser;
-String bio;
-String displayName;
-String photoUrl;
-List<String> myRequests;
-String uid;
 
 
-String requesterName;
-String requesterImage;
-String requestReason;
-String requestValue;
-double requestType;
-double settleType;
-double membersNumber;
-String date;
+
+
+
+
 
 
 
@@ -44,6 +37,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+
 //  final _firestore= Firestore.instance;
 //  User currentUser;
 //  String bio;
@@ -54,6 +48,7 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     // TODO: implement initState
+    String uid= currentUserModel.uid;
     super.initState();
 
 //    currentUser = new User();
@@ -88,6 +83,7 @@ class HomePageOne extends StatefulWidget {
 }
 
 class _HomePageOneState extends State<HomePageOne>  {
+  String uid= currentUserModel.uid;
   @override
   Widget build(BuildContext context) {
     double defaultScreenWidth = 414.0;
@@ -112,9 +108,7 @@ class _HomePageOneState extends State<HomePageOne>  {
                   spreadRadius: 0.2,
                   offset: Offset(0, 7)),
             ],
-            // borderRadius: BorderRadius.only(
-            //     //     bottomLeft: Radius.circular(15),
-            //     bottomLeft: Radius.circular(15))),
+
           )),
       Column(children: <Widget>[
         Column(
@@ -171,31 +165,83 @@ class _HomePageOneState extends State<HomePageOne>  {
         SizedBox(height: screenH(10)),
         Container(
           height: screenH(125),
-          child: ListView(
-            padding: EdgeInsets.only(
-              bottom: screenH(15.0),
-            ),
-            scrollDirection: Axis.horizontal,
-            children: recentsCard,
-          ),
+          child: uid==null
+        ?CircularProgressIndicator()
+        : StreamBuilder<QuerySnapshot> (
+              stream: _firestore.collection('users').document('$uid').collection('requests').snapshots(),
+              builder: (context,snapshot) {
+                if (!snapshot.hasData) {
+                  return Center(
+                    child: CircularProgressIndicator(
+                      backgroundColor: Colors.lightBlueAccent,
+                    ),
+                  );
+                }
+                final docs =snapshot.data.documents;
+                List<RequestCard> requestCards=[];
+                for(var doc in docs){
+                      String requesterId= doc.data['requesterId'].toString();
+                      String requesterName = doc.data['requesterName'].toString();
+                      String requesterPhoto = doc.data['requesterPhoto'].toString();
+                      List requestedFromIds= doc.data['requestedFromIds'];
+                      List requestedFromNames = doc.data['requestedFromNames'];
+                      List requestedFromPhotos = doc.data['requestedFromPhotos'];
+                      String event = doc.data['event'].toString();
+                      String amount = doc.data['amount'].toString();
+                      String type =doc.data['type'].toString();
+
+
+                      var storedDate=  doc.data['timestamp'];
+
+                      String elapsedTime=timeago.format(storedDate.toDate());
+
+
+                      String timestamp='$elapsedTime';
+
+                        requestCards.add(RequestCard(
+                          requesterPhoto: requesterPhoto,
+                          requesterId: requesterId,
+                          requesterName: requesterName,
+                          requestedFromIds: requestedFromIds,
+                          requestedFromNames: requestedFromNames,
+                          requestedFromPhotos: requestedFromPhotos,
+                          event:event,
+                          amount:amount,
+                          type:type,
+                          timestamp:timestamp
+                            ));
+
+
+
+                }
+                SizedBox(height: screenH(10));
+                return Container(
+                height: screenH(165),
+                child: ListView.builder(
+                padding: EdgeInsets.only(
+                bottom: screenH(15.0),
+                ),
+                shrinkWrap: true,
+                scrollDirection: Axis.horizontal,
+                itemCount: requestCards.length,
+                itemBuilder: (BuildContext context, int index) {
+                      return requestCards[index];
+                    }
+                ),
+                );
+
+              }),
         ),
       ]),
     ]);
   }
 }
 
-List<RecentCard> recentsCard = [
-  RecentCard("Namra", "assets/namrapatel.png"),
-  RecentCard("Sean", "assets/seanmei.jpeg"),
-  RecentCard("Shehab", "assets/shehabsalem.jpeg"),
-  RecentCard("Taher", "assets/taher.jpeg"),
-  RecentCard("Sean", "assets/seanmei.jpeg"),
-  RecentCard("Shehab", "assets/shehabsalem.jpeg")
-];
+
 
 class RecentCard extends StatelessWidget {
-  final String personName, profilePic;
-  RecentCard(this.personName, this.profilePic);
+  final String personId,personName, profilePic;
+  RecentCard({this.personId,this.personName, this.profilePic});
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -218,7 +264,7 @@ class RecentCard extends StatelessWidget {
                 child: Padding(
                   padding: EdgeInsets.only(top: screenH(15.0)),
                   child: CircleAvatar(
-                      backgroundImage: AssetImage(this.profilePic),
+                      backgroundImage: NetworkImage(this.profilePic),
                       radius: screenW(22)),
                 ),
               ),
@@ -239,33 +285,21 @@ class HomePageTwo extends StatefulWidget {
 }
 
 class _HomePageTwoState extends State<HomePageTwo> {
+  String uid= currentUserModel.uid;
   @override
   void initState(){
-    // TODO: implement initState
+
     super.initState();
-    currentUser = new User();
-   currentUser.getInfo().then((_) => setState(() {
-    if(currentUser.getBio()!=null) {
-      bio = currentUser.getBio();
-    }
-    if(currentUser.getDisplayName()!=null) {
-      displayName = currentUser.getDisplayName();
-    }
-    if(currentUser.getPhotoUrl()!=null) {
-      photoUrl = currentUser.getPhotoUrl();
-    }
-    if(currentUser.getRequests()!=null){
-      myRequests=currentUser.getRequests();
-    }
-    if(currentUser.getUid()!=null){
-      uid=currentUser.getUid();
-    }}));
+
+
   }
   @override
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
+
         SizedBox(height: screenH(25)),
+
         Align(
             alignment: Alignment.centerLeft,
             child: Padding(
@@ -277,75 +311,94 @@ class _HomePageTwoState extends State<HomePageTwo> {
         SizedBox(height: screenH(10)),
         Container(
           height: screenH(165),
-          child: StreamBuilder<QuerySnapshot> (
-            stream: _firestore.collection('requests').snapshots(),
-            builder: (context,snapshot) {
-              if (!snapshot.hasData) {
-                return Center(
-                  child: CircularProgressIndicator(
-                    backgroundColor: Colors.lightBlueAccent,
-                  ),
-                );
-              }
-
-              for (int request = 0; request < myRequests.length; request++) {
-                final String requestID = myRequests[request];
-                final requestDoc = _firestore.collection('requests').document(
-                    '$requestID');
-                requestDoc.get().then((DocumentSnapshot datasnapshot) {
-                  if (datasnapshot.exists) {
-                    requesterName = datasnapshot.data['recipient'].toString();
-                    print(requesterName);
-                    requesterImage = "assets/shehabsalem.jpeg";
-                    requestReason = datasnapshot.data['event'].toString();
-                    requestValue = datasnapshot.data['amount'].toString();
-                    requestType = 1;
-                    settleType = 1;
-                    membersNumber = 2;
-                    date = '10m ago';
-                    requestCards.add(RequestCard(
-                        requesterName,
-                        requesterImage,
-                        requestReason,
-                        requestValue,
-                        requestType,
-                        settleType,
-                        membersNumber,
-                        date));
-                  }
+          child:Column(
+          children: <Widget>[
+        uid==null
+        ?CircularProgressIndicator()
+        : StreamBuilder<QuerySnapshot> (
+              stream: _firestore.collection('users').document('$uid').collection('requests').snapshots(),
+              builder: (context,snapshot) {
+                if (!snapshot.hasData) {
+                  return Center(
+                    child: CircularProgressIndicator(
+                      backgroundColor: Colors.lightBlueAccent,
+                    ),
+                  );
                 }
+                final docs =snapshot.data.documents;
+                List<RequestCard> requestCards=[];
+                for(var doc in docs){
+                      String requesterId= doc.data['requesterId'].toString();
+                      String requesterName = doc.data['requesterName'].toString();
+                      String requesterPhoto = doc.data['requesterPhoto'].toString();
+                      List requestedFromIds= doc.data['requestedFromIds'];
+                      List requestedFromNames = doc.data['requestedFromNames'];
+                      List requestedFromPhotos = doc.data['requestedFromPhotos'];
+                      String event = doc.data['event'].toString();
+                      String amount = doc.data['amount'].toString();
+                      String type =doc.data['type'].toString();
+
+
+                      var storedDate=  doc.data['timestamp'];
+
+                      String elapsedTime=timeago.format(storedDate.toDate());
+                      String timestamp='$elapsedTime';
+
+                        requestCards.add(RequestCard(
+                          requesterPhoto: requesterPhoto,
+                          requesterId: requesterId,
+                          requesterName: requesterName,
+                          requestedFromIds: requestedFromIds,
+                          requestedFromNames: requestedFromNames,
+                          requestedFromPhotos: requestedFromPhotos,
+                          event:event,
+                          amount:amount,
+                          type:type,
+                          timestamp:timestamp
+                            ));
+
+
+
+                }
+                SizedBox(height: screenH(10));
+                return Container(
+                height: screenH(165),
+                child: ListView.builder(
+                padding: EdgeInsets.only(
+                bottom: screenH(15.0),
+                ),
+                shrinkWrap: true,
+                scrollDirection: Axis.horizontal,
+                itemCount: requestCards.length,
+                itemBuilder: (BuildContext context, int index) {
+                      return requestCards[index];
+                    }
+                ),
                 );
 
-                return ListView(
-                  padding: EdgeInsets.only(
-                    bottom: screenH(15.0),
-                  ),
-                  scrollDirection: Axis.horizontal,
-                  children: requestCards,
-                );
-              }
-            }),
+              }),
+            ],
         )
-      ],
+        )],
     );
   }
 }
 
 
-
-//List<RequestCard> requestCards = [
-//  RequestCard("Shehab Salem", "assets/shehabsalem.jpeg", "Sarah's Birthday",
-//      35.13, -1, -1, 4, "2m ago"),
-//  RequestCard("Lakers Nation", "assets/lakersnation.jpeg",
-//      "Saturday's Groceries", 34.99, 1, 1, 4, "17 hours ago"),
-//  RequestCard("Sean Mei", "assets/seanmei.jpeg", "Uber to Masonville", 4.15, -1,
-//      -1, 4, "2 days ago"),
-//];
-
-
 class RequestCard extends StatelessWidget {
-  final String requesterName, requesterImage, requestReason, date,requestValue;
-  final double settleType, membersNumber, requestType;
+
+
+  final String requesterId;
+  final String requesterName;
+  final String requesterPhoto;
+  final String amount;
+  final String event;
+  final String timestamp;
+  final String type;
+  final List requestedFromIds;
+  final List requestedFromNames;
+  final List requestedFromPhotos;
+
   final greenSubStyle = TextStyle(
       color: Colors.greenAccent[700],
       fontSize: ScreenUtil(allowFontScaling: true).setSp(15.0));
@@ -356,15 +409,43 @@ class RequestCard extends StatelessWidget {
       color: Colors.grey,
       fontSize: ScreenUtil(allowFontScaling: true).setSp(15.0));
 
-  RequestCard(
-      this.requesterName,
-      this.requesterImage,
-      this.requestReason,
-      this.requestValue,
-      this.requestType,
-      this.settleType,
-      this.membersNumber,
-      this.date);
+
+
+  RequestCard({
+    this.requesterId,
+    this.requesterName,
+    this.requesterPhoto,
+    this.amount,
+    this.event,
+    this.timestamp,
+    this.type,
+    this.requestedFromIds,
+    this.requestedFromNames,
+    this.requestedFromPhotos
+  });
+
+  List<Widget> buildRequestedPhotos(List photos){
+    List<Widget> photoWidgets=[];
+
+
+    for(var photo in photos){
+    photoWidgets.add(
+      Column(
+          children: <Widget>[
+      CircleAvatar(
+      backgroundImage:
+      NetworkImage(photo),
+    radius: screenH(10)),
+    SizedBox(
+    width: 5,
+    )])
+    );
+    }
+    return photoWidgets;
+
+
+
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -397,7 +478,7 @@ class RequestCard extends StatelessWidget {
                         children: <Widget>[
                           CircleAvatar(
                             radius: screenH(20),
-                            backgroundImage: AssetImage(this.requesterImage),
+                            backgroundImage: NetworkImage(this.requesterPhoto),
                           )
                         ]),
                   ),
@@ -410,44 +491,38 @@ class RequestCard extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
                           Text(
-                            requestReason,
+                            event,
                             style: TextStyle(fontSize: screenF(18)),
                           ),
-                          Text("$date",
+                          Text(timestamp,
                               style: TextStyle(
                                   fontSize: screenF(14),
                                   color: Colors.grey[600])),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: <Widget>[
-                              CircleAvatar(
-                                  backgroundImage:
-                                      AssetImage("assets/namrapatel.png"),
-                                  radius: screenH(10)),
-                              SizedBox(
-                                width: 5,
-                              ),
-                              CircleAvatar(
-                                  backgroundImage:
-                                      AssetImage("assets/shehabsalem.jpeg"),
-                                  radius: screenH(10)),
-                              SizedBox(
-                                width: 5,
-                              ),
-                              CircleAvatar(
-                                  backgroundImage:
-                                      AssetImage("assets/seanmei.jpeg"),
-                                  radius: screenH(10)),
+                              Container(
+                              height: screenH(30),
+                          child: ListView(
+                            padding: EdgeInsets.only(bottom: screenH(5)),
+                            scrollDirection: Axis.horizontal,
+                            shrinkWrap: true,
+                            children: buildRequestedPhotos(requestedFromPhotos),
+                          ),
+                        ),
+
                               Padding(
                                 padding: EdgeInsets.only(left: screenW(45.0)),
                                 child: Container(
                                   decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.all(
-                                          Radius.circular(15.0)),
-                                      color: settleType == 1
+
+                                      borderRadius:
+                                          BorderRadius.all(Radius.circular(15.0)),
+                                      color: type == 'Remind'
+
                                           ? Colors.greenAccent[700]
                                               .withOpacity(0.2)
-                                          : settleType == -1
+                                          : type == 'Pay'
                                               ? Colors.red.withOpacity(0.2)
                                               : Colors.grey.withOpacity(0.2)),
                                   child: Padding(
@@ -455,10 +530,10 @@ class RequestCard extends StatelessWidget {
                                         horizontal: screenW(8.0),
                                         vertical: screenH(3.0)),
                                     child: Text(
-                                      "${settleType == 1 ? "+" : settleType == -1 ? "-" : ""} \$${requestValue.toString()}",
-                                      style: settleType == 1
+                                      "${type == 'Remind' ? "+" : type == 'Pay' ? "-" : ""} \$$amount",
+                                      style: type == 'Remind'
                                           ? greenSubStyle
-                                          : settleType == -1
+                                          : type == 'Pay'
                                               ? redSubStyle
                                               : blackSubStyle,
                                     ),
@@ -484,7 +559,7 @@ class RequestCard extends StatelessWidget {
                           borderRadius: new BorderRadius.circular(10.0)),
                       onPressed: () {},
                       color: Colors.grey[100],
-                      child: Text(requestType == -1 ? "Message" : "Cancel"),
+                      child: Text(type == 'Pay' ? "Message" : "Cancel"),
                       textColor: Colors.grey[700],
                     ),
                   ),
@@ -496,12 +571,15 @@ class RequestCard extends StatelessWidget {
                       shape: new RoundedRectangleBorder(
                           borderRadius: new BorderRadius.circular(10.0)),
                       onPressed: () {},
-                      color: requestType == -1
-                          ? Colors.blueAccent[700]
+
+                      color: type == 'Pay'
+                          ? Colors.greenAccent[700].withOpacity(0.2)
+                          : Colors.blueGrey.withOpacity(0.2),
+                      textColor: type == 'Pay'
+                          ? Colors.greenAccent[700]
                           : Colors.blueGrey,
-                      textColor:
-                          requestType == -1 ? Colors.white : Colors.white,
-                      child: Text(requestType == -1 ? "Pay Now" : "Remind"),
+                      child: Text(type),
+
                     ),
                   ),
                 ],
@@ -520,6 +598,8 @@ class HomePageThree extends StatefulWidget {
 }
 
 class _HomePageThreeState extends State<HomePageThree> {
+  String uid= currentUserModel.uid;
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -541,32 +621,66 @@ class _HomePageThreeState extends State<HomePageThree> {
               onPressed: () {},
               child: Text("VIEW ALL",
                   style: TextStyle(
-                      fontSize: screenF(13), color: Colors.greenAccent[700])),
+                      fontSize: screenF(13), color: Colors.blueAccent[700])),
             ),
           ],
         ),
         Container(
           height: screenH(270),
-          child: ListView(
-            padding: EdgeInsets.only(bottom: screenH(15)),
-            scrollDirection: Axis.horizontal,
-            children: groupsCard,
+          child:Column(
+          children: <Widget>[
+          uid==null
+          ?CircularProgressIndicator()
+        : StreamBuilder<QuerySnapshot> (
+          stream: _firestore.collection('users').document(uid).collection('groups').snapshots(),
+          builder: (context,snapshot) {
+          if (!snapshot.hasData) {
+          return Center(
+          child: CircularProgressIndicator(
+          backgroundColor: Colors.lightBlueAccent,
           ),
-        )
+          );
+          }
+          final docs =snapshot.data.documents;
+          List<GroupCard> groupCards=[];
+          for(var doc in docs){
+          String groupName= doc.data['groupName'];
+           String groupPic= doc.data['groupPic'];
+            double balanceValue= doc.data['balanceValue'];
+            double settleType= doc.data['settleType'];
+            
+            
+          groupCards.add(GroupCard(groupName: groupName,groupPic: groupPic,balanceValue:balanceValue,settleType:settleType));
+
+
+
+          }
+          SizedBox(height: screenH(10));
+          return Container(
+            height: screenH(250),
+            child: ListView.builder(
+                padding: EdgeInsets.only(
+                  bottom: screenH(15.0),
+                ),
+                shrinkWrap: true,
+                scrollDirection: Axis.horizontal,
+                itemCount: groupCards.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return groupCards[index];
+                }
+            ),
+          );
+        })
       ],
-    );
-  }
+    )
+        )]);}
 }
 
-List<GroupCard> groupsCard = [
-  GroupCard("Roommates", "assets/bluecharacters.png", 350.00, -1),
-  GroupCard("Lakers Nation", "assets/greencharacters.png", 14.99, 1),
-  GroupCard("Childhood Homies", "assets/purplecharacters.png", 39.12, 1),
-];
+
 
 class GroupCard extends StatelessWidget {
-  final String groupName, groupPic;
-  final double balanceValue, settleType;
+  final String groupName,groupPic;
+  final double balanceValue,settleType;
   final greenSubStyle = TextStyle(
       color: Colors.greenAccent[700],
       fontSize: ScreenUtil(allowFontScaling: true).setSp(12.0));
@@ -576,7 +690,8 @@ class GroupCard extends StatelessWidget {
   final blackSubStyle = TextStyle(
       color: Colors.grey,
       fontSize: ScreenUtil(allowFontScaling: true).setSp(12.0));
-  GroupCard(this.groupName, this.groupPic, this.balanceValue, this.settleType);
+  GroupCard({this.groupName, this.groupPic, this.balanceValue, this.settleType});
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -611,6 +726,7 @@ class GroupCard extends StatelessWidget {
                     )),
               ),
               Padding(
+
                 padding: EdgeInsets.symmetric(vertical: screenH(10)),
                 child: Container(
                   width: screenW(155),
@@ -676,6 +792,7 @@ class GroupCard extends StatelessWidget {
                     ],
                   ),
                 ),
+
               )
             ],
           )),
