@@ -5,7 +5,7 @@ import 'package:flutter/cupertino.dart';
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'screens/contactListScreen.dart';
-import 'package:funder/screens/contactListScreen.dart';
+import 'package:Dime/screens/contactListScreen.dart';
 
 Color firstColor = Colors.greenAccent[700];
 Color secondColor = Colors.greenAccent[700];

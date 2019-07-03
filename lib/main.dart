@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:funder/worldpage.dart';
+import 'worldpage.dart';
 import 'signuppage.dart';
 import 'homepage.dart';
 import 'loginpage.dart';
 import 'profilepage.dart';
 import 'notificationspage.dart';
-import 'worldpage.dart';
+
 
 void main() => runApp(Dime());
 
