@@ -415,7 +415,7 @@ class _HomePageThreeState extends State<HomePageThree> {
               onPressed: () {},
               child: Text("VIEW ALL",
                   style: TextStyle(
-                      fontSize: screenF(13), color: Colors.greenAccent[700])),
+                      fontSize: screenF(13), color: Colors.blueAccent[700])),
             ),
           ],
         ),
