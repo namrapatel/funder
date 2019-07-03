@@ -60,7 +60,8 @@ class _ProfilePageState extends State<ProfilePage> {
                 child: Text('Logout'),
                 onPressed: () async{
                   pref = await SharedPreferences.getInstance();
-                  pref.clear();
+
+                  await pref.clear();
                   FirebaseAuth.instance.signOut().then((value) {
                     Navigator.of(context).pushReplacementNamed('/loginpage');
 

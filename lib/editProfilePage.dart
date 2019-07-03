@@ -123,7 +123,8 @@ setState(() {
 
                   Firestore.instance.collection('users').document(uid).updateData({
                     "displayName":displayName,
-                    "bio":bio
+                    "bio":bio,
+                    'photoUrl':url
                   });
                   //How to update porfile page as well when pushed to it, do other pages now have access to this updated usermodel?
                   currentUserModel=new User(displayName: displayName,bio: bio,email: currentUserModel.email,uid: currentUserModel.uid,photoUrl: url);
@@ -150,7 +151,7 @@ setState(() {
 
   Future<void> uploadImage() async{
     StorageReference firebaseStorageRef=
-    FirebaseStorage.instance.ref().child('profilepic.jpg');
+    FirebaseStorage.instance.ref().child('$uid.jpg');
     StorageUploadTask task= firebaseStorageRef.putFile(_image);
 
     var downloadUrl=await (await task.onComplete).ref.getDownloadURL();

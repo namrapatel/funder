@@ -5,6 +5,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'loginpage.dart';
 import 'package:timeago/timeago.dart' as timeago;
+import 'package:queries/collections.dart';
+import 'profilepage.dart';
 
 
 
@@ -15,12 +17,8 @@ final screenW = ScreenUtil.instance.setWidth;
 final screenF = ScreenUtil.instance.setSp;
 final _firestore= Firestore.instance;
 
-User currentUser;
-String bio;
-String displayName;
-String photoUrl;
-//List<dynamic> myRequests;
-String uid;
+
+
 
 
 
@@ -44,6 +42,7 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     // TODO: implement initState
+    String uid= currentUserModel.uid;
     super.initState();
 
 //    currentUser = new User();
@@ -79,6 +78,7 @@ class HomePageOne extends StatefulWidget {
 }
 
 class _HomePageOneState extends State<HomePageOne>  {
+  String uid= currentUserModel.uid;
   @override
   Widget build(BuildContext context) {
     double defaultScreenWidth = 414.0;
@@ -133,33 +133,118 @@ class _HomePageOneState extends State<HomePageOne>  {
           )),
       SizedBox(height: screenH(10)),
       Container(
-        height: screenH(125),
-        child: ListView(
-          padding: EdgeInsets.only(
-            bottom: screenH(15.0),
-          ),
-          scrollDirection: Axis.horizontal,
-          children: recentsCard,
-        ),
-      ),
+          height: screenH(165),
+          child:Column(
+            children: <Widget>[
+              uid==null
+                  ?CircularProgressIndicator()
+                  : StreamBuilder<QuerySnapshot> (
+                  stream: _firestore.collection('users').document('$uid').collection('requests').orderBy('timestamp',descending: true).snapshots(),
+                  builder: (context,snapshot) {
+                    print(uid);
+                    print('wtf');
+                    if (!snapshot.hasData) {
+                      return Center(
+                        child: CircularProgressIndicator(
+                          backgroundColor: Colors.lightBlueAccent,
+                        ),
+                      );
+                    }
+                    final docs =snapshot.data.documents;
+                    List<RecentCard> recentCards=[];
+
+
+                    for(var doc in docs){
+                      String requesterId = doc.data['requesterId'].toString();
+                      String requesterName = doc.data['requesterName'].toString();
+                      String requesterPhoto = doc.data['requesterPhoto'].toString();
+                      print(uid);
+                      print(currentUserModel.uid);
+                      if (currentUserModel.uid !=requesterId) {
+                        recentCards.add(RecentCard(personId: requesterId,
+                          personName: requesterName,
+                          profilePic: requesterPhoto));
+                      }
+                      List requestedFromIds = doc.data['requestedFromIds'];
+                      List requestedFromNames = doc.data['requestedFromNames'];
+                      List requestedFromPhotos = doc.data['requestedFromPhotos'];
+                      for(int i=0;i<requestedFromIds.length;i++) {
+                        if (currentUserModel.uid != requestedFromIds[i]) {
+                          recentCards.add(RecentCard(
+                              personId: requestedFromIds[i],
+                              personName: requestedFromNames[i],
+                              profilePic: requestedFromPhotos[i]));
+                        }
+                      }
+                    }
+                    //If you remove one then length will also go down
+//                    for(int x =0;x<recentCards.length;x++){
+//                      for(int y =1;y<recentCards.length;y++){
+//
+//                        if(recentCards[x].personId==recentCards[y].personId){
+//                          recentCards.remove(recentCards[y]);
+//
+//                        }
+//
+//
+//
+//                      }
+//
+//                    }
+
+
+
+                    SizedBox(height: screenH(10));
+                    return Container(
+                      height: screenH(165),
+                      child: ListView.builder(
+                          padding: EdgeInsets.only(
+                            bottom: screenH(15.0),
+                          ),
+                          shrinkWrap: true,
+                          scrollDirection: Axis.horizontal,
+                          itemCount: recentCards.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            return recentCards[index];
+                          }
+                      ),
+                    );
+//                return new ListView.builder(
+//                  padding: EdgeInsets.only(
+//                    bottom: screenH(15.0),
+//                  ),
+//                  scrollDirection: Axis.horizontal,
+//                  shrinkWrap: true,
+//                  itemCount: requestCards.length,
+//                    itemBuilder: (BuildContext context, int index) {
+//                      return requestCards[index];
+//                    }
+//                );
+
+
+                  }),
+            ],
+          )
+      )
+//      Container(
+//        height: screenH(125),
+//        child: ListView(
+//          padding: EdgeInsets.only(
+//            bottom: screenH(15.0),
+//          ),
+//          scrollDirection: Axis.horizontal,
+//          children: recentsCard,
+//        ),
+//      ),
     ]);
   }
 }
 
-List<RecentCard> recentsCard = [
-  RecentCard("Namra", "assets/namrapatel.png"),
-  RecentCard("Sean", "assets/seanmei.jpeg"),
-  RecentCard("Shehab", "assets/shehabsalem.jpeg"),
-  RecentCard("Taher", "assets/taher.jpeg"),
-  RecentCard("Sean", "assets/seanmei.jpeg"),
-  RecentCard("Shehab", "assets/shehabsalem.jpeg")
-];
-
 
 
 class RecentCard extends StatelessWidget {
-  final String personName, profilePic;
-  RecentCard(this.personName, this.profilePic);
+  final String personId,personName, profilePic;
+  RecentCard({this.personId,this.personName, this.profilePic});
   @override
   Widget build(BuildContext context) {
 
@@ -183,7 +268,7 @@ class RecentCard extends StatelessWidget {
                 child: Padding(
                   padding: EdgeInsets.only(top: screenH(15.0)),
                   child: CircleAvatar(
-                      backgroundImage: AssetImage(this.profilePic),
+                      backgroundImage: NetworkImage(this.profilePic),
                       radius: screenW(22)),
                 ),
               ),
@@ -205,16 +290,12 @@ class HomePageTwo extends StatefulWidget {
 }
 
 class _HomePageTwoState extends State<HomePageTwo> {
-  String displayName=currentUserModel.displayName;
-  String bio=currentUserModel.bio;
-
-  String url=currentUserModel.photoUrl;
   String uid= currentUserModel.uid;
   @override
   void initState(){
 
     super.initState();
-    currentUser = new User();
+
 
   }
   @override
@@ -400,20 +481,20 @@ class RequestCard extends StatelessWidget {
 
   }
 
-  factory RequestCard.fromDocument(DocumentSnapshot document) {
-    return RequestCard(
-        requesterId: document['requester'],
-        requesterName:document['requesterName'],
-        requesterPhoto: document['requesterPhoto'],
-        amount: document['amount'],
-        event: document['event'],
-        timestamp: document['timestamp'],
-        type: document['type'],
-        requestedFromIds: document['requestedFromIds'],
-        requestedFromNames: document['requestedFromNames'],
-        requestedFromPhotos: document['requestedFromPhotos']
-    );
-  }
+//  factory RequestCard.fromDocument(DocumentSnapshot document) {
+//    return RequestCard(
+//        requesterId: document['requester'],
+//        requesterName:document['requesterName'],
+//        requesterPhoto: document['requesterPhoto'],
+//        amount: document['amount'],
+//        event: document['event'],
+//        timestamp: document['timestamp'],
+//        type: document['type'],
+//        requestedFromIds: document['requestedFromIds'],
+//        requestedFromNames: document['requestedFromNames'],
+//        requestedFromPhotos: document['requestedFromPhotos']
+//    );
+//  }
 
   @override
   Widget build(BuildContext context) {
@@ -560,6 +641,8 @@ class HomePageThree extends StatefulWidget {
 }
 
 class _HomePageThreeState extends State<HomePageThree> {
+  String uid= currentUserModel.uid;
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -587,27 +670,59 @@ class _HomePageThreeState extends State<HomePageThree> {
         ),
         Container(
           height: screenH(270),
-          child: ListView(
-            padding: EdgeInsets.only(bottom: screenH(15)),
-            scrollDirection: Axis.horizontal,
-            children: groupsCard,
+          child:Column(
+          children: <Widget>[
+          uid==null
+          ?CircularProgressIndicator()
+        : StreamBuilder<QuerySnapshot> (
+          stream: _firestore.collection('users').document(uid).collection('groups').snapshots(),
+          builder: (context,snapshot) {
+          if (!snapshot.hasData) {
+          return Center(
+          child: CircularProgressIndicator(
+          backgroundColor: Colors.lightBlueAccent,
           ),
-        )
+          );
+          }
+          final docs =snapshot.data.documents;
+          List<GroupCard> groupCards=[];
+          for(var doc in docs){
+          String groupName= doc.data['groupName'];
+          groupCards.add(GroupCard(groupName: groupName,));
+
+
+
+          }
+          SizedBox(height: screenH(10));
+          return Container(
+            height: screenH(250),
+            child: ListView.builder(
+                padding: EdgeInsets.only(
+                  bottom: screenH(15.0),
+                ),
+                shrinkWrap: true,
+                scrollDirection: Axis.horizontal,
+                itemCount: groupCards.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return groupCards[index];
+                }
+            ),
+          );
+        })
       ],
-    );
-  }
+    )
+        )]);}
 }
 
-List<GroupCard> groupsCard = [
-  GroupCard("Roommates", "assets/roommates.jpeg"),
-  GroupCard("Lakers Nation", "assets/lakersnation.jpeg"),
-  GroupCard("Childhood Homies", "assets/childhoodhomies.jpeg"),
-  GroupCard("Family", "assets/family.jpeg"),
-];
+
+//  GroupCard("Roommates", "assets/roommates.jpeg"),
+//  GroupCard("Lakers Nation", "assets/lakersnation.jpeg"),
+//  GroupCard("Childhood Homies", "assets/childhoodhomies.jpeg"),
+//  GroupCard("Family", "assets/family.jpeg"),];
 
 class GroupCard extends StatelessWidget {
-  final String personName, profilePic;
-  GroupCard(this.personName, this.profilePic);
+  final String groupName;
+  GroupCard({this.groupName});
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -651,7 +766,7 @@ class GroupCard extends StatelessWidget {
               Padding(
                 padding: EdgeInsets.symmetric(
                     horizontal: screenW(12.0), vertical: screenH(7)),
-                child: Text(this.personName),
+                child: Text(this.groupName),
               )
             ],
           )),

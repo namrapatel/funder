@@ -150,7 +150,10 @@ class _LoginPageState extends State<LoginPage> {
         await FirebaseAuth.instance.signInWithEmailAndPassword(email: _email , password: _password);
        FirebaseUser user =await _auth.currentUser();
         DocumentSnapshot userRecord= await Firestore.instance.collection('users').document(user.uid).get();
-        currentUserModel= User.fromDocument(userRecord);
+        print(user.uid);
+        currentUserModel=  User.fromDocument(userRecord);
+        print(currentUserModel.uid);
+        print('login aove');
         Navigator.of(context).push(MaterialPageRoute(builder: (context) => MyHomePage()));
       }catch(e){
         print(e);
