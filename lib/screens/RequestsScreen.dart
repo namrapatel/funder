@@ -103,33 +103,33 @@ class RequestCard extends StatelessWidget {
                             children: <Widget>[
                               CircleAvatar(
                                   backgroundImage:
-                                      AssetImage("assets/namrapatel.png"),
+                                  AssetImage("assets/namrapatel.png"),
                                   radius: screenH(10)),
                               SizedBox(
                                 width: 5,
                               ),
                               CircleAvatar(
                                   backgroundImage:
-                                      AssetImage("assets/shehabsalem.jpeg"),
+                                  AssetImage("assets/shehabsalem.jpeg"),
                                   radius: screenH(10)),
                               SizedBox(
                                 width: 5,
                               ),
                               CircleAvatar(
                                   backgroundImage:
-                                      AssetImage("assets/seanmei.jpeg"),
+                                  AssetImage("assets/seanmei.jpeg"),
                                   radius: screenH(10)),
                               Spacer(),
                               Container(
                                 decoration: BoxDecoration(
                                     borderRadius:
-                                        BorderRadius.all(Radius.circular(15.0)),
+                                    BorderRadius.all(Radius.circular(15.0)),
                                     color: settleType == 1
                                         ? Colors.greenAccent[700]
-                                            .withOpacity(0.2)
+                                        .withOpacity(0.2)
                                         : settleType == -1
-                                            ? Colors.red.withOpacity(0.2)
-                                            : Colors.grey.withOpacity(0.2)),
+                                        ? Colors.red.withOpacity(0.2)
+                                        : Colors.grey.withOpacity(0.2)),
                                 child: Padding(
                                   padding: EdgeInsets.symmetric(
                                       horizontal: screenW(8.0),
@@ -139,8 +139,8 @@ class RequestCard extends StatelessWidget {
                                     style: settleType == 1
                                         ? greenSubStyle
                                         : settleType == -1
-                                            ? redSubStyle
-                                            : blackSubStyle,
+                                        ? redSubStyle
+                                        : blackSubStyle,
                                   ),
                                 ),
                               ),

@@ -1,16 +1,23 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'signuppage.dart';
 import 'main.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:funder/classes/user.dart';
 
+User currentUserModel;
 class LoginPage extends StatefulWidget {
   @override
   _LoginPageState createState() => _LoginPageState();
 }
 
 class _LoginPageState extends State<LoginPage> {
-  final _auth = FirebaseAuth.instance;
+
+   final _auth = FirebaseAuth.instance;
+
+
+
   String _email, _password;
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
@@ -25,6 +32,9 @@ class _LoginPageState extends State<LoginPage> {
   void initState() {
     super.initState();
     getCredential();
+    setState(() {
+
+    });
   }
 
 
@@ -138,6 +148,12 @@ class _LoginPageState extends State<LoginPage> {
       formState.save();
       try{
         await FirebaseAuth.instance.signInWithEmailAndPassword(email: _email , password: _password);
+       FirebaseUser user =await _auth.currentUser();
+        DocumentSnapshot userRecord= await Firestore.instance.collection('users').document(user.uid).get();
+        print(user.uid);
+        currentUserModel=  User.fromDocument(userRecord);
+        print(currentUserModel.uid);
+        print('login aove');
         Navigator.of(context).push(MaterialPageRoute(builder: (context) => MyHomePage()));
       }catch(e){
         print(e);
