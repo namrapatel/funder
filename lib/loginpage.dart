@@ -156,6 +156,7 @@ class _LoginPageState extends State<LoginPage> {
         print('login aove');
         Navigator.of(context).push(MaterialPageRoute(builder: (context) => MyHomePage()));
       }catch(e){
+//        await FirebaseAuth.instance.signInWithCredential(credential)
         print(e);
 
       }
