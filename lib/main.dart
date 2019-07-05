@@ -1,14 +1,13 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'worldpage.dart';
-import 'signuppage.dart';
+
 import 'homepage.dart';
 import 'loginpage.dart';
 import 'profilepage.dart';
 import 'notificationspage.dart';
-import 'classes/user.dart';
+
 
 
 void main() => runApp(Dime());
@@ -26,7 +25,6 @@ class Dime extends StatelessWidget {
       routes: <String, WidgetBuilder>{
         '/homepage': (BuildContext context) => new MyHomePage(),
         '/loginpage': (BuildContext context) => new LoginPage(),
-        '/signuppage': (BuildContext context) => new SignupPage(),
         '/profilepage': (BuildContext context) => new ProfilePage(),
       },
 

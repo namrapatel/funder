@@ -2,15 +2,13 @@ import 'dart:ui' as prefix0;
 
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import 'classes/user.dart';
+
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'loginpage.dart';
 import 'package:timeago/timeago.dart' as timeago;
-import 'package:queries/collections.dart';
-import 'profilepage.dart';
-//import 'main.dart';
+
 
 
 import 'screens/contactListScreen.dart';
@@ -38,12 +36,6 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
 
-//  final _firestore= Firestore.instance;
-//  User currentUser;
-//  String bio;
-//  String displayName;
-//  String photoUrl;
-//  List<String> requests;
 
   @override
   void initState() {
@@ -765,9 +757,7 @@ class GroupCard extends StatelessWidget {
                               radius: screenH(10)),
                         ],
                       )
-                      // Text("",
-                      //     style: TextStyle(
-                      //         fontSize: 14, color: Colors.grey[600])),
+
                     ],
                   ),
                 ),
