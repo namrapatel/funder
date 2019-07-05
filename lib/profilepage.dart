@@ -17,9 +17,9 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-
-  String displayName=currentUserModel.displayName;
   String bio=currentUserModel.bio;
+  String displayName=currentUserModel.displayName;
+
 
   String url=currentUserModel.photoUrl;
   String uid= currentUserModel.uid;

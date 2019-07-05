@@ -10,7 +10,7 @@ import 'loginpage.dart';
 import 'package:timeago/timeago.dart' as timeago;
 import 'package:queries/collections.dart';
 import 'profilepage.dart';
-
+//import 'main.dart';
 
 
 import 'screens/contactListScreen.dart';
@@ -48,24 +48,9 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     // TODO: implement initState
-    String uid= currentUserModel.uid;
+
     super.initState();
 
-//    currentUser = new User();
-//    currentUser.getInfo().then((_) => setState(() {
-//      if(currentUser.getBio()!=null) {
-//        bio = currentUser.getBio();
-//      }
-//      if(currentUser.getDisplayName()!=null) {
-//        displayName = currentUser.getDisplayName();
-//      }
-//      if(currentUser.getPhotoUrl()!=null) {
-//        photoUrl = currentUser.getPhotoUrl();
-//      }
-//      if(currentUser.getRequests()!=null){
-//        requests=currentUser.getRequests();
-//      }
-//  }));
   }
   @override
   Widget build(BuildContext context) {

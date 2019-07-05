@@ -61,17 +61,17 @@ class _SignupPageState extends State<SignupPage> {
         .then((FirebaseUser user) async {
 
       final FirebaseUser currentUser = await FirebaseAuth.instance.currentUser();
-      AuthCredential credential = EmailAuthProvider.getCredential(email: 'idiot@hotmail.com',password: '1234567');
-      currentUser.linkWithCredential(credential).then((_){
-        print(currentUser.uid);
-
-      });
+//      AuthCredential credential = EmailAuthProvider.getCredential(email: 'idiot@hotmail.com',password: '1234567');
+//      currentUser.linkWithCredential(credential).then((_){
+//        print(currentUser.uid);
+//
+//      });
       
       assert(user.uid == currentUser.uid);
       DocumentSnapshot userRecord= await Firestore.instance.collection('users').document(user.uid).get();
       print(user.uid);
       await UserManagement().storeNewUser(currentUser, context);
-      currentUserModel=  User.fromDocument(userRecord);
+
       print('signed in with phone number successful: user -> $user');
       Navigator.of(context).pushReplacementNamed('/homepage');
 
@@ -89,37 +89,36 @@ class _SignupPageState extends State<SignupPage> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
+//                  TextFormField(
+//                      validator: (input) => (input.isEmpty||!input.contains('@')) ? 'Please enter a valid email': null,
+//                      decoration: InputDecoration(hintText: 'Email'),
+//                      onSaved: (value) {
+//                        setState(() {
+//                          _email = value;
+//                        });
+//                      }),
+//                  SizedBox(height: 15.0),
                   TextFormField(
-                      validator: (input) => (input.isEmpty||!input.contains('@')) ? 'Please enter a valid email': null,
-                      decoration: InputDecoration(hintText: 'Email'),
-                      onSaved: (value) {
-                        setState(() {
-                          _email = value;
-                        });
-                      }),
-                  SizedBox(height: 15.0),
-                  TextFormField(
-                      validator: (input) => (input.isEmpty||input.length<6) ? 'Your password needs at least 6 characters': null,
-                      decoration: InputDecoration(hintText: 'Password'),
-                      obscureText: true,
-                      onSaved: (value) {
-                        setState(() {
-                          _password = value;
-                        });
-                      }),
+                      controller:  _phoneNumberController,
+                      validator: (input) => (input.isEmpty) ? 'Enter a valid phone number': null,
+                      decoration: InputDecoration(hintText: 'Phone Number'),
+
+
+                      ),
                   SizedBox(height: 20.0),
-                  RaisedButton(
-                    child: Text('Sign Up'),
-                    color: Colors.blue,
-                    textColor: Colors.white,
-                    elevation: 7.0,
-                    onPressed: createUser,
-                  ),
-                  new TextField(
-                    controller:  _phoneNumberController,
-                  ),
-                  new TextField(
+//                  RaisedButton(
+//                    child: Text('Sign Up'),
+//                    color: Colors.blue,
+//                    textColor: Colors.white,
+//                    elevation: 7.0,
+//                    onPressed: createUser,
+//                  ),
+//                  new TextField(
+//                    controller:  _phoneNumberController,
+//                  ),
+                  new TextFormField(
                     controller: _smsCodeController,
+                      decoration: InputDecoration(hintText: 'SMS code')
                   ),
                   new FlatButton(
                       onPressed: () => _signInWithPhoneNumber(_smsCodeController.text),
@@ -133,22 +132,54 @@ class _SignupPageState extends State<SignupPage> {
     child: new Icon(Icons.send),
     ) // This trailing comma makes auto-formatting nicer for build methods.);
     );}
-  void createUser() async{
-    final formState = _formKey.currentState;
-    if(formState.validate()){
-      formState.save();
-      try{
-        FirebaseUser user = await FirebaseAuth.instance.createUserWithEmailAndPassword(email: _email , password: _password)
-            .then((signedInUser){
-          UserManagement().storeNewUser(signedInUser, context);
 
+
+  Future<bool> smsCodeDialog(BuildContext context) {
+    return showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context) {
+          return new AlertDialog(
+            title: Text('Enter sms Code'),
+            content: TextField(
+
+            ),
+            contentPadding: EdgeInsets.all(10.0),
+            actions: <Widget>[
+              new FlatButton(
+                child: Text('Done'),
+                onPressed: () {
+                  FirebaseAuth.instance.currentUser().then((user) {
+                    if (user != null) {
+                      Navigator.of(context).pop();
+                      Navigator.of(context).pushReplacementNamed('/homepage');
+                    } else {
+                      Navigator.of(context).pop();
+
+                    }
+                  });
+                },
+              )
+            ],
+          );
         });
-//        user.sendEmailVerification();
-        Navigator.of(context).pop(); //closes the page
-      }catch(e){
-        print(e.message);
-
-      }
-    }
   }
+//  void createUser() async{
+//    final formState = _formKey.currentState;
+//    if(formState.validate()){
+//      formState.save();
+//      try{
+//        FirebaseUser user = await FirebaseAuth.instance.createUserWithEmailAndPassword(email: _email , password: _password)
+//            .then((signedInUser){
+//          UserManagement().storeNewUser(signedInUser, context);
+//
+//        });
+////        user.sendEmailVerification();
+//        Navigator.of(context).pop(); //closes the page
+//      }catch(e){
+//        print(e.message);
+//
+//      }
+//    }
+//  }
 }
