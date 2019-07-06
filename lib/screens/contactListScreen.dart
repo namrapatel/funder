@@ -8,6 +8,7 @@ class ContactListScreen extends StatefulWidget {
 }
 
 class _ContactListScreenState extends State<ContactListScreen> {
+  TextEditingController editingController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -36,12 +37,35 @@ class _ContactListScreenState extends State<ContactListScreen> {
         ],
       ),
       body: Container(
-        child: ListView(
-          padding: EdgeInsets.only(
-            bottom: screenH(15.0),
-          ),
-          scrollDirection: Axis.vertical,
-          children: contacts,
+        child: Column(
+          children: <Widget>[
+            Ink(
+              color: Colors.white,
+              child: Padding(
+                padding: const EdgeInsets.all(15.0),
+                child: TextField(
+                  onChanged: (value) {},
+                  controller: editingController,
+                  decoration: InputDecoration(
+                      labelText: "Search",
+                      hintText: "Search or Add Friends",
+                      prefixIcon: Icon(Icons.search),
+                      border: OutlineInputBorder(
+                          borderRadius:
+                              BorderRadius.all(Radius.circular(20.0)))),
+                ),
+              ),
+            ),
+            Expanded(
+              child: ListView(
+                padding: EdgeInsets.only(
+                  bottom: screenH(15.0),
+                ),
+                scrollDirection: Axis.vertical,
+                children: contacts,
+              ),
+            ),
+          ],
         ),
       ),
     );
@@ -52,7 +76,7 @@ List<ContactTile> contacts = [
   ContactTile("Namra Patel", "assets/namrapatel.png", "(587)-703-9807"),
   ContactTile("Taher Anky", "assets/taher.jpeg", "(587)-703-9807"),
   ContactTile("Shehab Salem", "assets/shehabsalem.jpeg", "(587)-703-9807"),
-  ContactTile("Sean Mei", "assets/seanmei.jpeg", "(587)-703-9807"),
+  ContactTile("Dhruv Patel", "assets/dhruvpatel.jpeg", "(587)-703-9807"),
 ];
 
 class ContactTile extends StatefulWidget {

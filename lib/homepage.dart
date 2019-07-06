@@ -383,7 +383,8 @@ class RequestCard extends StatelessWidget {
       photoWidgets.add(Column(children: <Widget>[
         Padding(
           padding: EdgeInsets.symmetric(vertical: 2.0, horizontal: 1),
-          child: CircleAvatar(backgroundImage: NetworkImage(photo), radius: screenH(10)),
+          child: CircleAvatar(
+              backgroundImage: NetworkImage(photo), radius: screenH(10)),
         ),
         SizedBox(
           width: 5,
