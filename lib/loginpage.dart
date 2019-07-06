@@ -207,13 +207,22 @@ Map userProfile;
                           break;
                       }
 
+
+
+
+
+
                       DocumentSnapshot userRecord= await Firestore.instance.collection('users').document(user.uid).get();
                       if(!userRecord.exists){
                         Firestore.instance.collection('users').document(user.uid).setData({
                           'photoUrl':userProfile["picture"]["data"]["url"],
                           'email': user.email,
                           'displayName': user.displayName,
-                          'phoneNumber': user.phoneNumber
+                          'phoneNumber': user.phoneNumber,
+                          'facebookUid':user.providerData[1].uid
+                          //after getting friends who have the app, query for their document using their
+                          //fb uid and then display their name and photo url on contacts
+
                         });
                         userRecord=await Firestore.instance.collection('users').document(user.uid).get();
                       }
