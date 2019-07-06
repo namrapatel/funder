@@ -45,11 +45,7 @@ class GroupsDetailPage extends StatelessWidget {
                   background: Stack(children: <Widget>[
                     Container(
                       // height: ScreenUtil.instance.setHeight(235.0),
-                      decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                          colors: [firstColor, secondColor],
-                        ),
-                      ),
+                      decoration: BoxDecoration(color: Colors.blueAccent[700]),
                       child: Column(
                         children: <Widget>[
                           SizedBox(
@@ -71,17 +67,17 @@ class GroupsDetailPage extends StatelessWidget {
                 TabBar(
                   labelColor: Colors.black87,
                   unselectedLabelColor: Colors.grey,
-                  indicatorColor: Colors.greenAccent[700],
+                  indicatorColor: Colors.blueAccent[700],
                   tabs: [
                     Tab(
-                        icon: Icon(Icons.inbox, color: Colors.greenAccent[700]),
+                        icon: Icon(Icons.inbox, color: Colors.blueAccent[700]),
                         text: "Dimes"),
                     Tab(
                         icon:
-                            Icon(Icons.history, color: Colors.greenAccent[700]),
+                            Icon(Icons.history, color: Colors.blueAccent[700]),
                         text: "History"),
                     Tab(
-                        icon: Icon(Icons.chat, color: Colors.greenAccent[700]),
+                        icon: Icon(Icons.chat, color: Colors.blueAccent[700]),
                         text: "Chat"),
                   ],
                 ),
