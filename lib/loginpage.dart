@@ -5,7 +5,8 @@ import 'services/usermanagement.dart';
 import 'main.dart';
 import 'package:Dime/classes/user.dart';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
-
+import 'package:http/http.dart' as http;
+import 'dart:convert' as JSON;
 User currentUserModel;
 class LoginPage extends StatefulWidget {
   @override
@@ -13,7 +14,8 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-
+bool _isLoggedIn=false;
+Map userProfile;
    final _auth = FirebaseAuth.instance;
    FacebookLogin fbLogin = new FacebookLogin();
 
@@ -29,6 +31,7 @@ class _LoginPageState extends State<LoginPage> {
     FirebaseAuth.instance.onAuthStateChanged.listen((firebaseUser) async{
       if(firebaseUser != null){
         print(firebaseUser);
+        print(firebaseUser.displayName);
         print("you're in");
 
         DocumentSnapshot userRecord= await Firestore.instance.collection('users').document(firebaseUser.uid).get();
@@ -122,7 +125,12 @@ class _LoginPageState extends State<LoginPage> {
 
       DocumentSnapshot userRecord= await Firestore.instance.collection('users').document(user.uid).get();
       if(!userRecord.exists){
-        await UserManagement().storeNewUser(currentUser, context);
+        Firestore.instance.collection('users').document(user.uid).setData({
+          'photoUrl':'https://firebasestorage.googleapis.com/v0/b/dime-87d60.appspot.com/o/defaultprofile.png?alt=media&token=8cd5318b-9593-4837-a9f9-2a22c87463ef',
+          'email': user.email,
+          'displayName': 'You currently don\'t have a display name',
+          'phoneNumber':user.phoneNumber
+        });
       }
       print(user.uid);
 
@@ -167,7 +175,7 @@ class _LoginPageState extends State<LoginPage> {
                   SizedBox(height: 20.0),
                   RaisedButton(
                     onPressed:() async{
-                      FacebookLoginResult result = await fbLogin.logInWithReadPermissions(['email','public_profile']);
+                      FacebookLoginResult result = await fbLogin.logInWithReadPermissions(['email','public_profile','user_friends']);
 
 
 
@@ -178,9 +186,35 @@ class _LoginPageState extends State<LoginPage> {
 
                       FirebaseUser user = await _auth.signInWithCredential(credential);
 
+                      switch (result.status) {
+                        case FacebookLoginStatus.loggedIn:
+                          final token = result.accessToken.token;
+//                          final pic =await http.get('http://graph.facebook.com/[user_id]/picture?type=square');
+                          final graphResponse = await http.get('https://graph.facebook.com/v3.3/me?fields=name,picture,friends,email&access_token=${token}');
+                          final profile = JSON.jsonDecode(graphResponse.body);
+                          print(profile);
+                          setState(() {
+                            userProfile = profile;
+                            _isLoggedIn = true;
+                          });
+                          break;
+
+                        case FacebookLoginStatus.cancelledByUser:
+                          setState(() => _isLoggedIn = false );
+                          break;
+                        case FacebookLoginStatus.error:
+                          setState(() => _isLoggedIn = false );
+                          break;
+                      }
+
                       DocumentSnapshot userRecord= await Firestore.instance.collection('users').document(user.uid).get();
                       if(!userRecord.exists){
-                        await UserManagement().storeNewUser(user, context);
+                        Firestore.instance.collection('users').document(user.uid).setData({
+                          'photoUrl':userProfile["picture"]["data"]["url"],
+                          'email': user.email,
+                          'displayName': user.displayName,
+                          'phoneNumber': user.phoneNumber
+                        });
                       }
                       print(user.uid);
 
