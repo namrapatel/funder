@@ -215,6 +215,7 @@ Map userProfile;
                           'displayName': user.displayName,
                           'phoneNumber': user.phoneNumber
                         });
+                        userRecord=await Firestore.instance.collection('users').document(user.uid).get();
                       }
                       print(user.uid);
 
