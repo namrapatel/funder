@@ -1,6 +1,11 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:Dime/homepage.dart';
 import 'package:Dime/screens/individualTransaction.dart';
+import 'package:permission_handler/permission_handler.dart';
+import 'package:Dime/loginpage.dart';
+
+
 
 class ContactListScreen extends StatefulWidget {
   @override
@@ -9,6 +14,18 @@ class ContactListScreen extends StatefulWidget {
 
 class _ContactListScreenState extends State<ContactListScreen> {
   TextEditingController editingController = TextEditingController();
+
+
+  getContactsPermission() async{
+    Map<PermissionGroup, PermissionStatus> permissions = await PermissionHandler().requestPermissions([PermissionGroup.contacts]);
+    print(permissions);
+  }
+  @override
+  void initState() {
+    super.initState();
+    getFbFriendsInfo();
+//    getContactsPermission();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -72,15 +89,25 @@ class _ContactListScreenState extends State<ContactListScreen> {
   }
 }
 
-List<ContactTile> contacts = [
-  ContactTile("Namra Patel", "assets/namrapatel.png", "(587)-703-9807"),
-  ContactTile("Taher Anky", "assets/taher.jpeg", "(587)-703-9807"),
-  ContactTile("Shehab Salem", "assets/shehabsalem.jpeg", "(587)-703-9807"),
-  ContactTile("Dhruv Patel", "assets/dhruvpatel.jpeg", "(587)-703-9807"),
-];
+ getFbFriendsInfo() async{
+   DocumentSnapshot fbUserRecord= await Firestore.instance.collection('users').document(currentUserModel.uid).get();
+   List<dynamic> ids=fbUserRecord.data['fbFriends'];
+   for (var id in ids){
+     QuerySnapshot docSnap = await Firestore.instance.collection('users').where('facebookUid',isEqualTo: id).getDocuments();
+     List<DocumentSnapshot> docs =docSnap.documents;
+     for(var doc in docs){
+       String name = doc.data['displayName'];
+       String photo= doc.data['photoUrl'];
+       contacts.add(ContactTile(name, photo));
+     }
+
+   }
+
+ }
+List<ContactTile> contacts = [];
 
 class ContactTile extends StatefulWidget {
-  ContactTile(this.contactName, this.personImage, this.phoneNumber);
+  ContactTile(this.contactName, this.personImage, {this.phoneNumber});
   final String contactName, personImage, phoneNumber;
   @override
   _ContactTileState createState() => _ContactTileState();
@@ -100,7 +127,7 @@ class _ContactTileState extends State<ContactTile> {
             ListTile(
               leading: CircleAvatar(
                 radius: 20,
-                backgroundImage: AssetImage(widget.personImage),
+                backgroundImage: NetworkImage(widget.personImage),
               ),
               trailing: Checkbox(
                   activeColor: Colors.blueAccent[700],
@@ -112,10 +139,12 @@ class _ContactTileState extends State<ContactTile> {
                     });
                   }),
               title: Text(widget.contactName),
-              subtitle: Text(
-                widget.phoneNumber,
-                style: TextStyle(fontSize: screenF(12)),
-              ),
+//              subtitle: Text(
+//                widget.phoneNumber!=null
+//                ? widget.phoneNumber
+//                :null,
+//                style: TextStyle(fontSize: screenF(12)),
+//              ),
             ),
             Divider(
               color: Colors.grey[400],

@@ -190,7 +190,7 @@ Map userProfile;
                         case FacebookLoginStatus.loggedIn:
                           final token = result.accessToken.token;
 //                          final pic =await http.get('http://graph.facebook.com/[user_id]/picture?type=square');
-                          final graphResponse = await http.get('https://graph.facebook.com/v3.3/me?fields=name,picture,friends,email&access_token=${token}');
+                          final graphResponse = await http.get('https://graph.facebook.com/v3.3/me?fields=name,picture.width(800).height(800),friends,email&access_token=${token}');
                           final profile = JSON.jsonDecode(graphResponse.body);
                           print(profile);
                           setState(() {
@@ -208,10 +208,13 @@ Map userProfile;
                       }
 
 
-
-
-
-
+                  print(userProfile["friends"]['data'][0]['id']);
+                      List<String> fbFriendsIds=[];
+                      for(var key in userProfile["friends"]['data']){
+                        String fbId= key['id'];
+                        fbFriendsIds.add(fbId);
+                      }
+                      print(fbFriendsIds);
                       DocumentSnapshot userRecord= await Firestore.instance.collection('users').document(user.uid).get();
                       if(!userRecord.exists){
                         Firestore.instance.collection('users').document(user.uid).setData({
@@ -219,7 +222,8 @@ Map userProfile;
                           'email': user.email,
                           'displayName': user.displayName,
                           'phoneNumber': user.phoneNumber,
-                          'facebookUid':user.providerData[1].uid
+                          'facebookUid':user.providerData[1].uid,
+                          'fbFriends': fbFriendsIds
                           //after getting friends who have the app, query for their document using their
                           //fb uid and then display their name and photo url on contacts
 
