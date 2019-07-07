@@ -1,8 +1,7 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'worldpage.dart';
-
+import 'signuppage.dart';
 import 'homepage.dart';
 import 'loginpage.dart';
 import 'profilepage.dart';
@@ -13,26 +12,20 @@ import 'notificationspage.dart';
 void main() => runApp(Dime());
 
 class Dime extends StatelessWidget {
-
   @override
   Widget build(BuildContext context) {
-
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: "Dime",
-
       home: LoginPage(),
       routes: <String, WidgetBuilder>{
         '/homepage': (BuildContext context) => new MyHomePage(),
         '/loginpage': (BuildContext context) => new LoginPage(),
+        '/signuppage': (BuildContext context) => new SignupPage(),
         '/profilepage': (BuildContext context) => new ProfilePage(),
       },
-
       theme: appTheme,
-
     );
-
-
   }
 }
 
@@ -49,8 +42,6 @@ class _MyHomePageState extends State<MyHomePage>
     with SingleTickerProviderStateMixin {
   int _page = 0;
   PageController pageController;
-
-
 
 // This widget builds the bottom app bar using a PageView widget.
   @override
@@ -122,7 +113,6 @@ class _MyHomePageState extends State<MyHomePage>
   void initState() {
     super.initState();
     pageController = PageController();
-
   }
 
   @override
