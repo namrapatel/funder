@@ -33,6 +33,10 @@ class _ProfilePageState extends State<ProfilePage> {
   String uid= currentUserModel.uid;
   SharedPreferences pref;
 
+  final screenH = ScreenUtil.instance.setHeight;
+  final screenW = ScreenUtil.instance.setWidth;
+  final screenF = ScreenUtil.instance.setSp;
+
   //Initializes the state when the page first loads and retrieves the users data from firestore
   @override
   void initState() {
@@ -46,29 +50,33 @@ class _ProfilePageState extends State<ProfilePage> {
       body: Stack(
         children: <Widget>[
           Container(
-              height: 650.0,
+              height: screenH(850),
               width: double.infinity,
             ),
             Container(
-              height: 250.0,
+              height: screenH(350),
               width: double.infinity,
               color: Colors.blueAccent[700],
             ),
             Positioned(
-              top: 70,
-              left: 15,
+              top: (MediaQuery.of(context).size.height / 9),
+              //top: 70,
+              left: (MediaQuery.of(context).size.width / 18),
               child: Text("Profile", style: TextStyle(color: Colors.white, fontSize: 35, ),),
             ),
 
               Positioned(
-              top: 155.0,
-              left: 20.0,
-              right: 20.0,
+              top: (MediaQuery.of(context).size.height / 4.5),
+              left: (MediaQuery.of(context).size.width / 21),
+              
+              //top: 155.0,
+              //left: 20.0,
+              right: (MediaQuery.of(context).size.width / 21),
               child: Material(
                 elevation: 3.0,
                 borderRadius: BorderRadius.circular(7.0),
                 child: Container(
-                  height: 470.0,
+                  height: screenH(610),
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(7.0),
                       color: Colors.white),
@@ -76,11 +84,11 @@ class _ProfilePageState extends State<ProfilePage> {
               ),
             ),
               Positioned(
-              top: 105.0,
+              top: (MediaQuery.of(context).size.height / 6.5),
               left: (MediaQuery.of(context).size.width / 2 - 50.0),
               child: Container(
-                height: 100.0,
-                width: 100.0,
+                height: screenH(125),
+                width: screenH(125),
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(50.0),
                     image: DecorationImage(
@@ -89,7 +97,8 @@ class _ProfilePageState extends State<ProfilePage> {
               ),
             ),
             Positioned(
-              top: 220,
+              top: (MediaQuery.of(context).size.height / 3.1),
+              //top: 220,
               left: (MediaQuery.of(context).size.width / 2) - 65,
               child: Column(
                 children: <Widget>[
@@ -99,7 +108,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         fontWeight: FontWeight.bold,
                         fontSize: 17.0),
                   ),
-                  SizedBox(height: 7.0),
+                  SizedBox(height: screenH(15),),
                   Text(
                     '(123) 456-7890',
                     style: TextStyle(
@@ -108,20 +117,22 @@ class _ProfilePageState extends State<ProfilePage> {
                         fontSize: 17.0,
                         color: Colors.grey),
                   ),
-                  SizedBox(height: 7.0),
+                  SizedBox(height: screenH(125),),
 
                 ],
               ),
             ),
 
-        SizedBox(height: 10.0),
+  
         Positioned(
-          top: 300,
-          left: 20,
+          top: (MediaQuery.of(context).size.height / 2.25),
+          //top: 300,
+          //left: 20,
+          left: (MediaQuery.of(context).size.width / 22),
           child: Column(
             children: <Widget>[
                         Container(
-                    width: 375,
+                    width: screenW(378),
                     child: ListTile(
                       onTap: (){
                         Navigator.push(
@@ -136,7 +147,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       )
                   ),
                     Container(
-                    width: 375,
+                    width: screenW(378),
                     child: ListTile(
                       onTap: (){
                         Navigator.push(
@@ -151,7 +162,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       )
                   ),
                     Container(
-                    width: 375,
+                    width: screenW(378),
                     child: ListTile(
                       onTap: (){
                          Navigator.push(
@@ -166,7 +177,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       )
                   ),
                     Container(
-                    width: 375,
+                    width: screenW(378),
                     child: ListTile(
                       onTap: (){
                         Navigator.push(
@@ -180,7 +191,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       )
                   ),
                     Container(
-                    width: 375,
+                    width: screenW(378),
                     child: ListTile(
                       onTap: (){
                         Navigator.push(
