@@ -24,6 +24,10 @@ class _SettingsPageState extends State<SettingsPage> {
  void _onChanged1(bool value) => setState(() => _value1 = value);
  void _onChanged2(bool value) => setState(() => _value2 = value);
 
+  final screenH = ScreenUtil.instance.setHeight;
+  final screenW = ScreenUtil.instance.setWidth;
+  final screenF = ScreenUtil.instance.setSp;
+
   String displayName=currentUserModel.displayName;
   String bio=currentUserModel.bio;
 
@@ -35,13 +39,15 @@ class _SettingsPageState extends State<SettingsPage> {
     return Scaffold(
       body: Stack(
         children: <Widget>[
-            Container(
-              height: 650.0,
+          Container(
+              height: screenH(850),
               width: double.infinity,
             ),
-              Positioned(
-              top: 32,
-              left: 5,
+            Positioned(
+              top: (MediaQuery.of(context).size.height / 16),
+              left: (MediaQuery.of(context).size.width / 45),
+              //top: 32,
+              //left: 5,
               child: IconButton(
                 icon: Icon(Icons.close),
                 onPressed: () {
@@ -51,20 +57,22 @@ class _SettingsPageState extends State<SettingsPage> {
               ),
             ),
               Positioned(
-              top: 35,
-              left: 340,
+              top: (MediaQuery.of(context).size.height / 16),
+              left: (MediaQuery.of(context).size.width / 1.2),
               child: IconButton(icon: Icon(Feather.log_out), onPressed: (){
                 Navigator.of(context).pushReplacementNamed('/loginpage');
               },)
             ),
               Positioned(
-              top: 50,
-              left: 110,
+              top: (MediaQuery.of(context).size.height / 12),
+              left: (MediaQuery.of(context).size.width / 3.8),
               child: Text("Account Settings", style: TextStyle(fontSize: 20, color: Colors.black, fontWeight: FontWeight.bold),),
             ),
               Positioned(
-              top: 105.0,
-              left: 30,
+              top: (MediaQuery.of(context).size.height / 6),
+              //top: 105.0,
+              //left: 30,
+              left: (MediaQuery.of(context).size.width / 20),
               child: Container(
                 height: 100.0,
                 width: 100.0,
@@ -76,8 +84,8 @@ class _SettingsPageState extends State<SettingsPage> {
               ),
             ),
             Positioned(
-              top: 130,
-              left: (MediaQuery.of(context).size.width / 2) - 45,
+              top: (MediaQuery.of(context).size.height / 5.5),
+              left: (MediaQuery.of(context).size.width / 2.6),
               child: Column(
                 children: <Widget>[
                   Text(
@@ -101,8 +109,8 @@ class _SettingsPageState extends State<SettingsPage> {
               ),
             ),
             Positioned(
-              top: 180,
-              left: (MediaQuery.of(context).size.width / 2) - 50,
+              top: (MediaQuery.of(context).size.height / 3.8),
+              left: (MediaQuery.of(context).size.width / 2.6),
               child: OutlineButton(
                 child: Text("Change Picture"),
                 onPressed: (){},
@@ -110,9 +118,9 @@ class _SettingsPageState extends State<SettingsPage> {
               ),
             ),
               Positioned(
-              top: 245.0,
-              left: 20.0,
-              right: 20.0,
+              top: (MediaQuery.of(context).size.height / 2.85),
+              left: (MediaQuery.of(context).size.width / 21),
+              right: (MediaQuery.of(context).size.width / 21),
               child: Material(
                 elevation: 3.0,
                 borderRadius: BorderRadius.circular(7.0),
