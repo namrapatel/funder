@@ -74,8 +74,8 @@ class _SettingsPageState extends State<SettingsPage> {
               //left: 30,
               left: (MediaQuery.of(context).size.width / 20),
               child: Container(
-                height: 100.0,
-                width: 100.0,
+                height: screenH(125),
+                width: screenH(125),
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(50.0),
                     image: DecorationImage(
@@ -94,7 +94,7 @@ class _SettingsPageState extends State<SettingsPage> {
                         fontWeight: FontWeight.bold,
                         fontSize: 17.0),
                   ),
-                  SizedBox(height: 7.0),
+                  SizedBox(height: screenH(15),),
                   Text(
                     '(123) 456-7890',
                     style: TextStyle(
@@ -103,7 +103,7 @@ class _SettingsPageState extends State<SettingsPage> {
                         fontSize: 17.0,
                         color: Colors.grey),
                   ),
-                  SizedBox(height: 7.0),
+                  SizedBox(height: screenH(125),),
 
                 ],
               ),
@@ -125,7 +125,8 @@ class _SettingsPageState extends State<SettingsPage> {
                 elevation: 3.0,
                 borderRadius: BorderRadius.circular(7.0),
                 child: Container(
-                  height: 405.0,
+                  height: screenH(530),
+                  //height: 405.0,
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(7.0),
                       color: Colors.white),
@@ -133,16 +134,16 @@ class _SettingsPageState extends State<SettingsPage> {
               ),
             ),
               Positioned(
-              top: 270,
-              left: 40,
+              top: (MediaQuery.of(context).size.height / 2.6),
+              left: (MediaQuery.of(context).size.width / 10),
               child: Text("Options", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
             ),
             Positioned(
-              top: 295,
-              left: 20,
+              top: (MediaQuery.of(context).size.height / 2.3),
+              left: (MediaQuery.of(context).size.width / 21),
               child:Container(
                 color: Colors.white,
-                    width: 370,
+                    width: screenW(360),
                     child: ListTile(
                       onTap: (){},
                       title: Text("Notifications",),
@@ -152,11 +153,11 @@ class _SettingsPageState extends State<SettingsPage> {
                   ),
             ),
              Positioned(
-              top: 350,
-              left: 35,
+              top: (MediaQuery.of(context).size.height / 1.95),
+              left: (MediaQuery.of(context).size.width / 12),
               child:Container(
                 color: Colors.white,
-                    width: 340,
+                    width: screenW(340),
                     child: CupertinoTextField(
                     prefix: Icon(SimpleLineIcons.user),
                     padding: EdgeInsets.all(20),
@@ -171,11 +172,11 @@ class _SettingsPageState extends State<SettingsPage> {
                   ),
             ),
              Positioned(
-              top: 420,
-              left: 35,
+              top: (MediaQuery.of(context).size.height / 1.6),
+              left: (MediaQuery.of(context).size.width / 12),
               child:Container(
                 color: Colors.white,
-                    width: 340,
+                    width: screenW(340),
                     child: CupertinoTextField(
                     prefix: Icon(SimpleLineIcons.phone),
                     padding: EdgeInsets.all(20),
@@ -190,11 +191,11 @@ class _SettingsPageState extends State<SettingsPage> {
                   ),
             ),
               Positioned(
-              top: 570,
-              left: 45,
+              top: (MediaQuery.of(context).size.height / 1.2),
+              left: (MediaQuery.of(context).size.width / 9),
               child: new SizedBox(
-              width: 150,
-              height: 40,
+              width: screenW(150),
+              height: screenH(55),
               child: new OutlineButton(
                 child: Text("Cancel", style: TextStyle(color: Colors.black, fontSize: 15),),
                 color: Colors.blueAccent[700],
@@ -205,11 +206,11 @@ class _SettingsPageState extends State<SettingsPage> {
             )
             ),
               Positioned(
-              top: 570,
-              left: 215,
+              top: (MediaQuery.of(context).size.height / 1.2),
+              left: (MediaQuery.of(context).size.width / 1.9),
               child: new SizedBox(
-              width: 150,
-              height: 40,
+              width: screenW(150),
+              height: screenH(55),
               child: new RaisedButton(
                 child: Text("Save Changes", style: TextStyle(color: Colors.white, fontSize: 15),),
                 color: Colors.blueAccent[700],
