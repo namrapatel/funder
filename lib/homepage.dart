@@ -1,5 +1,6 @@
 import 'dart:ui' as prefix0;
 
+import 'package:Dime/groupsdetail.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 
@@ -639,103 +640,112 @@ class GroupCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.only(left: screenW(15.0)),
-      child: Container(
-          width: screenW(190),
-          decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(10),
-              boxShadow: [
-                BoxShadow(
-                    color: Colors.blueGrey.withOpacity(0.2),
-                    blurRadius: screenW(8),
-                    spreadRadius: 0.2,
-                    offset: Offset(0, 6)),
-              ]),
-          child: Column(
-            children: <Widget>[
-              Container(
-                child: Padding(
-                    padding: EdgeInsets.only(top: screenH(15.0)),
-                    child: Container(
-                      height: screenH(120),
-                      child: Opacity(
-                        opacity: 0.8,
-                        child: ClipRRect(
-                            borderRadius: new BorderRadius.circular(5.0),
-                            child: Image(
-                              image: NetworkImage(this.groupPic),
-                            )),
-                      ),
-                    )),
-              ),
-              Padding(
-                padding: EdgeInsets.symmetric(vertical: screenH(10)),
-                child: Container(
-                  width: screenW(155),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Text(this.groupName,
-                          style:
-                              TextStyle(fontSize: 16, color: Colors.grey[800])),
-                      SizedBox(
-                        height: 5,
-                      ),
-                      Container(
-                        decoration: BoxDecoration(
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(15.0)),
-                            color: settleType == 1
-                                ? Colors.greenAccent[700].withOpacity(0.2)
-                                : settleType == -1
-                                    ? Colors.red.withOpacity(0.2)
-                                    : Colors.grey.withOpacity(0.2)),
-                        child: Padding(
-                          padding: EdgeInsets.symmetric(
-                              horizontal: screenW(8.0), vertical: screenH(3.0)),
-                          child: Text(
-                            "${settleType == 1 ? "+" : settleType == -1 ? "-" : ""} \$${balanceValue.toString()}",
-                            style: settleType == 1
-                                ? greenSubStyle
-                                : settleType == -1
-                                    ? redSubStyle
-                                    : blackSubStyle,
+    return InkWell(
+      onTap: () {
+        Navigator.push(
+            context,
+            new MaterialPageRoute(
+                builder: (context) => new GroupsDetailPage()));
+      },
+      child: Padding(
+        padding: EdgeInsets.only(left: screenW(15.0)),
+        child: Container(
+            width: screenW(190),
+            decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(10),
+                boxShadow: [
+                  BoxShadow(
+                      color: Colors.blueGrey.withOpacity(0.2),
+                      blurRadius: screenW(8),
+                      spreadRadius: 0.2,
+                      offset: Offset(0, 6)),
+                ]),
+            child: Column(
+              children: <Widget>[
+                Container(
+                  child: Padding(
+                      padding: EdgeInsets.only(top: screenH(15.0)),
+                      child: Container(
+                        height: screenH(120),
+                        child: Opacity(
+                          opacity: 0.8,
+                          child: ClipRRect(
+                              borderRadius: new BorderRadius.circular(5.0),
+                              child: Image(
+                                image: NetworkImage(this.groupPic),
+                              )),
+                        ),
+                      )),
+                ),
+                Padding(
+                  padding: EdgeInsets.symmetric(vertical: screenH(10)),
+                  child: Container(
+                    width: screenW(155),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Text(this.groupName,
+                            style: TextStyle(
+                                fontSize: 16, color: Colors.grey[800])),
+                        SizedBox(
+                          height: 5,
+                        ),
+                        Container(
+                          decoration: BoxDecoration(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(15.0)),
+                              color: settleType == 1
+                                  ? Colors.greenAccent[700].withOpacity(0.2)
+                                  : settleType == -1
+                                      ? Colors.red.withOpacity(0.2)
+                                      : Colors.grey.withOpacity(0.2)),
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(
+                                horizontal: screenW(8.0),
+                                vertical: screenH(3.0)),
+                            child: Text(
+                              "${settleType == 1 ? "+" : settleType == -1 ? "-" : ""} \$${balanceValue.toString()}",
+                              style: settleType == 1
+                                  ? greenSubStyle
+                                  : settleType == -1
+                                      ? redSubStyle
+                                      : blackSubStyle,
+                            ),
                           ),
                         ),
-                      ),
-                      SizedBox(
-                        height: 25,
-                      ),
-                      Row(
-                        children: <Widget>[
-                          CircleAvatar(
-                              backgroundImage:
-                                  AssetImage("assets/namrapatel.png"),
-                              radius: screenH(10)),
-                          SizedBox(
-                            width: 5,
-                          ),
-                          CircleAvatar(
-                              backgroundImage:
-                                  AssetImage("assets/shehabsalem.jpeg"),
-                              radius: screenH(10)),
-                          SizedBox(
-                            width: 5,
-                          ),
-                          CircleAvatar(
-                              backgroundImage:
-                                  AssetImage("assets/seanmei.jpeg"),
-                              radius: screenH(10)),
-                        ],
-                      )
-                    ],
+                        SizedBox(
+                          height: 25,
+                        ),
+                        Row(
+                          children: <Widget>[
+                            CircleAvatar(
+                                backgroundImage:
+                                    AssetImage("assets/namrapatel.png"),
+                                radius: screenH(10)),
+                            SizedBox(
+                              width: 5,
+                            ),
+                            CircleAvatar(
+                                backgroundImage:
+                                    AssetImage("assets/shehabsalem.jpeg"),
+                                radius: screenH(10)),
+                            SizedBox(
+                              width: 5,
+                            ),
+                            CircleAvatar(
+                                backgroundImage:
+                                    AssetImage("assets/seanmei.jpeg"),
+                                radius: screenH(10)),
+                          ],
+                        )
+                      ],
+                    ),
                   ),
-                ),
-              )
-            ],
-          )),
+                )
+              ],
+            )),
+      ),
     );
   }
 }
