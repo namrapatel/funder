@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 
 class NotificationsPage extends StatefulWidget {
@@ -8,22 +9,27 @@ class NotificationsPage extends StatefulWidget {
 }
 
 class _NotificationsPageState extends State<NotificationsPage> {
+
+  final screenH = ScreenUtil.instance.setHeight;
+  final screenW = ScreenUtil.instance.setWidth;
+  final screenF = ScreenUtil.instance.setSp;
+
   @override
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
         Padding(
-          padding: EdgeInsets.fromLTRB(10, 45, 0, 0),
+          padding: EdgeInsets.fromLTRB(0, (MediaQuery.of(context).size.height / 15), 0, 0),
         ),
         Row(children: <Widget>[
           Padding(
-            padding: EdgeInsets.fromLTRB(20, 0, 0, 0),
+            padding: EdgeInsets.fromLTRB((MediaQuery.of(context).size.height / 25), 0, 0, 0),
           ),
         Align(
           alignment: Alignment.topLeft,
           child: Text("Activity", style: TextStyle(fontSize: 30, color: Colors.blueAccent[700]),),
         ),
-        Padding(padding: EdgeInsets.fromLTRB(225, 0, 0, 0),),
+        Padding(padding: EdgeInsets.fromLTRB((MediaQuery.of(context).size.height / 3.2), 0, 0, 0),),
         Align(
           alignment: Alignment.topRight,
           child: IconButton(

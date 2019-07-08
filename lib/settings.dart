@@ -115,6 +115,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 child: Text("Change Picture"),
                 onPressed: (){},
                 color: Colors.blueAccent[700],
+                shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(15.0))
               ),
             ),
               Positioned(
@@ -123,12 +124,12 @@ class _SettingsPageState extends State<SettingsPage> {
               right: (MediaQuery.of(context).size.width / 21),
               child: Material(
                 elevation: 3.0,
-                borderRadius: BorderRadius.circular(7.0),
+                borderRadius: BorderRadius.circular(15.0),
                 child: Container(
                   height: screenH(530),
                   //height: 405.0,
                   decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(7.0),
+                      borderRadius: BorderRadius.circular(15.0),
                       color: Colors.white),
                 ),
               ),
@@ -202,6 +203,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 onPressed: (){
                   Navigator.of(context).pop();
                 },
+                shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(15.0))
               ),
             )
             ),
@@ -215,6 +217,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 child: Text("Save Changes", style: TextStyle(color: Colors.white, fontSize: 15),),
                 color: Colors.blueAccent[700],
                 onPressed: (){},
+                shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(15.0))
               ),
             )
             ),

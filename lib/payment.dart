@@ -51,11 +51,11 @@ class _PaymentsPageState extends State<PaymentsPage> {
               // right: 15.0,
               child: Material(
                 elevation: 3.0,
-                borderRadius: BorderRadius.circular(7.0),
+                borderRadius: BorderRadius.circular(15.0),
                 child: Container(
                   height: screenH(330),
                   decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(7.0),
+                      borderRadius: BorderRadius.circular(15.0),
                       color: Colors.white),
                 ),
               ),
@@ -84,6 +84,7 @@ class _PaymentsPageState extends State<PaymentsPage> {
                 child: Text("Add Funds", style: TextStyle(color: Colors.white, fontSize: 20),),
                 color: Colors.blueAccent[700],
                 onPressed: (){},
+                shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(15.0))
               ),
             )
             ),
@@ -207,6 +208,7 @@ class _PaymentsPageState extends State<PaymentsPage> {
                                 onPressed: (){
                                   Navigator.of(context).pop();
                                 },
+                                shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(15.0))
                               ),
                             ),
                            SizedBox(
@@ -216,6 +218,7 @@ class _PaymentsPageState extends State<PaymentsPage> {
                             child: Text("Add", style: TextStyle(color: Colors.white, fontSize: 15),),
                             color: Colors.blueAccent[700],
                             onPressed: (){},
+                            shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(15.0))
                           ),
                         )
                             ],)

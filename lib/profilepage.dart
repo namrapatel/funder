@@ -74,11 +74,11 @@ class _ProfilePageState extends State<ProfilePage> {
               right: (MediaQuery.of(context).size.width / 21),
               child: Material(
                 elevation: 3.0,
-                borderRadius: BorderRadius.circular(7.0),
+                borderRadius: BorderRadius.circular(15.0),
                 child: Container(
                   height: screenH(610),
                   decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(7.0),
+                      borderRadius: BorderRadius.circular(15.0),
                       color: Colors.white),
                 ),
               ),
