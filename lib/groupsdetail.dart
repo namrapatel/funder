@@ -1,11 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'homepage.dart';
 import 'screens/RequestsScreen.dart';
 import 'screens/PastScreen.dart';
 import 'screens/ChatScreen.dart';
+import 'widgets/colorCard.dart';
 
 class GroupsDetailPage extends StatelessWidget {
+  final int settleType = -1;
+  final double balanceValue = 29.99;
+  final greenSubStyle = TextStyle(
+      color: Colors.greenAccent[700],
+      fontSize: ScreenUtil(allowFontScaling: true).setSp(16.0));
+  final redSubStyle = TextStyle(
+      color: Colors.red,
+      fontSize: ScreenUtil(allowFontScaling: true).setSp(16.0));
+  final blackSubStyle = TextStyle(
+      color: Colors.grey,
+      fontSize: ScreenUtil(allowFontScaling: true).setSp(16.0));
   @override
   Widget build(BuildContext context) {
     double defaultScreenWidth = 414.0;
@@ -31,36 +42,50 @@ class GroupsDetailPage extends StatelessWidget {
                   icon: Icon(Icons.more_vert),
                 ),
               ],
-              iconTheme: IconThemeData(color: Colors.white),
-              expandedHeight: ScreenUtil.instance.setSp(200.0),
+              iconTheme: IconThemeData(
+                color: Colors.white,
+              ),
+              expandedHeight: ScreenUtil.instance.setHeight(300.0),
               floating: false,
               pinned: true,
               flexibleSpace: FlexibleSpaceBar(
-                  centerTitle: true,
-                  title: Text("Roommates",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: ScreenUtil.instance.setSp(16.0),
-                      )),
                   background: Stack(children: <Widget>[
-                    Container(
-                      // height: ScreenUtil.instance.setHeight(235.0),
-                      decoration: BoxDecoration(color: Colors.blueAccent[700]),
-                      child: Column(
+                Container(
+                  color: Colors.blueAccent[700],
+                  child: Column(
+                    children: <Widget>[
+                      SizedBox(
+                        height: 60,
+                      ),
+                      Center(
+                        child: CircleAvatar(
+                            backgroundImage:
+                                AssetImage('assets/roommates.jpeg'),
+                            radius: 50),
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Text("Roommates",
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: ScreenUtil.instance.setSp(25.0),
+                          )),
+                      Row(
                         children: <Widget>[
                           SizedBox(
-                            height: 90,
+                            width: 17,
                           ),
-                          Center(
-                            child: CircleAvatar(
-                                backgroundImage:
-                                    AssetImage('assets/roommates.jpeg'),
-                                radius: 50),
-                          ),
+                          colorCard(
+                              "Your Balance", 29.99, -1, context, Colors.white),
+                          colorCard("Monthly Spending", 508.93, 1, context,
+                              Colors.white)
                         ],
-                      ),
-                    )
-                  ])),
+                      )
+                    ],
+                  ),
+                )
+              ])),
             ),
             SliverPersistentHeader(
               delegate: _SliverAppBarDelegate(
@@ -71,7 +96,7 @@ class GroupsDetailPage extends StatelessWidget {
                   tabs: [
                     Tab(
                         icon: Icon(Icons.inbox, color: Colors.blueAccent[700]),
-                        text: "Dimes"),
+                        text: "Pending"),
                     Tab(
                         icon:
                             Icon(Icons.history, color: Colors.blueAccent[700]),
