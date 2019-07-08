@@ -133,7 +133,7 @@ class _SettingsPageState extends State<SettingsPage> {
               ),
             ),
               Positioned(
-              top: 271,
+              top: 270,
               left: 40,
               child: Text("Options", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
             ),
