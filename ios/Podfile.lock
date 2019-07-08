@@ -1,4 +1,10 @@
 PODS:
+  - Bolts (1.9.0):
+    - Bolts/AppLinks (= 1.9.0)
+    - Bolts/Tasks (= 1.9.0)
+  - Bolts/AppLinks (1.9.0):
+    - Bolts/Tasks
+  - Bolts/Tasks (1.9.0)
   - BoringSSL-GRPC (0.0.3):
     - BoringSSL-GRPC/Implementation (= 0.0.3)
     - BoringSSL-GRPC/Interface (= 0.0.3)
@@ -9,6 +15,10 @@ PODS:
     - Firebase/Core
     - Firebase/Firestore (~> 6.0)
     - Flutter
+  - FBSDKCoreKit (4.39.1):
+    - Bolts (~> 1.9)
+  - FBSDKLoginKit (4.39.1):
+    - FBSDKCoreKit
   - Firebase/Auth (6.0.0):
     - Firebase/CoreOnly
     - FirebaseAuth (~> 6.0.0)
@@ -76,6 +86,10 @@ PODS:
     - FirebaseCore (~> 6.0)
     - GTMSessionFetcher/Core (~> 1.1)
   - Flutter (1.0.0)
+  - flutter_facebook_login (0.0.1):
+    - FBSDKCoreKit (= 4.39.1)
+    - FBSDKLoginKit (= 4.39.1)
+    - Flutter
   - GoogleAppMeasurement (6.0.0):
     - GoogleUtilities/AppDelegateSwizzler (~> 6.0)
     - GoogleUtilities/MethodSwizzler (~> 6.0)
@@ -135,12 +149,16 @@ DEPENDENCIES:
   - firebase_core (from `.symlinks/plugins/firebase_core/ios`)
   - firebase_storage (from `.symlinks/plugins/firebase_storage/ios`)
   - Flutter (from `.symlinks/flutter/ios`)
+  - flutter_facebook_login (from `.symlinks/plugins/flutter_facebook_login/ios`)
   - image_picker (from `.symlinks/plugins/image_picker/ios`)
   - shared_preferences (from `.symlinks/plugins/shared_preferences/ios`)
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
+    - Bolts
     - BoringSSL-GRPC
+    - FBSDKCoreKit
+    - FBSDKLoginKit
     - Firebase
     - FirebaseAnalytics
     - FirebaseAuth
@@ -169,14 +187,19 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/firebase_storage/ios"
   Flutter:
     :path: ".symlinks/flutter/ios"
+  flutter_facebook_login:
+    :path: ".symlinks/plugins/flutter_facebook_login/ios"
   image_picker:
     :path: ".symlinks/plugins/image_picker/ios"
   shared_preferences:
     :path: ".symlinks/plugins/shared_preferences/ios"
 
 SPEC CHECKSUMS:
+  Bolts: ac6567323eac61e203f6a9763667d0f711be34c8
   BoringSSL-GRPC: db8764df3204ccea016e1c8dd15d9a9ad63ff318
   cloud_firestore: c6f34148c1dfbb57a6147f9bb49c1c9f5c27036e
+  FBSDKCoreKit: f442aa96179cc9b382bb4abeb7e340a47cca8f91
+  FBSDKLoginKit: c3079d9a4db27c492287b1eed7a4272b28cf8a59
   Firebase: fa80b9d987ca014a1ba9357496ef2a0178b28b12
   firebase_auth: 7a2cc520766f90212b845a5b35316601707bfa25
   firebase_core: ce5006bb48508ee4e71e0f429a3f519bb8ee2961
@@ -189,6 +212,7 @@ SPEC CHECKSUMS:
   FirebaseInstanceID: 0e0348a3c00a734fa376a070f5ad4533ad975cb5
   FirebaseStorage: ff1e8f1f6cf1557a8694b0ef39d3e72cb60c42ac
   Flutter: 58dd7d1b27887414a370fcccb9e645c08ffd7a6a
+  flutter_facebook_login: be61e24a4b7d621515353c6b4583d1981bdaa3d6
   GoogleAppMeasurement: 7f028ea162b72c8f326daec74afc95d94f7a47d6
   GoogleUtilities: 84df567c76ca84f67b7bb40e769fdd4acc746a10
   "gRPC-C++": 98be881723177d8c4faf5fdffacb582c7b4971a2

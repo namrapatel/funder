@@ -42,7 +42,7 @@ packages:
       name: cloud_firestore
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.11.0+2"
+    version: "0.12.6"
   collection:
     dependency: transitive
     description:
@@ -50,27 +50,34 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.14.11"
+  contacts_service:
+    dependency: "direct dev"
+    description:
+      name: contacts_service
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.2.8"
   firebase_auth:
     dependency: "direct dev"
     description:
       name: firebase_auth
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.11.1+5"
+    version: "0.11.1+7"
   firebase_core:
     dependency: transitive
     description:
       name: firebase_core
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.4.0+1"
+    version: "0.4.0+6"
   firebase_storage:
     dependency: "direct dev"
     description:
       name: firebase_storage
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "3.0.0"
+    version: "3.0.2"
   flutter:
     dependency: "direct main"
     description: flutter
@@ -82,7 +89,7 @@ packages:
       name: flutter_screenutil
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.5.2"
+    version: "0.5.3"
   flutter_test:
     dependency: "direct dev"
     description: flutter
@@ -122,7 +129,9 @@ packages:
       name: logging
       url: "https://pub.dartlang.org"
     source: hosted
+
     version: "0.11.3+2"
+
   matcher:
     dependency: transitive
     description:
@@ -158,6 +167,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.5.0"
+  permission_handler:
+    dependency: "direct dev"
+    description:
+      name: permission_handler
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "3.1.0"
   queries:
     dependency: "direct dev"
     description:
