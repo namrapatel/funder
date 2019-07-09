@@ -8,20 +8,21 @@ import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert' as JSON;
 User currentUserModel;
+FacebookLogin fbLogin = new FacebookLogin();
 class LoginPage extends StatefulWidget {
   @override
   _LoginPageState createState() => _LoginPageState();
 }
 
 class _LoginPageState extends State<LoginPage> {
-bool _isLoggedIn=false;
-Map userProfile;
-   final _auth = FirebaseAuth.instance;
-   FacebookLogin fbLogin = new FacebookLogin();
+  bool _isLoggedIn=false;
+  Map userProfile;
+  final _auth = FirebaseAuth.instance;
 
-   TextEditingController _smsCodeController = TextEditingController();
-   TextEditingController _phoneNumberController = TextEditingController();
-   String verificationId;
+
+  TextEditingController _smsCodeController = TextEditingController();
+  TextEditingController _phoneNumberController = TextEditingController();
+  String verificationId;
 
 
 
@@ -188,9 +189,12 @@ Map userProfile;
 
                       switch (result.status) {
                         case FacebookLoginStatus.loggedIn:
-                          final token = result.accessToken.token;
+                          final token = accessToken.token;
+                          print(token);
+                          print(accessToken.expires);
 //                          final pic =await http.get('http://graph.facebook.com/[user_id]/picture?type=square');
-                          final graphResponse = await http.get('https://graph.facebook.com/v3.3/me?fields=name,picture,friends,email&access_token=${token}');
+                          final graphResponse = await http.get('https://graph.facebook.com/v3.3/me?fields=name,picture.width(800).height(800),email&access_token=${token}');
+                          print(graphResponse);
                           final profile = JSON.jsonDecode(graphResponse.body);
                           print(profile);
                           setState(() {
@@ -207,13 +211,26 @@ Map userProfile;
                           break;
                       }
 
+
+//                  print(userProfile["friends"]['data'][0]['id']);
+//                      List<String> fbFriendsIds=[];
+//                      for(var key in userProfile["friends"]['data']){
+//                        String fbId= key['id'];
+//                        fbFriendsIds.add(fbId);
+//                      }
+//                      print(fbFriendsIds);
                       DocumentSnapshot userRecord= await Firestore.instance.collection('users').document(user.uid).get();
                       if(!userRecord.exists){
                         Firestore.instance.collection('users').document(user.uid).setData({
                           'photoUrl':userProfile["picture"]["data"]["url"],
                           'email': user.email,
                           'displayName': user.displayName,
-                          'phoneNumber': user.phoneNumber
+                          'phoneNumber': user.phoneNumber,
+                          'facebookUid':user.providerData[1].uid,
+//                          'fbFriends': fbFriendsIds
+                          //after getting friends who have the app, query for their document using their
+                          //fb uid and then display their name and photo url on contacts
+
                         });
                         userRecord=await Firestore.instance.collection('users').document(user.uid).get();
                       }
@@ -223,7 +240,7 @@ Map userProfile;
                       print('signed in with facebook successful: user -> $user');
                       Navigator.push(context, new MaterialPageRoute(builder: (context) => new MyHomePage()));
 
-                        }
+                    }
 
 
                     ,
