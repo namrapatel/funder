@@ -19,7 +19,7 @@ List<RequestCard> requestCards = [
       35.13, -1, -1, 4, "August 9th, 2019"),
   RequestCard("Namra Patel", "assets/namrapatel.png", "Saturday's Groceries",
       34.99, 1, 1, 4, "August 7th, 2019"),
-  RequestCard("Sean Mei", "assets/seanmei.jpeg", "Uber to Masonville", 4.15, -1,
+  RequestCard("Dhruv Patel", "assets/dhruvpatel.jpeg", "Uber to Masonville", 4.15, -1,
       -1, 4, "June 30th, 2019"),
 ];
 
@@ -108,7 +108,7 @@ class RequestCard extends StatelessWidget {
                           ),
                           CircleAvatar(
                               backgroundImage:
-                                  AssetImage("assets/seanmei.jpeg"),
+                                  AssetImage("assets/dhruvpatel.jpeg"),
                               radius: screenH(10)),
                           Spacer(),
                           Container(

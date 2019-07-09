@@ -735,7 +735,7 @@ class GroupCard extends StatelessWidget {
                             ),
                             CircleAvatar(
                                 backgroundImage:
-                                    AssetImage("assets/seanmei.jpeg"),
+                                    AssetImage("assets/dhruvpatel.jpeg"),
                                 radius: screenH(10)),
                           ],
                         )
