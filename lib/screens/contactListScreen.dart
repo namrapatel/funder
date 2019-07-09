@@ -7,7 +7,7 @@ import 'package:Dime/loginpage.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert' as JSON;
 import 'package:contacts_service/contacts_service.dart';
-bool permissionGranted=true;
+
 
 class ContactListScreen extends StatefulWidget {
   @override
@@ -18,27 +18,27 @@ class _ContactListScreenState extends State<ContactListScreen> {
   TextEditingController editingController = TextEditingController();
 
 
-  getContactsPermission() async{
-
-    PermissionStatus permission = await PermissionHandler().checkPermissionStatus(PermissionGroup.contacts);
-
-    if(permission== PermissionStatus.denied||permission== PermissionStatus.disabled||permission== PermissionStatus.restricted){
-      Map<PermissionGroup, PermissionStatus> permissions = await PermissionHandler().requestPermissions([PermissionGroup.contacts]);
-
-      if(permissions[PermissionGroup.contacts]==PermissionStatus.denied){
-        print('user denied it');
-        permissionGranted=false;
-
-      }else if(permissions[PermissionGroup.contacts]==PermissionStatus.granted){
-        print('user accepts');
-        permissionGranted=true;
-      }
-
-    }
-
-
-
-  }
+//  getContactsPermission() async{
+//
+//    PermissionStatus permission = await PermissionHandler().checkPermissionStatus(PermissionGroup.contacts);
+//
+//    if(permission== PermissionStatus.denied||permission== PermissionStatus.disabled||permission== PermissionStatus.restricted){
+//      Map<PermissionGroup, PermissionStatus> permissions = await PermissionHandler().requestPermissions([PermissionGroup.contacts]);
+//
+//      if(permissions[PermissionGroup.contacts]==PermissionStatus.denied){
+//        print('user denied it');
+//        permissionGranted=false;
+//
+//      }else if(permissions[PermissionGroup.contacts]==PermissionStatus.granted){
+//        print('user accepts');
+//        permissionGranted=true;
+//      }
+//
+//    }
+//
+//
+//
+//  }
 
 
 
@@ -47,7 +47,7 @@ class _ContactListScreenState extends State<ContactListScreen> {
 
     super.initState();
 
-    getContactsPermission();
+//    getContactsPermission();
   }
   @override
   Widget build(BuildContext context) {

@@ -2,7 +2,7 @@ import 'dart:ui' as prefix0;
 
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-
+import 'package:permission_handler/permission_handler.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -18,7 +18,7 @@ final screenH = ScreenUtil.instance.setHeight;
 final screenW = ScreenUtil.instance.setWidth;
 final screenF = ScreenUtil.instance.setSp;
 final _firestore = Firestore.instance;
-
+bool permissionGranted=true;
 class HomePage extends StatefulWidget {
   @override
   _HomePageState createState() => _HomePageState();
@@ -47,6 +47,29 @@ class HomePageOne extends StatefulWidget {
 
 class _HomePageOneState extends State<HomePageOne> {
   String uid = currentUserModel.uid;
+
+  getContactsPermission() async{
+
+    PermissionStatus permission = await PermissionHandler().checkPermissionStatus(PermissionGroup.contacts);
+
+    if(permission== PermissionStatus.denied||permission== PermissionStatus.disabled||permission== PermissionStatus.restricted){
+      Map<PermissionGroup, PermissionStatus> permissions = await PermissionHandler().requestPermissions([PermissionGroup.contacts]);
+
+      if(permissions[PermissionGroup.contacts]==PermissionStatus.denied){
+        print('user denied it');
+        permissionGranted=false;
+
+      }else if(permissions[PermissionGroup.contacts]==PermissionStatus.granted){
+        print('user accepts');
+        permissionGranted=true;
+      }
+
+    }
+
+
+
+  }
+
   @override
   Widget build(BuildContext context) {
     double defaultScreenWidth = 414.0;
@@ -100,7 +123,8 @@ class _HomePageOneState extends State<HomePageOne> {
                 Spacer(),
                 // SizedBox(width: 278),
                 IconButton(
-                  onPressed: () {
+                  onPressed: () async{
+                    await getContactsPermission();
                     Navigator.push(
                         context,
                         MaterialPageRoute(
