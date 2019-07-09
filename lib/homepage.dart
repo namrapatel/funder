@@ -3,16 +3,12 @@ import 'dart:ui' as prefix0;
 import 'package:Dime/groupsdetail.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import 'classes/user.dart';
+
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'loginpage.dart';
 import 'package:timeago/timeago.dart' as timeago;
-import 'package:queries/collections.dart';
-import 'profilepage.dart';
-
-
 
 import 'screens/contactListScreen.dart';
 import 'package:Dime/screens/contactListScreen.dart';
@@ -22,15 +18,7 @@ Color secondColor = Colors.greenAccent[700];
 final screenH = ScreenUtil.instance.setHeight;
 final screenW = ScreenUtil.instance.setWidth;
 final screenF = ScreenUtil.instance.setSp;
-final _firestore= Firestore.instance;
-
-
-
-
-
-
-
-
+final _firestore = Firestore.instance;
 
 class HomePage extends StatefulWidget {
   @override
@@ -38,36 +26,13 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-
-//  final _firestore= Firestore.instance;
-//  User currentUser;
-//  String bio;
-//  String displayName;
-//  String photoUrl;
-//  List<String> requests;
-
   @override
   void initState() {
     // TODO: implement initState
-    String uid= currentUserModel.uid;
-    super.initState();
 
-//    currentUser = new User();
-//    currentUser.getInfo().then((_) => setState(() {
-//      if(currentUser.getBio()!=null) {
-//        bio = currentUser.getBio();
-//      }
-//      if(currentUser.getDisplayName()!=null) {
-//        displayName = currentUser.getDisplayName();
-//      }
-//      if(currentUser.getPhotoUrl()!=null) {
-//        photoUrl = currentUser.getPhotoUrl();
-//      }
-//      if(currentUser.getRequests()!=null){
-//        requests=currentUser.getRequests();
-//      }
-//  }));
+    super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -76,15 +41,13 @@ class _HomePageState extends State<HomePage> {
   }
 }
 
-
-
 class HomePageOne extends StatefulWidget {
   @override
   _HomePageOneState createState() => _HomePageOneState();
 }
 
-class _HomePageOneState extends State<HomePageOne>  {
-  String uid= currentUserModel.uid;
+class _HomePageOneState extends State<HomePageOne> {
+  String uid = currentUserModel.uid;
   @override
   Widget build(BuildContext context) {
     double defaultScreenWidth = 414.0;
@@ -109,7 +72,6 @@ class _HomePageOneState extends State<HomePageOne>  {
                   spreadRadius: 0.2,
                   offset: Offset(0, 7)),
             ],
-
           )),
       Column(children: <Widget>[
         Column(
@@ -166,75 +128,79 @@ class _HomePageOneState extends State<HomePageOne>  {
         SizedBox(height: screenH(10)),
         Container(
           height: screenH(125),
-          child: uid==null
-        ?CircularProgressIndicator()
-        : StreamBuilder<QuerySnapshot> (
-              stream: _firestore.collection('users').document('$uid').collection('requests').orderBy('timestamp',descending: true).snapshots(),
-              builder: (context,snapshot) {
-                print(uid);
-                print('wtf');
-                if (!snapshot.hasData) {
-                  return Center(
-                    child: CircularProgressIndicator(
-                      backgroundColor: Colors.lightBlueAccent,
-                    ),
-                  );
-                }
-                final docs =snapshot.data.documents;
-                List<RecentCard> recentCards=[];
-
-
-                for(var doc in docs){
-                  String requesterId = doc.data['requesterId'].toString();
-                  String requesterName = doc.data['requesterName'].toString();
-                  String requesterPhoto = doc.data['requesterPhoto'].toString();
-                  print(uid);
-                  print(currentUserModel.uid);
-                  if (currentUserModel.uid !=requesterId) {
-                    recentCards.add(RecentCard(personId: requesterId,
-                        personName: requesterName,
-                        profilePic: requesterPhoto));
-                  }
-                  List requestedFromIds = doc.data['requestedFromIds'];
-                  List requestedFromNames = doc.data['requestedFromNames'];
-                  List requestedFromPhotos = doc.data['requestedFromPhotos'];
-                  for(int i=0;i<requestedFromIds.length;i++) {
-                    if (currentUserModel.uid != requestedFromIds[i]) {
-                      recentCards.add(RecentCard(
-                          personId: requestedFromIds[i],
-                          personName: requestedFromNames[i],
-                          profilePic: requestedFromPhotos[i]));
+          child: uid == null
+              ? CircularProgressIndicator()
+              : StreamBuilder<QuerySnapshot>(
+                  stream: _firestore
+                      .collection('users')
+                      .document('$uid')
+                      .collection('requests')
+                      .orderBy('timestamp', descending: true)
+                      .snapshots(),
+                  builder: (context, snapshot) {
+                    print(uid);
+                    print('wtf');
+                    if (!snapshot.hasData) {
+                      return Center(
+                        child: CircularProgressIndicator(
+                          backgroundColor: Colors.lightBlueAccent,
+                        ),
+                      );
                     }
-                  }
-                }
-                SizedBox(height: screenH(10));
-                return Container(
-                height: screenH(165),
-                child: ListView.builder(
-                padding: EdgeInsets.only(
-                bottom: screenH(15.0),
-                ),
-                shrinkWrap: true,
-                scrollDirection: Axis.horizontal,
-                itemCount: recentCards.length,
-                itemBuilder: (BuildContext context, int index) {
-                      return recentCards[index];
-                    }
-                ),
-                );
+                    final docs = snapshot.data.documents;
+                    List<RecentCard> recentCards = [];
 
-              }),
+                    for (var doc in docs) {
+                      String requesterId = doc.data['requesterId'].toString();
+                      String requesterName =
+                          doc.data['requesterName'].toString();
+                      String requesterPhoto =
+                          doc.data['requesterPhoto'].toString();
+                      print(uid);
+                      print(currentUserModel.uid);
+                      if (currentUserModel.uid != requesterId) {
+                        recentCards.add(RecentCard(
+                            personId: requesterId,
+                            personName: requesterName,
+                            profilePic: requesterPhoto));
+                      }
+                      List requestedFromIds = doc.data['requestedFromIds'];
+                      List requestedFromNames = doc.data['requestedFromNames'];
+                      List requestedFromPhotos =
+                          doc.data['requestedFromPhotos'];
+                      for (int i = 0; i < requestedFromIds.length; i++) {
+                        if (currentUserModel.uid != requestedFromIds[i]) {
+                          recentCards.add(RecentCard(
+                              personId: requestedFromIds[i],
+                              personName: requestedFromNames[i],
+                              profilePic: requestedFromPhotos[i]));
+                        }
+                      }
+                    }
+                    SizedBox(height: screenH(10));
+                    return Container(
+                      height: screenH(165),
+                      child: ListView.builder(
+                          padding: EdgeInsets.only(
+                            bottom: screenH(15.0),
+                          ),
+                          shrinkWrap: true,
+                          scrollDirection: Axis.horizontal,
+                          itemCount: recentCards.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            return recentCards[index];
+                          }),
+                    );
+                  }),
         ),
       ]),
     ]);
   }
 }
 
-
-
 class RecentCard extends StatelessWidget {
-  final String personId,personName, profilePic;
-  RecentCard({this.personId,this.personName, this.profilePic});
+  final String personId, personName, profilePic;
+  RecentCard({this.personId, this.personName, this.profilePic});
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -278,21 +244,17 @@ class HomePageTwo extends StatefulWidget {
 }
 
 class _HomePageTwoState extends State<HomePageTwo> {
-  String uid= currentUserModel.uid;
+  String uid = currentUserModel.uid;
   @override
-  void initState(){
-
+  void initState() {
     super.initState();
-
-
   }
+
   @override
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
-
         SizedBox(height: screenH(25)),
-
         Align(
             alignment: Alignment.centerLeft,
             child: Padding(
@@ -303,84 +265,85 @@ class _HomePageTwoState extends State<HomePageTwo> {
             )),
         SizedBox(height: screenH(10)),
         Container(
-          height: screenH(165),
-          child:Column(
-          children: <Widget>[
-        uid==null
-        ?CircularProgressIndicator()
-        : StreamBuilder<QuerySnapshot> (
-              stream: _firestore.collection('users').document('$uid').collection('requests').snapshots(),
-              builder: (context,snapshot) {
-                if (!snapshot.hasData) {
-                  return Center(
-                    child: CircularProgressIndicator(
-                      backgroundColor: Colors.lightBlueAccent,
-                    ),
-                  );
-                }
-                final docs =snapshot.data.documents;
-                List<RequestCard> requestCards=[];
-                for(var doc in docs){
-                      String requesterId= doc.data['requesterId'].toString();
-                      String requesterName = doc.data['requesterName'].toString();
-                      String requesterPhoto = doc.data['requesterPhoto'].toString();
-                      List requestedFromIds= doc.data['requestedFromIds'];
-                      List requestedFromNames = doc.data['requestedFromNames'];
-                      List requestedFromPhotos = doc.data['requestedFromPhotos'];
-                      String event = doc.data['event'].toString();
-                      String amount = doc.data['amount'].toString();
-                      String type =doc.data['type'].toString();
+            height: screenH(165),
+            child: Column(
+              children: <Widget>[
+                uid == null
+                    ? CircularProgressIndicator()
+                    : StreamBuilder<QuerySnapshot>(
+                        stream: _firestore
+                            .collection('users')
+                            .document('$uid')
+                            .collection('requests')
+                            .snapshots(),
+                        builder: (context, snapshot) {
+                          if (!snapshot.hasData) {
+                            return Center(
+                              child: CircularProgressIndicator(
+                                backgroundColor: Colors.lightBlueAccent,
+                              ),
+                            );
+                          }
+                          final docs = snapshot.data.documents;
+                          List<RequestCard> requestCards = [];
+                          for (var doc in docs) {
+                            String requesterId =
+                                doc.data['requesterId'].toString();
+                            String requesterName =
+                                doc.data['requesterName'].toString();
+                            String requesterPhoto =
+                                doc.data['requesterPhoto'].toString();
+                            List requestedFromIds =
+                                doc.data['requestedFromIds'];
+                            List requestedFromNames =
+                                doc.data['requestedFromNames'];
+                            List requestedFromPhotos =
+                                doc.data['requestedFromPhotos'];
+                            String event = doc.data['event'].toString();
+                            String amount = doc.data['amount'].toString();
+                            String type = doc.data['type'].toString();
 
+                            var storedDate = doc.data['timestamp'];
 
-                      var storedDate=  doc.data['timestamp'];
+                            String elapsedTime =
+                                timeago.format(storedDate.toDate());
+                            String timestamp = '$elapsedTime';
 
-                      String elapsedTime=timeago.format(storedDate.toDate());
-                      String timestamp='$elapsedTime';
-
-                        requestCards.add(RequestCard(
-                          requesterPhoto: requesterPhoto,
-                          requesterId: requesterId,
-                          requesterName: requesterName,
-                          requestedFromIds: requestedFromIds,
-                          requestedFromNames: requestedFromNames,
-                          requestedFromPhotos: requestedFromPhotos,
-                          event:event,
-                          amount:amount,
-                          type:type,
-                          timestamp:timestamp
-                            ));
-
-
-
-                }
-                SizedBox(height: screenH(10));
-                return Container(
-                height: screenH(165),
-                child: ListView.builder(
-                padding: EdgeInsets.only(
-                bottom: screenH(15.0),
-                ),
-                shrinkWrap: true,
-                scrollDirection: Axis.horizontal,
-                itemCount: requestCards.length,
-                itemBuilder: (BuildContext context, int index) {
-                      return requestCards[index];
-                    }
-                ),
-                );
-
-              }),
-            ],
-        )
-        )],
+                            requestCards.add(RequestCard(
+                                requesterPhoto: requesterPhoto,
+                                requesterId: requesterId,
+                                requesterName: requesterName,
+                                requestedFromIds: requestedFromIds,
+                                requestedFromNames: requestedFromNames,
+                                requestedFromPhotos: requestedFromPhotos,
+                                event: event,
+                                amount: amount,
+                                type: type,
+                                timestamp: timestamp));
+                          }
+                          SizedBox(height: screenH(10));
+                          return Container(
+                            height: screenH(165),
+                            child: ListView.builder(
+                                padding: EdgeInsets.only(
+                                  bottom: screenH(15.0),
+                                ),
+                                shrinkWrap: true,
+                                scrollDirection: Axis.horizontal,
+                                itemCount: requestCards.length,
+                                itemBuilder: (BuildContext context, int index) {
+                                  return requestCards[index];
+                                }),
+                          );
+                        }),
+              ],
+            ))
+      ],
     );
   }
 }
 
-
 class RequestCard extends StatelessWidget {
-
-
   final String requesterId;
   final String requesterName;
   final String requesterPhoto;
@@ -402,42 +365,34 @@ class RequestCard extends StatelessWidget {
       color: Colors.grey,
       fontSize: ScreenUtil(allowFontScaling: true).setSp(15.0));
 
+  RequestCard(
+      {this.requesterId,
+      this.requesterName,
+      this.requesterPhoto,
+      this.amount,
+      this.event,
+      this.timestamp,
+      this.type,
+      this.requestedFromIds,
+      this.requestedFromNames,
+      this.requestedFromPhotos});
 
+  List<Widget> buildRequestedPhotos(List photos) {
+    List<Widget> photoWidgets = [];
 
-  RequestCard({
-    this.requesterId,
-    this.requesterName,
-    this.requesterPhoto,
-    this.amount,
-    this.event,
-    this.timestamp,
-    this.type,
-    this.requestedFromIds,
-    this.requestedFromNames,
-    this.requestedFromPhotos
-  });
-
-  List<Widget> buildRequestedPhotos(List photos){
-    List<Widget> photoWidgets=[];
-
-
-    for(var photo in photos){
-    photoWidgets.add(
-      Column(
-          children: <Widget>[
-      CircleAvatar(
-      backgroundImage:
-      NetworkImage(photo),
-    radius: screenH(10)),
-    SizedBox(
-    width: 5,
-    )])
-    );
+    for (var photo in photos) {
+      photoWidgets.add(Column(children: <Widget>[
+        Padding(
+          padding: EdgeInsets.symmetric(vertical: 2.0, horizontal: 1),
+          child: CircleAvatar(
+              backgroundImage: NetworkImage(photo), radius: screenH(10)),
+        ),
+        SizedBox(
+          width: 5,
+        )
+      ]));
     }
     return photoWidgets;
-
-
-
   }
 
   @override
@@ -495,24 +450,22 @@ class RequestCard extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: <Widget>[
                               Container(
-                              height: screenH(30),
-                          child: ListView(
-                            padding: EdgeInsets.only(bottom: screenH(5)),
-                            scrollDirection: Axis.horizontal,
-                            shrinkWrap: true,
-                            children: buildRequestedPhotos(requestedFromPhotos),
-                          ),
-                        ),
-
+                                height: screenH(30),
+                                child: ListView(
+                                  padding: EdgeInsets.only(bottom: screenH(5)),
+                                  scrollDirection: Axis.horizontal,
+                                  shrinkWrap: true,
+                                  children:
+                                      buildRequestedPhotos(requestedFromPhotos),
+                                ),
+                              ),
                               Padding(
-                                padding: EdgeInsets.only(left: screenW(45.0)),
+                                padding: EdgeInsets.only(left: screenW(70.0)),
                                 child: Container(
                                   decoration: BoxDecoration(
-
-                                      borderRadius:
-                                          BorderRadius.all(Radius.circular(15.0)),
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(15.0)),
                                       color: type == 'Remind'
-
                                           ? Colors.greenAccent[700]
                                               .withOpacity(0.2)
                                           : type == 'Pay'
@@ -564,7 +517,6 @@ class RequestCard extends StatelessWidget {
                       shape: new RoundedRectangleBorder(
                           borderRadius: new BorderRadius.circular(10.0)),
                       onPressed: () {},
-
                       color: type == 'Pay'
                           ? Colors.greenAccent[700].withOpacity(0.2)
                           : Colors.blueGrey.withOpacity(0.2),
@@ -572,7 +524,6 @@ class RequestCard extends StatelessWidget {
                           ? Colors.greenAccent[700]
                           : Colors.blueGrey,
                       child: Text(type),
-
                     ),
                   ),
                 ],
@@ -591,91 +542,90 @@ class HomePageThree extends StatefulWidget {
 }
 
 class _HomePageThreeState extends State<HomePageThree> {
-  String uid= currentUserModel.uid;
-
-
+  String uid = currentUserModel.uid;
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: <Widget>[
-        Row(
-          children: <Widget>[
-            Align(
-                alignment: Alignment.centerLeft,
-                child: Padding(
-                  padding: EdgeInsets.only(left: screenW(20.0)),
-                  child: Text("Your Groups",
-                      style: TextStyle(
-                          fontSize: screenF(15), color: Colors.grey[700])),
-                )),
-            SizedBox(
-              width: screenW(200),
-            ),
-            FlatButton(
-              onPressed: () {},
-              child: Text("VIEW ALL",
-                  style: TextStyle(
-                      fontSize: screenF(13), color: Colors.blueAccent[700])),
-            ),
-          ],
-        ),
-        Container(
-          height: screenH(270),
-          child:Column(
-          children: <Widget>[
-          uid==null
-          ?CircularProgressIndicator()
-        : StreamBuilder<QuerySnapshot> (
-          stream: _firestore.collection('users').document(uid).collection('groups').snapshots(),
-          builder: (context,snapshot) {
-          if (!snapshot.hasData) {
-          return Center(
-          child: CircularProgressIndicator(
-          backgroundColor: Colors.lightBlueAccent,
+    return Column(children: <Widget>[
+      Row(
+        children: <Widget>[
+          Align(
+              alignment: Alignment.centerLeft,
+              child: Padding(
+                padding: EdgeInsets.only(left: screenW(20.0)),
+                child: Text("Your Groups",
+                    style: TextStyle(
+                        fontSize: screenF(15), color: Colors.grey[700])),
+              )),
+          SizedBox(
+            width: screenW(200),
           ),
-          );
-          }
-          final docs =snapshot.data.documents;
-          List<GroupCard> groupCards=[];
-          for(var doc in docs){
-          String groupName= doc.data['groupName'];
-           String groupPic= doc.data['groupPic'];
-            int balanceValue= doc.data['balanceValue'];
-            int settleType= doc.data['settleType'];
-            
-            
-          groupCards.add(GroupCard(groupName: groupName,groupPic: groupPic,balanceValue:balanceValue,settleType:settleType));
+          FlatButton(
+            onPressed: () {},
+            child: Text("VIEW ALL",
+                style: TextStyle(
+                    fontSize: screenF(13), color: Colors.blueAccent[700])),
+          ),
+        ],
+      ),
+      Container(
+          height: screenH(270),
+          child: Column(
+            children: <Widget>[
+              uid == null
+                  ? CircularProgressIndicator()
+                  : StreamBuilder<QuerySnapshot>(
+                      stream: _firestore
+                          .collection('users')
+                          .document(uid)
+                          .collection('groups')
+                          .snapshots(),
+                      builder: (context, snapshot) {
+                        if (!snapshot.hasData) {
+                          return Center(
+                            child: CircularProgressIndicator(
+                              backgroundColor: Colors.lightBlueAccent,
+                            ),
+                          );
+                        }
+                        final docs = snapshot.data.documents;
+                        List<GroupCard> groupCards = [];
+                        for (var doc in docs) {
+                          String groupName = doc.data['groupName'];
+                          String groupPic = doc.data['groupPic'];
+                          int balanceValue = doc.data['balanceValue'];
+                          int settleType = doc.data['settleType'];
 
-
-
-          }
-          SizedBox(height: screenH(10));
-          return Container(
-            height: screenH(250),
-            child: ListView.builder(
-                padding: EdgeInsets.only(
-                  bottom: screenH(15.0),
-                ),
-                shrinkWrap: true,
-                scrollDirection: Axis.horizontal,
-                itemCount: groupCards.length,
-                itemBuilder: (BuildContext context, int index) {
-                  return groupCards[index];
-                }
-            ),
-          );
-        })
-      ],
-    )
-        )]);}
+                          groupCards.add(GroupCard(
+                              groupName: groupName,
+                              groupPic: groupPic,
+                              balanceValue: balanceValue,
+                              settleType: settleType));
+                        }
+                        SizedBox(height: screenH(10));
+                        return Container(
+                          height: screenH(270),
+                          child: ListView.builder(
+                              padding: EdgeInsets.only(
+                                bottom: screenH(15.0),
+                              ),
+                              shrinkWrap: true,
+                              scrollDirection: Axis.horizontal,
+                              itemCount: groupCards.length,
+                              itemBuilder: (BuildContext context, int index) {
+                                return groupCards[index];
+                              }),
+                        );
+                      })
+            ],
+          ))
+    ]);
+  }
 }
 
-
-
 class GroupCard extends StatelessWidget {
-  final String groupName,groupPic;
-  final int balanceValue,settleType;
+  final String groupName, groupPic;
+  final int balanceValue, settleType;
   final greenSubStyle = TextStyle(
       color: Colors.greenAccent[700],
       fontSize: ScreenUtil(allowFontScaling: true).setSp(12.0));
@@ -685,11 +635,11 @@ class GroupCard extends StatelessWidget {
   final blackSubStyle = TextStyle(
       color: Colors.grey,
       fontSize: ScreenUtil(allowFontScaling: true).setSp(12.0));
-  GroupCard({this.groupName, this.groupPic, this.balanceValue, this.settleType});
+  GroupCard(
+      {this.groupName, this.groupPic, this.balanceValue, this.settleType});
 
   @override
   Widget build(BuildContext context) {
-<<<
     return InkWell(
       onTap: () {
         Navigator.push(
@@ -725,7 +675,6 @@ class GroupCard extends StatelessWidget {
                               child: Image(
                                 image: NetworkImage(this.groupPic),
                               )),
-
                         ),
                       )),
                 ),
@@ -764,7 +713,6 @@ class GroupCard extends StatelessWidget {
                                       : blackSubStyle,
                             ),
                           ),
-
                         ),
                         SizedBox(
                           height: 25,
@@ -798,7 +746,6 @@ class GroupCard extends StatelessWidget {
               ],
             )),
       ),
-
     );
   }
 }

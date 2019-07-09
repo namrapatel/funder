@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:Dime/homepage.dart';
-
 import 'package:Dime/screens/individualTransaction.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:Dime/loginpage.dart';
@@ -10,14 +9,12 @@ import 'dart:convert' as JSON;
 import 'package:contacts_service/contacts_service.dart';
 bool permissionGranted=true;
 
-
 class ContactListScreen extends StatefulWidget {
   @override
   _ContactListScreenState createState() => _ContactListScreenState();
 }
 
 class _ContactListScreenState extends State<ContactListScreen> {
-
   TextEditingController editingController = TextEditingController();
 
 
@@ -53,7 +50,6 @@ class _ContactListScreenState extends State<ContactListScreen> {
 
     getContactsPermission();
   }
-
   @override
   Widget build(BuildContext context) {
 
@@ -82,13 +78,10 @@ class _ContactListScreenState extends State<ContactListScreen> {
           )
         ],
       ),
-
       body: buildPage()
-
     );
   }
 }
-
 
 Widget buildPage() {
   TextEditingController editingController = TextEditingController();
@@ -201,7 +194,6 @@ Widget buildContacts() {
    return contactsTiles;
 
  }
-
 
 
 class ContactTile extends StatefulWidget {
