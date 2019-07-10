@@ -102,7 +102,7 @@ class _ProfilePageState extends State<ProfilePage> {
             child: Column(
               children: <Widget>[
                 Text(
-                  'Taher Ankleshwaria',
+                  '$displayName',
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 17.0,
