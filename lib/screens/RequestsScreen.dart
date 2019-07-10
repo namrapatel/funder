@@ -1,14 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'transactionDetail.dart';
 
 class RequestsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: ListView(
-        padding: EdgeInsets.all(0),
-        children: requestCards,
-        scrollDirection: Axis.vertical,
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => TransactionDetail(),
+            ));
+      },
+      child: Container(
+        child: ListView(
+          padding: EdgeInsets.all(0),
+          children: requestCards,
+          scrollDirection: Axis.vertical,
+        ),
       ),
     );
   }
@@ -19,8 +29,8 @@ List<RequestCard> requestCards = [
       35.13, -1, -1, 4, "August 9th, 2019"),
   RequestCard("Namra Patel", "assets/namrapatel.png", "Saturday's Groceries",
       34.99, 1, 1, 4, "August 7th, 2019"),
-  RequestCard("Dhruv Patel", "assets/dhruvpatel.jpeg", "Uber to Masonville", 4.15, -1,
-      -1, 4, "June 30th, 2019"),
+  RequestCard("Dhruv Patel", "assets/dhruvpatel.jpeg", "Uber to Masonville",
+      4.15, -1, -1, 4, "June 30th, 2019"),
 ];
 
 class RequestCard extends StatelessWidget {
@@ -87,8 +97,7 @@ class RequestCard extends StatelessWidget {
                       ),
                       Text("$date",
                           style: TextStyle(
-                              fontSize: screenF(14),
-                              color: Colors.grey[600])),
+                              fontSize: screenF(14), color: Colors.grey[600])),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: <Widget>[
@@ -116,8 +125,7 @@ class RequestCard extends StatelessWidget {
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(15.0)),
                                 color: settleType == 1
-                                    ? Colors.greenAccent[700]
-                                        .withOpacity(0.2)
+                                    ? Colors.greenAccent[700].withOpacity(0.2)
                                     : settleType == -1
                                         ? Colors.red.withOpacity(0.2)
                                         : Colors.grey.withOpacity(0.2)),
@@ -165,9 +173,7 @@ class RequestCard extends StatelessWidget {
                   shape: new RoundedRectangleBorder(
                       borderRadius: new BorderRadius.circular(10.0)),
                   onPressed: () {},
-                  color: requestType == -1
-                      ? Colors.blueAccent[700]
-                      : Colors.blueGrey,
+                  color: requestType == -1 ? Colors.black : Colors.blueGrey,
                   textColor: Colors.white,
                   child: Text(requestType == -1 ? "Pay" : "Remind"),
                 ),

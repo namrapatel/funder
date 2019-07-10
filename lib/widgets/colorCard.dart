@@ -40,7 +40,7 @@ Widget colorCard(
           "${type > 0 ? "" : "-"} \$ ${amount.toString()}",
           style: TextStyle(
             fontSize: 22,
-            color: Colors.blueAccent[700],
+            color: Colors.black,
             fontWeight: FontWeight.bold,
           ),
         )
