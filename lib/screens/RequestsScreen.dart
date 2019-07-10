@@ -166,7 +166,7 @@ class RequestCard extends StatelessWidget {
                       borderRadius: new BorderRadius.circular(10.0)),
                   onPressed: () {},
                   color: requestType == -1
-                      ? Colors.blueAccent[700]
+                      ? Colors.black
                       : Colors.blueGrey,
                   textColor: Colors.white,
                   child: Text(requestType == -1 ? "Pay" : "Remind"),

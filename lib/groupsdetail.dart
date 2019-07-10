@@ -51,7 +51,7 @@ class GroupsDetailPage extends StatelessWidget {
               flexibleSpace: FlexibleSpaceBar(
                   background: Stack(children: <Widget>[
                 Container(
-                  color: Colors.blueAccent[700],
+                  color: Colors.black,
                   child: Column(
                     children: <Widget>[
                       SizedBox(
@@ -92,17 +92,17 @@ class GroupsDetailPage extends StatelessWidget {
                 TabBar(
                   labelColor: Colors.black87,
                   unselectedLabelColor: Colors.grey,
-                  indicatorColor: Colors.blueAccent[700],
+                  indicatorColor: Colors.black,
                   tabs: [
                     Tab(
-                        icon: Icon(Icons.inbox, color: Colors.blueAccent[700]),
+                        icon: Icon(Icons.inbox, color: Colors.black),
                         text: "Pending"),
                     Tab(
                         icon:
-                            Icon(Icons.history, color: Colors.blueAccent[700]),
+                            Icon(Icons.history, color: Colors.black),
                         text: "History"),
                     Tab(
-                        icon: Icon(Icons.chat, color: Colors.blueAccent[700]),
+                        icon: Icon(Icons.chat, color: Colors.black),
                         text: "Chat"),
                   ],
                 ),
