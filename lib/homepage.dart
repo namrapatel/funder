@@ -755,69 +755,72 @@ class GroupCard extends StatelessWidget {
                     )),
               ),
               Padding(
-                padding: EdgeInsets.symmetric(vertical: screenH(10)),
-                child: Container(
-                  width: screenW(155),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Text(this.groupName,
-                          style:
-                              TextStyle(fontSize: 16, color: Colors.grey[800])),
-                      SizedBox(
-                        height: 5,
-                      ),
-                      Container(
-                        decoration: BoxDecoration(
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(15.0)),
-                            color: settleType == 1
-                                ? Colors.greenAccent[700].withOpacity(0.2)
-                                : settleType == -1
-                                    ? Colors.red.withOpacity(0.2)
-                                    : Colors.grey.withOpacity(0.2)),
-                        child: Padding(
-                          padding: EdgeInsets.symmetric(
-                              horizontal: screenW(8.0), vertical: screenH(3.0)),
-                          child: Text(
-                            "${settleType == 1 ? "+" : settleType == -1 ? "-" : ""} \$${balanceValue.toString()}",
-                            style: settleType == 1
-                                ? greenSubStyle
-                                : settleType == -1
-                                    ? redSubStyle
-                                    : blackSubStyle,
+                  padding: EdgeInsets.symmetric(vertical: screenH(10)),
+                  child: Container(
+                    width: screenW(155),
+                    child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Text(this.groupName,
+                              style: TextStyle(
+                                  fontSize: 16, color: Colors.grey[800])),
+                          SizedBox(
+                            height: 5,
                           ),
-                        ),
-                        SizedBox(
-                          height: 25,
-                        ),
-                        Row(
-                          children: <Widget>[
-                            CircleAvatar(
-                                backgroundImage:
-                                    AssetImage("assets/namrapatel.png"),
-                                radius: screenH(10)),
-                            SizedBox(
-                              width: 5,
+                          Container(
+                            decoration: BoxDecoration(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(15.0)),
+                                color: settleType == 1
+                                    ? Colors.greenAccent[700].withOpacity(0.2)
+                                    : settleType == -1
+                                        ? Colors.red.withOpacity(0.2)
+                                        : Colors.grey.withOpacity(0.2)),
+                            child: Column(
+                              children: <Widget>[
+                                Padding(
+                                  padding: EdgeInsets.symmetric(
+                                      horizontal: screenW(8.0),
+                                      vertical: screenH(3.0)),
+                                  child: Text(
+                                    "${settleType == 1 ? "+" : settleType == -1 ? "-" : ""} \$${balanceValue.toString()}",
+                                    style: settleType == 1
+                                        ? greenSubStyle
+                                        : settleType == -1
+                                            ? redSubStyle
+                                            : blackSubStyle,
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 25,
+                                ),
+                                Row(
+                                  children: <Widget>[
+                                    CircleAvatar(
+                                        backgroundImage:
+                                            AssetImage("assets/namrapatel.png"),
+                                        radius: screenH(10)),
+                                    SizedBox(
+                                      width: 5,
+                                    ),
+                                    CircleAvatar(
+                                        backgroundImage: AssetImage(
+                                            "assets/shehabsalem.jpeg"),
+                                        radius: screenH(10)),
+                                    SizedBox(
+                                      width: 5,
+                                    ),
+                                    CircleAvatar(
+                                        backgroundImage: AssetImage(
+                                            "assets/dhruvpatel.jpeg"),
+                                        radius: screenH(10)),
+                                  ],
+                                )
+                              ],
                             ),
-                            CircleAvatar(
-                                backgroundImage:
-                                    AssetImage("assets/shehabsalem.jpeg"),
-                                radius: screenH(10)),
-                            SizedBox(
-                              width: 5,
-                            ),
-                            CircleAvatar(
-                                backgroundImage:
-                                    AssetImage("assets/dhruvpatel.jpeg"),
-                                radius: screenH(10)),
-                          ],
-                        )
-                      ],
-                    ),
-                  ),
-                ),
-              )
+                          ),
+                        ]),
+                  ))
             ],
           )),
     );
