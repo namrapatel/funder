@@ -27,7 +27,7 @@ class _PaymentsPageState extends State<PaymentsPage> {
           Container(
             height: screenH(350),
             width: double.infinity,
-            color: Colors.blueAccent[700],
+            color: Colors.black,
           ),
           Positioned(
             top: (MediaQuery.of(context).size.height / 16),
@@ -82,7 +82,7 @@ class _PaymentsPageState extends State<PaymentsPage> {
                 height: screenH(75),
                 child: new RaisedButton(
                     child: Text("Add Funds", style: TextStyle(color: Colors.white, fontSize: 20),),
-                    color: Colors.blueAccent[700],
+                    color: Colors.black,
                     onPressed: (){},
                     shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(15.0))
                 ),
@@ -142,7 +142,7 @@ class _PaymentsPageState extends State<PaymentsPage> {
                 width: screenW(415),
                 child: ListTile(
                   onTap: (){},
-                  title: Text("Add Payment Method", style: TextStyle(color: Colors.blueAccent[700]),),
+                  title: Text("Add Payment Method", style: TextStyle(color: Colors.black),),
 
                 )
             ),
@@ -158,7 +158,7 @@ class _PaymentsPageState extends State<PaymentsPage> {
                   onTap: (){
                     _showBottom();
                   },
-                  title: Text("Add Promo Code", style: TextStyle(color: Colors.blueAccent[700]),),
+                  title: Text("Add Promo Code", style: TextStyle(color: Colors.black),),
 
                 )
             ),
@@ -216,7 +216,7 @@ class _PaymentsPageState extends State<PaymentsPage> {
                             height: 40,
                             child: new RaisedButton(
                                 child: Text("Add", style: TextStyle(color: Colors.white, fontSize: 15),),
-                                color: Colors.blueAccent[700],
+                                color: Colors.black,
                                 onPressed: (){},
                                 shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(15.0))
                             ),

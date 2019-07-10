@@ -80,7 +80,7 @@ class _MetricsPageState extends State<MetricsPage> {
                 width: double.infinity,
                 height: 370.0,
                 decoration: BoxDecoration(
-                    color: Colors.blueAccent[700],
+                    color: Colors.black,
                     borderRadius: BorderRadius.all(Radius.circular(20.0)),
                     boxShadow: [
                       BoxShadow(
@@ -162,7 +162,7 @@ class _MetricsPageState extends State<MetricsPage> {
         return ListTile(
           title: Text(titles[index], style: TextStyle(color: Colors.black),),
           leading: CircleAvatar(
-            backgroundColor: Colors.blueAccent[700],
+            backgroundColor: Colors.black,
           ),
           trailing: Text(amount[index], style: TextStyle(color: Colors.black),),
         );

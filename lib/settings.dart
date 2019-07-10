@@ -28,11 +28,11 @@ class _SettingsPageState extends State<SettingsPage> {
   final screenW = ScreenUtil.instance.setWidth;
   final screenF = ScreenUtil.instance.setSp;
 
-  String displayName=currentUserModel.displayName;
-  String bio=currentUserModel.bio;
+  String displayName = currentUserModel.displayName;
+  String bio = currentUserModel.bio;
 
-  String url=currentUserModel.photoUrl;
-  String uid= currentUserModel.uid;
+  String url = currentUserModel.photoUrl;
+  String uid = currentUserModel.uid;
   SharedPreferences pref;
   @override
   Widget build(BuildContext context) {
@@ -53,20 +53,27 @@ class _SettingsPageState extends State<SettingsPage> {
                 onPressed: () {
                   Navigator.pop(context);
                 },
-                color: Colors.black
-            ),
+                color: Colors.black),
           ),
           Positioned(
               top: (MediaQuery.of(context).size.height / 16),
               left: (MediaQuery.of(context).size.width / 1.2),
-              child: IconButton(icon: Icon(Feather.log_out), onPressed: (){
-                Navigator.of(context).pushReplacementNamed('/loginpage');
-              },)
-          ),
+              child: IconButton(
+                icon: Icon(Feather.log_out),
+                onPressed: () {
+                  Navigator.of(context).pushReplacementNamed('/loginpage');
+                },
+              )),
           Positioned(
             top: (MediaQuery.of(context).size.height / 12),
             left: (MediaQuery.of(context).size.width / 3.8),
-            child: Text("Account Settings", style: TextStyle(fontSize: 20, color: Colors.black, fontWeight: FontWeight.bold),),
+            child: Text(
+              "Account Settings",
+              style: TextStyle(
+                  fontSize: 20,
+                  color: Colors.black,
+                  fontWeight: FontWeight.bold),
+            ),
           ),
           Positioned(
             top: (MediaQuery.of(context).size.height / 6),
@@ -79,8 +86,7 @@ class _SettingsPageState extends State<SettingsPage> {
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(50.0),
                   image: DecorationImage(
-                      image: NetworkImage(url),
-                      fit: BoxFit.cover)),
+                      image: NetworkImage(url), fit: BoxFit.cover)),
             ),
           ),
           Positioned(
@@ -90,11 +96,11 @@ class _SettingsPageState extends State<SettingsPage> {
               children: <Widget>[
                 Text(
                   '$displayName',
-                  style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 17.0),
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 17.0),
                 ),
-                SizedBox(height: screenH(15),),
+                SizedBox(
+                  height: screenH(15),
+                ),
                 Text(
                   '(123) 456-7890',
                   style: TextStyle(
@@ -103,8 +109,9 @@ class _SettingsPageState extends State<SettingsPage> {
                       fontSize: 17.0,
                       color: Colors.grey),
                 ),
-                SizedBox(height: screenH(125),),
-
+                SizedBox(
+                  height: screenH(125),
+                ),
               ],
             ),
           ),
@@ -113,10 +120,10 @@ class _SettingsPageState extends State<SettingsPage> {
             left: (MediaQuery.of(context).size.width / 2.6),
             child: OutlineButton(
                 child: Text("Change Picture"),
-                onPressed: (){},
-                color: Colors.blueAccent[700],
-                shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(15.0))
-            ),
+                onPressed: () {},
+                color: Colors.black,
+                shape: new RoundedRectangleBorder(
+                    borderRadius: new BorderRadius.circular(15.0))),
           ),
           Positioned(
             top: (MediaQuery.of(context).size.height / 2.85),
@@ -137,26 +144,37 @@ class _SettingsPageState extends State<SettingsPage> {
           Positioned(
             top: (MediaQuery.of(context).size.height / 2.6),
             left: (MediaQuery.of(context).size.width / 10),
-            child: Text("Options", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
+            child: Text(
+              "Options",
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            ),
           ),
           Positioned(
             top: (MediaQuery.of(context).size.height / 2.3),
             left: (MediaQuery.of(context).size.width / 21),
-            child:Container(
+            child: Container(
                 color: Colors.white,
                 width: screenW(360),
                 child: ListTile(
-                  onTap: (){},
-                  title: Text("Notifications",),
-                  leading: Icon(SimpleLineIcons.bell, color: Colors.grey[700], ),
-                  trailing: new Switch(value: _value1, onChanged: _onChanged1, activeColor: Colors.blueAccent[700],),
-                )
-            ),
+                  onTap: () {},
+                  title: Text(
+                    "Notifications",
+                  ),
+                  leading: Icon(
+                    SimpleLineIcons.bell,
+                    color: Colors.grey[700],
+                  ),
+                  trailing: new Switch(
+                    value: _value1,
+                    onChanged: _onChanged1,
+                    activeColor: Colors.black,
+                  ),
+                )),
           ),
           Positioned(
             top: (MediaQuery.of(context).size.height / 1.95),
             left: (MediaQuery.of(context).size.width / 12),
-            child:Container(
+            child: Container(
               color: Colors.white,
               width: screenW(340),
               child: CupertinoTextField(
@@ -166,7 +184,9 @@ class _SettingsPageState extends State<SettingsPage> {
                 keyboardType: TextInputType.emailAddress,
                 autocorrect: false,
                 decoration: BoxDecoration(
-                  border: Border(bottom: BorderSide(width: 0.0, color: CupertinoColors.inactiveGray)),
+                  border: Border(
+                      bottom: BorderSide(
+                          width: 0.0, color: CupertinoColors.inactiveGray)),
                 ),
                 placeholder: '$displayName',
               ),
@@ -175,7 +195,7 @@ class _SettingsPageState extends State<SettingsPage> {
           Positioned(
             top: (MediaQuery.of(context).size.height / 1.6),
             left: (MediaQuery.of(context).size.width / 12),
-            child:Container(
+            child: Container(
               color: Colors.white,
               width: screenW(340),
               child: CupertinoTextField(
@@ -185,7 +205,9 @@ class _SettingsPageState extends State<SettingsPage> {
                 keyboardType: TextInputType.phone,
                 autocorrect: false,
                 decoration: BoxDecoration(
-                  border: Border(bottom: BorderSide(width: 0.0, color: CupertinoColors.inactiveGray)),
+                  border: Border(
+                      bottom: BorderSide(
+                          width: 0.0, color: CupertinoColors.inactiveGray)),
                 ),
                 placeholder: '(123) 456-7890',
               ),
@@ -198,15 +220,17 @@ class _SettingsPageState extends State<SettingsPage> {
                 width: screenW(150),
                 height: screenH(55),
                 child: new OutlineButton(
-                    child: Text("Cancel", style: TextStyle(color: Colors.black, fontSize: 15),),
-                    color: Colors.blueAccent[700],
-                    onPressed: (){
+                    child: Text(
+                      "Cancel",
+                      style: TextStyle(color: Colors.black, fontSize: 15),
+                    ),
+                    color: Colors.black,
+                    onPressed: () {
                       Navigator.of(context).pop();
                     },
-                    shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(15.0))
-                ),
-              )
-          ),
+                    shape: new RoundedRectangleBorder(
+                        borderRadius: new BorderRadius.circular(15.0))),
+              )),
           Positioned(
               top: (MediaQuery.of(context).size.height / 1.2),
               left: (MediaQuery.of(context).size.width / 1.9),
@@ -214,17 +238,17 @@ class _SettingsPageState extends State<SettingsPage> {
                 width: screenW(150),
                 height: screenH(55),
                 child: new RaisedButton(
-                    child: Text("Save Changes", style: TextStyle(color: Colors.white, fontSize: 15),),
-                    color: Colors.blueAccent[700],
-                    onPressed: (){},
-                    shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(15.0))
-                ),
-              )
-          ),
-
+                    child: Text(
+                      "Save Changes",
+                      style: TextStyle(color: Colors.white, fontSize: 15),
+                    ),
+                    color: Colors.black,
+                    onPressed: () {},
+                    shape: new RoundedRectangleBorder(
+                        borderRadius: new BorderRadius.circular(15.0))),
+              )),
         ],
       ),
-
     );
   }
 }

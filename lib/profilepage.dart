@@ -16,21 +16,17 @@ import 'settings.dart';
 import 'terms.dart';
 import 'privacy.dart';
 
-
-
-
 class ProfilePage extends StatefulWidget {
   @override
   _ProfilePageState createState() => _ProfilePageState();
 }
 
 class _ProfilePageState extends State<ProfilePage> {
+  String displayName = currentUserModel.displayName;
+  String bio = currentUserModel.bio;
 
-  String displayName=currentUserModel.displayName;
-  String bio=currentUserModel.bio;
-
-  String url=currentUserModel.photoUrl;
-  String uid= currentUserModel.uid;
+  String url = currentUserModel.photoUrl;
+  String uid = currentUserModel.uid;
   SharedPreferences pref;
 
   final screenH = ScreenUtil.instance.setHeight;
@@ -41,7 +37,6 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   void initState() {
     super.initState();
-
   }
 
   @override
@@ -56,15 +51,20 @@ class _ProfilePageState extends State<ProfilePage> {
           Container(
             height: screenH(350),
             width: double.infinity,
-            color: Colors.blueAccent[700],
+            color: Colors.black,
           ),
           Positioned(
             top: (MediaQuery.of(context).size.height / 9),
             //top: 70,
             left: (MediaQuery.of(context).size.width / 18),
-            child: Text("Profile", style: TextStyle(color: Colors.white, fontSize: 35, ),),
+            child: Text(
+              "Profile",
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 35,
+              ),
+            ),
           ),
-
           Positioned(
             top: (MediaQuery.of(context).size.height / 4.5),
             left: (MediaQuery.of(context).size.width / 21),
@@ -92,8 +92,7 @@ class _ProfilePageState extends State<ProfilePage> {
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(50.0),
                   image: DecorationImage(
-                      image: NetworkImage(url),
-                      fit: BoxFit.cover)),
+                      image: NetworkImage(url), fit: BoxFit.cover)),
             ),
           ),
           Positioned(
@@ -110,7 +109,9 @@ class _ProfilePageState extends State<ProfilePage> {
                   ),
                   textAlign: TextAlign.center,
                 ),
-                SizedBox(height: screenH(15),),
+                SizedBox(
+                  height: screenH(15),
+                ),
                 Text(
                   '(123) 456-7890',
                   style: TextStyle(
@@ -119,13 +120,12 @@ class _ProfilePageState extends State<ProfilePage> {
                       fontSize: 17.0,
                       color: Colors.grey),
                 ),
-                SizedBox(height: screenH(125),),
-
+                SizedBox(
+                  height: screenH(125),
+                ),
               ],
             ),
           ),
-
-
           Positioned(
               top: (MediaQuery.of(context).size.height / 2.25),
               //top: 300,
@@ -136,91 +136,120 @@ class _ProfilePageState extends State<ProfilePage> {
                   Container(
                       width: screenW(378),
                       child: ListTile(
-                        onTap: (){
+                        onTap: () {
                           Navigator.push(
                             context,
-                            MaterialPageRoute(builder: (context) => PaymentsPage()),
+                            MaterialPageRoute(
+                                builder: (context) => PaymentsPage()),
                           );
                         },
-                        title: Text("Payment Methods",),
-                        leading: Icon(SimpleLineIcons.credit_card, color: Colors.grey[700],),
-                        trailing: Icon(Icons.arrow_forward_ios, color: Colors.grey[700],),
-
-                      )
-                  ),
+                        title: Text(
+                          "Payment Methods",
+                        ),
+                        leading: Icon(
+                          SimpleLineIcons.credit_card,
+                          color: Colors.grey[700],
+                        ),
+                        trailing: Icon(
+                          Icons.arrow_forward_ios,
+                          color: Colors.grey[700],
+                        ),
+                      )),
                   Container(
                       width: screenW(378),
                       child: ListTile(
-                        onTap: (){
+                        onTap: () {
                           Navigator.push(
                             context,
-                            MaterialPageRoute(builder: (context) => SettingsPage()),
+                            MaterialPageRoute(
+                                builder: (context) => SettingsPage()),
                           );
                         },
-                        title: Text("Account Settings",),
-                        leading: Icon(SimpleLineIcons.settings, color: Colors.grey[700], ),
-                        trailing: Icon(Icons.arrow_forward_ios, color: Colors.grey[700],),
-
-                      )
-                  ),
+                        title: Text(
+                          "Account Settings",
+                        ),
+                        leading: Icon(
+                          SimpleLineIcons.settings,
+                          color: Colors.grey[700],
+                        ),
+                        trailing: Icon(
+                          Icons.arrow_forward_ios,
+                          color: Colors.grey[700],
+                        ),
+                      )),
                   Container(
                       width: screenW(378),
                       child: ListTile(
-                        onTap: (){
+                        onTap: () {
                           Navigator.push(
                             context,
-                            MaterialPageRoute(builder: (context) => MetricsPage()),
+                            MaterialPageRoute(
+                                builder: (context) => MetricsPage()),
                           );
                         },
-                        title: Text("Metrics",),
-                        leading: Icon(SimpleLineIcons.graph, color: Colors.grey[700],),
-                        trailing: Icon(Icons.arrow_forward_ios, color: Colors.grey[700],),
-
-                      )
-                  ),
+                        title: Text(
+                          "Metrics",
+                        ),
+                        leading: Icon(
+                          SimpleLineIcons.graph,
+                          color: Colors.grey[700],
+                        ),
+                        trailing: Icon(
+                          Icons.arrow_forward_ios,
+                          color: Colors.grey[700],
+                        ),
+                      )),
                   Container(
                       width: screenW(378),
                       child: ListTile(
-                        onTap: (){
+                        onTap: () {
                           Navigator.push(
                             context,
-                            MaterialPageRoute(builder: (context) => TermsPage()),
+                            MaterialPageRoute(
+                                builder: (context) => TermsPage()),
                           );
                         },
-                        title: Text("Terms & Conditions",),
-                        leading: Icon(SimpleLineIcons.doc, color: Colors.grey[700],),
-                        trailing: Icon(Icons.arrow_forward_ios, color: Colors.grey[700],),
-                      )
-                  ),
+                        title: Text(
+                          "Terms & Conditions",
+                        ),
+                        leading: Icon(
+                          SimpleLineIcons.doc,
+                          color: Colors.grey[700],
+                        ),
+                        trailing: Icon(
+                          Icons.arrow_forward_ios,
+                          color: Colors.grey[700],
+                        ),
+                      )),
                   Container(
                       width: screenW(378),
                       child: ListTile(
-                        onTap: (){
+                        onTap: () {
                           Navigator.push(
                             context,
-                            MaterialPageRoute(builder: (context) => PrivacyPage()),
+                            MaterialPageRoute(
+                                builder: (context) => PrivacyPage()),
                           );
                         },
-                        title: Text("Privacy and Security",),
-                        leading: Icon(SimpleLineIcons.shield, color: Colors.grey[700],),
-                        trailing: Icon(Icons.arrow_forward_ios, color: Colors.grey[700],),
-                      )
-                  ),
+                        title: Text(
+                          "Privacy and Security",
+                        ),
+                        leading: Icon(
+                          SimpleLineIcons.shield,
+                          color: Colors.grey[700],
+                        ),
+                        trailing: Icon(
+                          Icons.arrow_forward_ios,
+                          color: Colors.grey[700],
+                        ),
+                      )),
                 ],
-              )
-
-          ),
-
-
+              )),
         ],
       ),
     );
-
   }
 }
-
-
-
 
 //       Container(
 

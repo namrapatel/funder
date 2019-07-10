@@ -8,7 +8,6 @@ import 'package:http/http.dart' as http;
 import 'dart:convert' as JSON;
 import 'package:contacts_service/contacts_service.dart';
 
-
 class ContactListScreen extends StatefulWidget {
   @override
   _ContactListScreenState createState() => _ContactListScreenState();
@@ -16,7 +15,6 @@ class ContactListScreen extends StatefulWidget {
 
 class _ContactListScreenState extends State<ContactListScreen> {
   TextEditingController editingController = TextEditingController();
-
 
 //  getContactsPermission() async{
 //
@@ -40,18 +38,15 @@ class _ContactListScreenState extends State<ContactListScreen> {
 //
 //  }
 
-
-
   @override
   void initState() {
-
     super.initState();
 
 //    getContactsPermission();
   }
+
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
         appBar: AppBar(
           leading: IconButton(
@@ -77,8 +72,7 @@ class _ContactListScreenState extends State<ContactListScreen> {
             )
           ],
         ),
-        body: buildPage()
-    );
+        body: buildPage());
   }
 }
 
@@ -99,23 +93,15 @@ Widget buildPage() {
                   hintText: "Search or Add Friends",
                   prefixIcon: Icon(Icons.search),
                   border: OutlineInputBorder(
-                      borderRadius:
-                      BorderRadius.all(Radius.circular(20.0)))),
+                      borderRadius: BorderRadius.all(Radius.circular(20.0)))),
             ),
           ),
         ),
-        Expanded(
-            child: buildContacts()
-        ),
-
+        Expanded(child: buildContacts()),
       ],
     ),
   );
-
 }
-
-
-
 
 Widget buildContacts() {
   return FutureBuilder<List<ContactTile>>(
@@ -132,46 +118,51 @@ Widget buildContacts() {
             bottom: screenH(15.0),
           ),
           scrollDirection: Axis.vertical,
-
         );
       });
 }
 
-
-Future<List<ContactTile>> getContacts() async{
+Future<List<ContactTile>> getContacts() async {
   var accessToken = await fbLogin.currentAccessToken;
-  List<ContactTile> contactsTiles=[];
-  final token=accessToken.token;
-  final graphResponse = await http.get('https://graph.facebook.com/v3.3/me?fields=friends&access_token=${token}');
+  List<ContactTile> contactsTiles = [];
+  final token = accessToken.token;
+  final graphResponse = await http.get(
+      'https://graph.facebook.com/v3.3/me?fields=friends&access_token=${token}');
   final profile = JSON.jsonDecode(graphResponse.body);
   Map userProfile = profile;
-  List<String> fbFriendsIds=[];
-  for(var key in userProfile["friends"]['data']){
-    String fbId= key['id'];
+  List<String> fbFriendsIds = [];
+  for (var key in userProfile["friends"]['data']) {
+    String fbId = key['id'];
     fbFriendsIds.add(fbId);
   }
-  for (var id in fbFriendsIds){
-    QuerySnapshot docSnap = await Firestore.instance.collection('users').where('facebookUid',isEqualTo: id).getDocuments();
-    List<DocumentSnapshot> docs =docSnap.documents;
-    List<String> fbContacts=[];
-    for(var doc in docs){
+  for (var id in fbFriendsIds) {
+    QuerySnapshot docSnap = await Firestore.instance
+        .collection('users')
+        .where('facebookUid', isEqualTo: id)
+        .getDocuments();
+    List<DocumentSnapshot> docs = docSnap.documents;
+    List<String> fbContacts = [];
+    for (var doc in docs) {
       String name = doc.data['displayName'];
-      String photo= doc.data['photoUrl'];
+      String photo = doc.data['photoUrl'];
       String uid = doc.documentID;
       fbContacts.add(uid);
-      contactsTiles.add(ContactTile(name, photo,uid));
+      contactsTiles.add(ContactTile(name, photo, uid));
     }
 
-    Firestore.instance.collection('users').document(currentUserModel.uid).updateData({"contacts":FieldValue.arrayUnion(fbContacts)});
-
+    Firestore.instance
+        .collection('users')
+        .document(currentUserModel.uid)
+        .updateData({"contacts": FieldValue.arrayUnion(fbContacts)});
   }
-  if(permissionGranted==true) {
+  if (permissionGranted == true) {
     Iterable<Contact> contacts = await ContactsService.getContacts();
     for (var contact in contacts) {
       var phone = contact.phones.toList();
       print(phone[0].value);
       String number = phone[0].value;
-      QuerySnapshot querySnap = await Firestore.instance.collection('users')
+      QuerySnapshot querySnap = await Firestore.instance
+          .collection('users')
           .where('phoneNumber', isEqualTo: number)
           .getDocuments();
 
@@ -185,18 +176,17 @@ Future<List<ContactTile>> getContacts() async{
         contacts.add(uid);
         contactsTiles.add(ContactTile(name, photo, uid, phoneNumber: number));
       }
-      Firestore.instance.collection('users')
+      Firestore.instance
+          .collection('users')
           .document(currentUserModel.uid)
           .updateData({"contacts": FieldValue.arrayUnion(contacts)});
     }
   }
   return contactsTiles;
-
 }
 
-
 class ContactTile extends StatefulWidget {
-  ContactTile(this.contactName, this.personImage,this.uid, {this.phoneNumber});
+  ContactTile(this.contactName, this.personImage, this.uid, {this.phoneNumber});
   final String contactName, personImage, phoneNumber, uid;
   @override
   _ContactTileState createState() => _ContactTileState();
@@ -208,7 +198,7 @@ class _ContactTileState extends State<ContactTile> {
   Widget build(BuildContext context) {
     return Container(
         decoration: BoxDecoration(color: Colors.white),
-        height: screenH(81),
+        height: screenH(97),
         width: screenW(372),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -219,7 +209,7 @@ class _ContactTileState extends State<ContactTile> {
                 backgroundImage: NetworkImage(widget.personImage),
               ),
               trailing: Checkbox(
-                  activeColor: Colors.blueAccent[700],
+                  activeColor: Colors.black,
                   value: value1,
                   checkColor: Colors.white,
                   onChanged: (bool value) {
@@ -229,9 +219,7 @@ class _ContactTileState extends State<ContactTile> {
                   }),
               title: Text(widget.contactName),
               subtitle: Text(
-                widget.phoneNumber!=null
-                    ? widget.phoneNumber
-                    :'',
+                widget.phoneNumber != null ? widget.phoneNumber : '',
                 style: TextStyle(fontSize: screenF(12)),
               ),
             ),

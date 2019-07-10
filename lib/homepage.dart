@@ -18,7 +18,8 @@ final screenH = ScreenUtil.instance.setHeight;
 final screenW = ScreenUtil.instance.setWidth;
 final screenF = ScreenUtil.instance.setSp;
 final _firestore = Firestore.instance;
-bool permissionGranted=true;
+bool permissionGranted = true;
+
 class HomePage extends StatefulWidget {
   @override
   _HomePageState createState() => _HomePageState();
@@ -48,26 +49,26 @@ class HomePageOne extends StatefulWidget {
 class _HomePageOneState extends State<HomePageOne> {
   String uid = currentUserModel.uid;
 
-  getContactsPermission() async{
+  getContactsPermission() async {
+    PermissionStatus permission = await PermissionHandler()
+        .checkPermissionStatus(PermissionGroup.contacts);
 
-    PermissionStatus permission = await PermissionHandler().checkPermissionStatus(PermissionGroup.contacts);
+    if (permission == PermissionStatus.denied ||
+        permission == PermissionStatus.disabled ||
+        permission == PermissionStatus.restricted) {
+      Map<PermissionGroup, PermissionStatus> permissions =
+          await PermissionHandler()
+              .requestPermissions([PermissionGroup.contacts]);
 
-    if(permission== PermissionStatus.denied||permission== PermissionStatus.disabled||permission== PermissionStatus.restricted){
-      Map<PermissionGroup, PermissionStatus> permissions = await PermissionHandler().requestPermissions([PermissionGroup.contacts]);
-
-      if(permissions[PermissionGroup.contacts]==PermissionStatus.denied){
+      if (permissions[PermissionGroup.contacts] == PermissionStatus.denied) {
         print('user denied it');
-        permissionGranted=false;
-
-      }else if(permissions[PermissionGroup.contacts]==PermissionStatus.granted){
+        permissionGranted = false;
+      } else if (permissions[PermissionGroup.contacts] ==
+          PermissionStatus.granted) {
         print('user accepts');
-        permissionGranted=true;
+        permissionGranted = true;
       }
-
     }
-
-
-
   }
 
   @override
@@ -84,16 +85,14 @@ class _HomePageOneState extends State<HomePageOne> {
       Container(
           height: screenH(260),
           decoration: BoxDecoration(
-            gradient: LinearGradient(
-                colors: [Colors.blueAccent[400], Colors.blueAccent[700]]),
-            // color: Colors.blueAccent[700],
-            boxShadow: [
-              BoxShadow(
-                  color: Colors.blueAccent[700].withOpacity(0.6),
-                  blurRadius: 10,
-                  spreadRadius: 0.2,
-                  offset: Offset(0, 7)),
-            ],
+            color: Colors.black,
+            // boxShadow: [
+            //   BoxShadow(
+            //       color: Colors.black.withOpacity(0.6),
+            //       blurRadius: 10,
+            //       spreadRadius: 0.2,
+            //       offset: Offset(0, 7)),
+            // ],
           )),
       Column(children: <Widget>[
         Column(
@@ -123,7 +122,7 @@ class _HomePageOneState extends State<HomePageOne> {
                 Spacer(),
                 // SizedBox(width: 278),
                 IconButton(
-                  onPressed: () async{
+                  onPressed: () async {
                     await getContactsPermission();
                     Navigator.push(
                         context,
@@ -163,10 +162,18 @@ class _HomePageOneState extends State<HomePageOne> {
                   builder: (context, snapshot) {
                     print(uid);
                     print('wtf');
-                    if (!snapshot.hasData) {
-                      return Center(
-                        child: CircularProgressIndicator(
-                          backgroundColor: Colors.lightBlueAccent,
+                    if (!snapshot.hasData ||
+                        snapshot.data.documents.length == 0) {
+                      return Container(
+                        width: screenW(250),
+                        child: Padding(
+                          padding:
+                              EdgeInsets.symmetric(vertical: screenH(30.0)),
+                          child: Text(
+                            "Recents will appear once you interact with other users.",
+                            style: TextStyle(color: Colors.white),
+                            textAlign: TextAlign.center,
+                          ),
                         ),
                       );
                     }
@@ -277,7 +284,7 @@ class _HomePageTwoState extends State<HomePageTwo> {
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
-        SizedBox(height: screenH(25)),
+        SizedBox(height: screenH(15)),
         Align(
             alignment: Alignment.centerLeft,
             child: Padding(
@@ -300,12 +307,26 @@ class _HomePageTwoState extends State<HomePageTwo> {
                             .collection('requests')
                             .snapshots(),
                         builder: (context, snapshot) {
-                          if (!snapshot.hasData) {
+                          if (!snapshot.hasData ||
+                              snapshot.data.documents.length == 0) {
                             return Center(
-                              child: CircularProgressIndicator(
-                                backgroundColor: Colors.lightBlueAccent,
+                                child: Container(
+                              height: screenH(165),
+                              child: Column(
+                                children: <Widget>[
+                                  Padding(
+                                    padding: EdgeInsets.symmetric(
+                                        vertical: screenH(50.0)),
+                                    child: Container(
+                                        width: screenW(270),
+                                        child: Text(
+                                          "You currently have no requests, press the + icon to create one!",
+                                          textAlign: TextAlign.center,
+                                        )),
+                                  ),
+                                ],
                               ),
-                            );
+                            ));
                           }
                           final docs = snapshot.data.documents;
                           List<RequestCard> requestCards = [];
@@ -586,13 +607,12 @@ class _HomePageThreeState extends State<HomePageThree> {
           FlatButton(
             onPressed: () {},
             child: Text("VIEW ALL",
-                style: TextStyle(
-                    fontSize: screenF(13), color: Colors.blueAccent[700])),
+                style: TextStyle(fontSize: screenF(13), color: Colors.black)),
           ),
         ],
       ),
       Container(
-          height: screenH(270),
+          height: screenH(267),
           child: Column(
             children: <Widget>[
               uid == null
@@ -604,12 +624,52 @@ class _HomePageThreeState extends State<HomePageThree> {
                           .collection('groups')
                           .snapshots(),
                       builder: (context, snapshot) {
-                        if (!snapshot.hasData) {
+                        if (!snapshot.hasData ||
+                            snapshot.data.documents.length == 0) {
                           return Center(
-                            child: CircularProgressIndicator(
-                              backgroundColor: Colors.lightBlueAccent,
+                              child: Container(
+                            height: screenH(267),
+                            child: Column(
+                              children: <Widget>[
+                                Container(
+                                  height: screenH(120),
+                                  child: Image(
+                                    image: AssetImage('assets/groupselfie.png'),
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: screenH(10),
+                                ),
+                                Text("Oh no!",
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: screenF(18))),
+                                Container(
+                                    width: screenW(350),
+                                    child: Text(
+                                      "You're not a part of any groups, create or join one now!",
+                                      textAlign: TextAlign.center,
+                                    )),
+                                SizedBox(
+                                  height: screenH(20),
+                                ),
+                                Container(
+                                  height: screenH(40),
+                                  child: FlatButton(
+                                    shape: new RoundedRectangleBorder(
+                                        borderRadius:
+                                            new BorderRadius.circular(15.0)),
+                                    color: Colors.black,
+                                    child: Text(
+                                      "Create a Group",
+                                      style: TextStyle(color: Colors.white),
+                                    ),
+                                    onPressed: () {},
+                                  ),
+                                )
+                              ],
                             ),
-                          );
+                          ));
                         }
                         final docs = snapshot.data.documents;
                         List<GroupCard> groupCards = [];
@@ -627,7 +687,7 @@ class _HomePageThreeState extends State<HomePageThree> {
                         }
                         SizedBox(height: screenH(10));
                         return Container(
-                          height: screenH(270),
+                          height: screenH(267),
                           child: ListView.builder(
                               padding: EdgeInsets.only(
                                 bottom: screenH(15.0),
@@ -762,4 +822,10 @@ class GroupCard extends StatelessWidget {
           )),
     );
   }
+}
+
+Widget buildNullGroup(BuildContext context) {
+  return Container(
+    child: Text("You currently have no groups."),
+  );
 }

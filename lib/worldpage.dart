@@ -70,7 +70,7 @@ class _WorldPageOneState extends State<WorldPageOne> {
         DefaultTabController(
           length: 2,
           child: TabBar(
-            indicatorColor: Colors.blueAccent[700],
+            indicatorColor: Colors.black,
             tabs: <Widget>[
               Tab(
                 child: Text("Worldwide", style: TextStyle(color: Colors.black)),

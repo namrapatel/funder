@@ -28,7 +28,7 @@ class _PrivacyPageState extends State<PrivacyPage> {
             Container(
               height: screenH(205),
               width: double.infinity,
-              color: Colors.blueAccent[700],
+              color: Colors.black,
             ),
 
             Positioned(
