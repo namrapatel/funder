@@ -788,33 +788,33 @@ class GroupCard extends StatelessWidget {
                                     : blackSubStyle,
                           ),
                         ),
-                      ),
-                      SizedBox(
-                        height: 25,
-                      ),
-                      Row(
-                        children: <Widget>[
-                          CircleAvatar(
-                              backgroundImage:
-                                  AssetImage("assets/namrapatel.png"),
-                              radius: screenH(10)),
-                          SizedBox(
-                            width: 5,
-                          ),
-                          CircleAvatar(
-                              backgroundImage:
-                                  AssetImage("assets/shehabsalem.jpeg"),
-                              radius: screenH(10)),
-                          SizedBox(
-                            width: 5,
-                          ),
-                          CircleAvatar(
-                              backgroundImage:
-                                  AssetImage("assets/seanmei.jpeg"),
-                              radius: screenH(10)),
-                        ],
-                      )
-                    ],
+                        SizedBox(
+                          height: 25,
+                        ),
+                        Row(
+                          children: <Widget>[
+                            CircleAvatar(
+                                backgroundImage:
+                                    AssetImage("assets/namrapatel.png"),
+                                radius: screenH(10)),
+                            SizedBox(
+                              width: 5,
+                            ),
+                            CircleAvatar(
+                                backgroundImage:
+                                    AssetImage("assets/shehabsalem.jpeg"),
+                                radius: screenH(10)),
+                            SizedBox(
+                              width: 5,
+                            ),
+                            CircleAvatar(
+                                backgroundImage:
+                                    AssetImage("assets/dhruvpatel.jpeg"),
+                                radius: screenH(10)),
+                          ],
+                        )
+                      ],
+                    ),
                   ),
                 ),
               )
