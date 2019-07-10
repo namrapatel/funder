@@ -1,3 +1,4 @@
+import 'package:Dime/screens/pastTransaction.dart';
 import 'package:Dime/screens/transactionDetail.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -81,7 +82,7 @@ class PastCard extends StatelessWidget {
                     onTap: () { Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => TransactionDetail(),
+                          builder: (context) => PastTransactionDetail(),
                         ));},
                     child: ListTile(
                         trailing: IconButton(

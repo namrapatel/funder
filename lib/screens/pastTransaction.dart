@@ -6,12 +6,12 @@ final screenH = ScreenUtil.instance.setHeight;
 final screenW = ScreenUtil.instance.setWidth;
 final screenF = ScreenUtil.instance.setSp;
 
-class TransactionDetail extends StatefulWidget {
+class PastTransactionDetail extends StatefulWidget {
   @override
-  _TransactionDetailState createState() => _TransactionDetailState();
+  _PastTransactionDetailState createState() => _PastTransactionDetailState();
 }
 
-class _TransactionDetailState extends State<TransactionDetail> {
+class _PastTransactionDetailState extends State<PastTransactionDetail> {
   final String requestType = "remind";
   @override
   Widget build(BuildContext context) {
@@ -25,7 +25,7 @@ class _TransactionDetailState extends State<TransactionDetail> {
             children: <Widget>[
               SizedBox(height: screenH(70)),
               Container(
-                  height: screenH(630),
+                  height: screenH(575),
                   width: screenW(340),
                   decoration: BoxDecoration(
                       // boxShadow: [
@@ -243,43 +243,6 @@ class _TransactionDetailState extends State<TransactionDetail> {
                             ],
                           ),
                         ),
-                        SizedBox(
-                          height: screenH(15),
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            Container(
-                              height: screenH(40),
-                              width: screenH(130),
-                              child: FlatButton(
-                                shape: new RoundedRectangleBorder(
-                                    borderRadius:
-                                        new BorderRadius.circular(10.0)),
-                                onPressed: () {},
-                                color: Colors.grey[100],
-                                child: Text("Cancel"),
-                              ),
-                            ),
-                            SizedBox(width: screenW(30)),
-                            Container(
-                              height: screenH(40),
-                              width: screenW(130),
-                              child: FlatButton(
-                                shape: new RoundedRectangleBorder(
-                                    borderRadius:
-                                        new BorderRadius.circular(10.0)),
-                                onPressed: () {},
-                                color: requestType == "remind"
-                                    ? Colors.black
-                                    : Colors.blueGrey,
-                                textColor: Colors.white,
-                                child: Text(
-                                    requestType == "remind" ? "Pay" : "Remind"),
-                              ),
-                            ),
-                          ],
-                        ),
                       ],
                     ),
                   )),
@@ -288,14 +251,14 @@ class _TransactionDetailState extends State<TransactionDetail> {
               ),
               Container(
                 decoration: BoxDecoration(
-                  // boxShadow: [
-                  //   BoxShadow(
-                  //       color: Colors.white.withOpacity(0.5),
-                  //       blurRadius: screenH(10),
-                  //       spreadRadius: screenH(0.2),
-                  //       offset: Offset(0, 4)),
-                  // ],
-                ),
+                    // boxShadow: [
+                    //   BoxShadow(
+                    //       color: Colors.white.withOpacity(0.5),
+                    //       blurRadius: screenH(10),
+                    //       spreadRadius: screenH(0.2),
+                    //       offset: Offset(0, 4)),
+                    // ],
+                    ),
                 height: 40,
                 width: 310,
                 child: FlatButton(
@@ -304,8 +267,10 @@ class _TransactionDetailState extends State<TransactionDetail> {
                   color: Colors.white,
                   child: Text("DONE"),
                   onPressed: () {
-                    Navigator.push(context,
-          new MaterialPageRoute(builder: (context) => new GroupsDetailPage()));
+                    Navigator.push(
+                        context,
+                        new MaterialPageRoute(
+                            builder: (context) => new GroupsDetailPage()));
                   },
                 ),
               )
@@ -337,13 +302,13 @@ List<SplitsCard> splitsCard = [
       personPic: "assets/dhruvpatel.jpeg",
       phoneNumber: "(587)-703-9807",
       paidValue: "-10.81",
-      status: "-1"),
+      status: "1"),
   SplitsCard(
       personName: "Taher Anky",
       personPic: "assets/taher.jpeg",
       phoneNumber: "(587)-703-9807",
       paidValue: "-19.99",
-      status: "-1")
+      status: "1")
 ];
 
 class SplitsCard extends StatelessWidget {

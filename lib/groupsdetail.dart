@@ -4,6 +4,7 @@ import 'screens/RequestsScreen.dart';
 import 'screens/PastScreen.dart';
 import 'screens/ChatScreen.dart';
 import 'widgets/colorCard.dart';
+import 'main.dart';
 
 class GroupsDetailPage extends StatelessWidget {
   final int settleType = -1;
@@ -33,6 +34,15 @@ class GroupsDetailPage extends StatelessWidget {
         headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
           return <Widget>[
             SliverAppBar(
+              leading: IconButton(
+                icon: Icon(Icons.arrow_back_ios),
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      new MaterialPageRoute(
+                          builder: (context) => new MyHomePage()));
+                },
+              ),
               actions: <Widget>[
                 Spacer(),
                 IconButton(
@@ -98,8 +108,7 @@ class GroupsDetailPage extends StatelessWidget {
                         icon: Icon(Icons.inbox, color: Colors.black),
                         text: "Pending"),
                     Tab(
-                        icon:
-                            Icon(Icons.history, color: Colors.black),
+                        icon: Icon(Icons.history, color: Colors.black),
                         text: "History"),
                     Tab(
                         icon: Icon(Icons.chat, color: Colors.black),
