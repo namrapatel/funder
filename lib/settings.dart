@@ -72,7 +72,7 @@ class _SettingsPageState extends State<SettingsPage> {
               style: TextStyle(
                   fontSize: 20,
                   color: Colors.black,
-                  fontWeight: FontWeight.bold),
+                  ),
             ),
           ),
           Positioned(
@@ -80,14 +80,10 @@ class _SettingsPageState extends State<SettingsPage> {
             //top: 105.0,
             //left: 30,
             left: (MediaQuery.of(context).size.width / 20),
-            child: Container(
-              height: screenH(125),
-              width: screenH(125),
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(50.0),
-                  image: DecorationImage(
-                      image: NetworkImage(url), fit: BoxFit.cover)),
-            ),
+            child: CircleAvatar(
+              backgroundImage: NetworkImage(url),
+              radius: screenH(62.5),
+            )
           ),
           Positioned(
             top: (MediaQuery.of(context).size.height / 5.5),

@@ -3,6 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import 'addCard.dart';
+import 'viewCards.dart';
+
 class PaymentsPage extends StatefulWidget {
   @override
   _PaymentsPageState createState() => _PaymentsPageState();
@@ -50,7 +53,7 @@ class _PaymentsPageState extends State<PaymentsPage> {
             // left: 15.0,
             // right: 15.0,
             child: Material(
-              elevation: 3.0,
+              elevation: 10.0,
               borderRadius: BorderRadius.circular(15.0),
               child: Container(
                 height: screenH(330),
@@ -70,7 +73,7 @@ class _PaymentsPageState extends State<PaymentsPage> {
           Positioned(
             top: (MediaQuery.of(context).size.height / 9),
             left: (MediaQuery.of(context).size.width / 3.8),
-            child: Text("Payment Methods", style: TextStyle(fontSize: 20, color: Colors.white, fontWeight: FontWeight.bold),),
+            child: Text("Payment Methods", style: TextStyle(fontSize: 20, color: Colors.white, ),),
           ),
 
 
@@ -80,7 +83,7 @@ class _PaymentsPageState extends State<PaymentsPage> {
               child: new SizedBox(
                 width: screenW(300),
                 height: screenH(75),
-                child: new RaisedButton(
+                child: new FlatButton(
                     child: Text("Add Funds", style: TextStyle(color: Colors.white, fontSize: 20),),
                     color: Colors.black,
                     onPressed: (){},
@@ -101,22 +104,15 @@ class _PaymentsPageState extends State<PaymentsPage> {
           ),
 
           Positioned(
-              top: (MediaQuery.of(context).size.height / 2.2),
-              left: (MediaQuery.of(context).size.width / 29),
-              child: new SizedBox(
-                  width: screenW(300),
-                  height: screenH(65),
-                  child: Icon(Icons.redeem)
-              )
-          ),
-          Positioned(
-              top: (MediaQuery.of(context).size.height / 2.1),
-              left: (MediaQuery.of(context).size.width / 2.25),
-              child: new SizedBox(
-                  width: screenW(300),
-                  height: screenH(65),
-                  child: Text("Redeem", style: TextStyle(fontSize: 20),)
-              )
+              top: (MediaQuery.of(context).size.height / 2.25),
+              left: (MediaQuery.of(context).size.width / 2.45),
+              child: OutlineButton(
+                    splashColor: Colors.white,
+                    highlightedBorderColor: Colors.white,
+                    onPressed: (){},
+                    borderSide: BorderSide(color: Colors.white),
+                    child: Text("Redeem", style: TextStyle(fontSize: 15, color: Colors.black),),
+                  )
           ),
           Positioned(
             top: (MediaQuery.of(context).size.height / 1.61),
@@ -126,10 +122,16 @@ class _PaymentsPageState extends State<PaymentsPage> {
                 color: Colors.white,
                 width: screenW(415),
                 child: ListTile(
-                  onTap: (){},
-                  title: Text("TD PERSONAL **** 1234",),
-                  leading: Icon(Icons.credit_card, color: Colors.grey[700], ),
-                  trailing: Icon(SimpleLineIcons.trash, color: Colors.grey[700],),
+                  onTap: (){
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => viewCardsPage()),
+                          );
+                  },
+                  trailing: Icon(Icons.arrow_forward_ios),
+                  title: Text("View My Cards", style: TextStyle(color: Colors.black),),
+
                 )
             ),
 
@@ -141,7 +143,13 @@ class _PaymentsPageState extends State<PaymentsPage> {
                 color: Colors.white,
                 width: screenW(415),
                 child: ListTile(
-                  onTap: (){},
+                  onTap: (){
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => addCard()),
+                          );
+                  },
                   title: Text("Add Payment Method", style: TextStyle(color: Colors.black),),
 
                 )

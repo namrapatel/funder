@@ -16,6 +16,7 @@ import 'settings.dart';
 import 'terms.dart';
 import 'privacy.dart';
 
+
 class ProfilePage extends StatefulWidget {
   @override
   _ProfilePageState createState() => _ProfilePageState();
@@ -54,26 +55,14 @@ class _ProfilePageState extends State<ProfilePage> {
             color: Colors.black,
           ),
           Positioned(
-            top: (MediaQuery.of(context).size.height / 9),
-            //top: 70,
-            left: (MediaQuery.of(context).size.width / 18),
-            child: Text(
-              "Profile",
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 35,
-              ),
-            ),
-          ),
-          Positioned(
-            top: (MediaQuery.of(context).size.height / 4.5),
+            top: (MediaQuery.of(context).size.height / 5.1),
             left: (MediaQuery.of(context).size.width / 21),
 
             //top: 155.0,
             //left: 20.0,
             right: (MediaQuery.of(context).size.width / 21),
             child: Material(
-              elevation: 3.0,
+              elevation: 10.0,
               borderRadius: BorderRadius.circular(15.0),
               child: Container(
                 height: screenH(610),
@@ -84,21 +73,26 @@ class _ProfilePageState extends State<ProfilePage> {
             ),
           ),
           Positioned(
-            top: (MediaQuery.of(context).size.height / 6.5),
+            top: (MediaQuery.of(context).size.height / 7.5),
             left: (MediaQuery.of(context).size.width / 2 - 50.0),
-            child: Container(
-              height: screenH(125),
-              width: screenH(125),
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(50.0),
-                  image: DecorationImage(
-                      image: NetworkImage(url), fit: BoxFit.cover)),
-            ),
+            child: CircleAvatar(
+              backgroundImage: NetworkImage(url),
+              radius: screenH(62.5),
+            )
           ),
           Positioned(
-            top: (MediaQuery.of(context).size.height / 3.1),
+            top: (MediaQuery.of(context).size.height / 2.5),
+            left: (MediaQuery.of(context).size.width / 13),
+            right: (MediaQuery.of(context).size.width / 13),
+            child:Divider(
+            color: Colors.grey[700],
+          ),
+          ),
+          Positioned(
+            top: (MediaQuery.of(context).size.height / 3.5),
             //top: 220,
-            left: (MediaQuery.of(context).size.width / 3.2),
+            left: (MediaQuery.of(context).size.width / 3),
+            right: (MediaQuery.of(context).size.width / 3),
             child: Column(
               children: <Widget>[
                 Text(

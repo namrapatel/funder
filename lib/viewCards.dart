@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class NotificationsPage extends StatefulWidget {
+class viewCardsPage extends StatefulWidget {
   @override
-  _NotificationsPageState createState() => _NotificationsPageState();
+  _viewCardsPageState createState() => _viewCardsPageState();
 }
 
-class _NotificationsPageState extends State<NotificationsPage> {
+class _viewCardsPageState extends State<viewCardsPage> {
   final screenH = ScreenUtil.instance.setHeight;
   final screenW = ScreenUtil.instance.setWidth;
   final screenF = ScreenUtil.instance.setSp;
@@ -18,13 +18,14 @@ class _NotificationsPageState extends State<NotificationsPage> {
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(screenH(100)), 
         child: AppBar(
-          automaticallyImplyLeading: false,
+          leading: IconButton(icon: Icon(Icons.close), color: Colors.white, onPressed: (){
+            Navigator.pop(context);
+          },),
           backgroundColor: Colors.black,
-          title: Text("Activity", style: TextStyle(fontSize: 30),),
+          title: Text("Your Cards"),
           elevation: 0,
         ),
       ),
-
       body: Column(
         children: <Widget>[
           Expanded(
@@ -34,21 +35,15 @@ class _NotificationsPageState extends State<NotificationsPage> {
       ),
     );
   }
-
   Widget _myListView(BuildContext context) {
     return ListView.separated(
       padding: EdgeInsets.all(0),
-      itemCount: 15,
+      itemCount: 4,
       itemBuilder: (context, index) {
         return ListTile(
-          leading: CircleAvatar(
-            backgroundImage: AssetImage('assets/dhruvpatel.jpeg'),
-          ),
-          title: Text('Notification $index'),
-          subtitle: Text("August 9th, 2019",
-              style: TextStyle(
-                fontSize: screenF(13),
-              )),
+          leading: Icon(SimpleLineIcons.credit_card),
+          trailing: Icon(SimpleLineIcons.trash),
+          title: Text('TD Personal ****1234'),  
         );
       },
       separatorBuilder: (context, index) {
