@@ -1,9 +1,11 @@
+
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:funder/screens/InvitesScreen.dart';
-import 'package:funder/screens/WorldwideScreen.dart';
-import 'screens/WorldwideScreen.dart';
-import 'screens/InvitesScreen.dart';
+// import 'package:flutter_screenutil/flutter_screenutil.dart';
+// import 'package:funder/screens/InvitesScreen.dart';
+// import 'package:funder/screens/WorldwideScreen.dart';
+// import 'screens/WorldwideScreen.dart';
+// import 'screens/InvitesScreen.dart';
 
 class WorldPage extends StatelessWidget {
   @override
@@ -34,6 +36,18 @@ class _WorldPageOneState extends State<WorldPageOne> {
             SizedBox(
               width: 17,
             ),
+            RaisedButton(
+                color: Colors.greenAccent[700],
+                child: Text('Logout'),
+                onPressed: () async{
+
+                  FirebaseAuth.instance.signOut().then((value) {
+                    Navigator.of(context).pushReplacementNamed('/loginpage');
+
+                  }).catchError((e) {
+                    print(e);
+                  });
+                }),
             Text(
               "Your World",
               style: TextStyle(
@@ -56,17 +70,19 @@ class _WorldPageOneState extends State<WorldPageOne> {
         DefaultTabController(
           length: 2,
           child: TabBar(
-            indicatorColor: Colors.blueAccent[700],
+            indicatorColor: Colors.black,
             tabs: <Widget>[
               Tab(
-                icon: Icon(Icons.language),
-                text: "Worldwide",
+                child: Text("Worldwide", style: TextStyle(color: Colors.black)),
+                icon: Icon(
+                  Icons.language,
+                  color: Colors.black,
+                ),
+                // text: "Worldwide",
               ),
               Tab(
-                icon: Icon(
-                  Icons.inbox,
-                ),
-                text: "Invites",
+                icon: Icon(Icons.inbox, color: Colors.black),
+                child: Text("Invites", style: TextStyle(color: Colors.black)),
               )
             ],
           ),

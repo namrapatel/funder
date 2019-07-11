@@ -1,12 +1,14 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:funder/homepage.dart';
-import 'package:funder/resetpasswordpage.dart';
-import 'package:funder/signuppage.dart';
-import 'dart:async';
 import 'main.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:Dime/classes/user.dart';
+import 'package:flutter_facebook_login/flutter_facebook_login.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert' as JSON;
 
+User currentUserModel;
+FacebookLogin fbLogin = new FacebookLogin();
 
 class LoginPage extends StatefulWidget {
   @override
@@ -14,272 +16,267 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  bool _isLoggedIn = false;
+  Map userProfile;
+  final _auth = FirebaseAuth.instance;
 
-  String _email, _password, _errorMessage;
-  bool loggedIn= false; 
-
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  TextEditingController username = new TextEditingController();
-  TextEditingController password = new TextEditingController();
-
-  bool checkValue = false;
-
-  SharedPreferences sharedPreferences;
+  TextEditingController _smsCodeController = TextEditingController();
+  TextEditingController _phoneNumberController = TextEditingController();
+  String verificationId;
 
   @override
   void initState() {
     super.initState();
-    getCredential();
+    FirebaseAuth.instance.onAuthStateChanged.listen((firebaseUser) async {
+      if (firebaseUser != null) {
+        print(firebaseUser);
+        print(firebaseUser.displayName);
+        print("you're in");
+
+        DocumentSnapshot userRecord = await Firestore.instance
+            .collection('users')
+            .document(firebaseUser.uid)
+            .get();
+        if (userRecord.data != null) {
+          currentUserModel = User.fromDocument(userRecord);
+          Navigator.push(context,
+              new MaterialPageRoute(builder: (context) => new MyHomePage()));
+        }
+      } else {
+        print("floppps");
+      }
+    });
   }
 
+  Future<bool> smsCodeDialog(BuildContext context) {
+    return showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context) {
+          return new AlertDialog(
+            content: TextFormField(
+              controller: _smsCodeController,
+              decoration: InputDecoration(hintText: 'SMS Code'),
+            ),
+            contentPadding: EdgeInsets.all(10.0),
+            actions: <Widget>[
+              new FlatButton(
+                child: Text('Verify'),
+                onPressed: () {
+                  _signInWithPhoneNumber(_smsCodeController.text);
+                },
+              )
+            ],
+          );
+        });
+  }
+
+  Future<void> _sendCodeToPhoneNumber() async {
+    final PhoneVerificationCompleted verificationCompleted =
+        (AuthCredential user) {
+      setState(() {
+        print(
+            'Inside _sendCodeToPhoneNumber: signInWithPhoneNumber auto succeeded: $user');
+      });
+    };
+
+    final PhoneVerificationFailed verificationFailed =
+        (AuthException authException) {
+      setState(() {
+        print(
+            'Phone number verification failed. Code: ${authException.code}. Message: ${authException.message}');
+      });
+    };
+
+    final PhoneCodeSent codeSent =
+        (String verificationId, [int forceResendingToken]) async {
+      this.verificationId = verificationId;
+      smsCodeDialog(context).then((value) {
+        print('Signed in');
+      });
+      print("code sent to " + _phoneNumberController.text);
+    };
+
+    final PhoneCodeAutoRetrievalTimeout codeAutoRetrievalTimeout =
+        (String verificationId) {
+      this.verificationId = verificationId;
+      print("time out");
+    };
+
+    await FirebaseAuth.instance.verifyPhoneNumber(
+        phoneNumber: _phoneNumberController.text,
+        timeout: const Duration(seconds: 5),
+        verificationCompleted: verificationCompleted,
+        verificationFailed: verificationFailed,
+        codeSent: codeSent,
+        codeAutoRetrievalTimeout: codeAutoRetrievalTimeout);
+  }
+
+  void _signInWithPhoneNumber(String smsCode) async {
+    AuthCredential authCredential = PhoneAuthProvider.getCredential(
+        verificationId: verificationId, smsCode: smsCode);
+    await FirebaseAuth.instance
+        .signInWithCredential(authCredential)
+        .then((FirebaseUser user) async {
+      final FirebaseUser currentUser =
+          await FirebaseAuth.instance.currentUser();
+
+      assert(user.uid == currentUser.uid);
+
+      DocumentSnapshot userRecord =
+          await Firestore.instance.collection('users').document(user.uid).get();
+      if (userRecord.data == null) {
+        print('doesnt exist');
+
+        Firestore.instance.collection('users').document(user.uid).setData({
+          'photoUrl':
+              'https://firebasestorage.googleapis.com/v0/b/dime-87d60.appspot.com/o/defaultprofile.png?alt=media&token=8cd5318b-9593-4837-a9f9-2a22c87463ef',
+          'email': user.email,
+          'displayName': 'You currently don\'t have a display name',
+          'phoneNumber': user.phoneNumber
+        });
+        userRecord = await Firestore.instance
+            .collection('users')
+            .document(user.uid)
+            .get();
+        print(userRecord.exists);
+      }
+
+      currentUserModel = User.fromDocument(userRecord);
+
+      print('signed in with phone number successful: user -> $user');
+      Navigator.push(context,
+          new MaterialPageRoute(builder: (context) => new MyHomePage()));
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
-
-     body: Form(
-      key: _formKey,
+        body: Form(
+//          key: _formKey,
       child: Container(
           padding: EdgeInsets.all(25.0),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              getUserEmail(),
-              gertUserPassword(),
-              CheckboxListTile(
-                    value: checkValue,
-                    onChanged: _onChanged,
-                    title: new Text("Remember me"),
-                    controlAffinity: ListTileControlAffinity.leading,
-                  ),
-              SizedBox(height: 15.0),
+              Text('Login with your phone number'),
+              SizedBox(height: 10.0),
+              TextFormField(
+                controller: _phoneNumberController,
+                validator: (input) =>
+                    (input.isEmpty) ? 'Enter a valid phone number' : null,
+                decoration: InputDecoration(hintText: 'Phone Number'),
+              ),
               SizedBox(height: 20.0),
-              loginButton(),
-              signUpButton(),
-              _showErrorMessage(),
-              Text('Don\'t have an account?'),
-              forgotPasswordButton(),
-              Text(_email),
+              RaisedButton(
+                onPressed: _sendCodeToPhoneNumber,
+                child: Text('Log in'),
+                color: Colors.blue,
+                textColor: Colors.white,
+                elevation: 7.0,
+              ),
+              SizedBox(height: 20.0),
+              RaisedButton(
+                onPressed: () async {
+                  FacebookLoginResult result = await fbLogin
+                      .logInWithReadPermissions(
+                          ['email', 'public_profile', 'user_friends']);
 
-              
+                  final FacebookAccessToken accessToken = result.accessToken;
+
+                  AuthCredential credential =
+                      FacebookAuthProvider.getCredential(
+                          accessToken: accessToken.token);
+
+                  FirebaseUser user =
+                      await _auth.signInWithCredential(credential);
+
+                  switch (result.status) {
+                    case FacebookLoginStatus.loggedIn:
+                      final token = accessToken.token;
+                      print(token);
+                      print(accessToken.expires);
+//                          final pic =await http.get('http://graph.facebook.com/[user_id]/picture?type=square');
+                      final graphResponse = await http.get(
+                          'https://graph.facebook.com/v3.3/me?fields=name,picture.width(800).height(800),email&access_token=${token}');
+                      print(graphResponse);
+                      final profile = JSON.jsonDecode(graphResponse.body);
+                      print(profile);
+                      setState(() {
+                        userProfile = profile;
+                        _isLoggedIn = true;
+                      });
+                      break;
+
+                    case FacebookLoginStatus.cancelledByUser:
+                      setState(() => _isLoggedIn = false);
+                      break;
+                    case FacebookLoginStatus.error:
+                      setState(() => _isLoggedIn = false);
+                      break;
+                  }
+
+//                  print(userProfile["friends"]['data'][0]['id']);
+//                      List<String> fbFriendsIds=[];
+//                      for(var key in userProfile["friends"]['data']){
+//                        String fbId= key['id'];
+//                        fbFriendsIds.add(fbId);
+//                      }
+//                      print(fbFriendsIds);
+                  print('uid kid');
+                  print(user.uid);
+                  DocumentSnapshot userRecord = await Firestore.instance
+                      .collection('users')
+                      .document(user.uid)
+                      .get();
+                  if (userRecord.data == null) {
+                    print('doesnt exist');
+                    String facebookUid;
+                    for (var data in user.providerData) {
+                      if (data.providerId == 'facebook.com') {
+                        facebookUid = data.uid;
+                      }
+                    }
+
+                    Firestore.instance
+                        .collection('users')
+                        .document(user.uid)
+                        .setData({
+                      'photoUrl': userProfile["picture"]["data"]["url"],
+                      'email': user.email,
+
+                      'displayName': user.displayName,
+                      'phoneNumber': user.phoneNumber,
+                      'facebookUid': facebookUid,
+//                          'fbFriends': fbFriendsIds
+                      //after getting friends who have the app, query for their document using their
+                      //fb uid and then display their name and photo url on contacts
+                    });
+                    userRecord = await Firestore.instance
+                        .collection('users')
+                        .document(user.uid)
+                        .get();
+                  }
+                  print(userRecord.exists);
+                  print(user.providerData);
+                  print(user.uid);
+
+                  currentUserModel = User.fromDocument(userRecord);
+
+                  print('signed in with facebook successful: user -> $user');
+                  Navigator.push(
+                      context,
+                      new MaterialPageRoute(
+                          builder: (context) => new MyHomePage()));
+                },
+                child: Text('Log in with Facebook'),
+                color: Colors.blue,
+                textColor: Colors.white,
+                elevation: 7.0,
+              )
             ],
           )),
     ));
   }
-
-
-  void saveEmail(){
-    String user =  _email;
-    saveUserEmailPreference(_email);
-  }
-  Future<bool> saveUserEmailPreference(String user) async{
-    SharedPreferences pref = await SharedPreferences.getInstance();
-    pref.setString( "email", user);
-    return pref.commit();
-  }
-
-  Future<String> getNamePreference() async{
-    SharedPreferences pref = await SharedPreferences.getInstance();
-    String email = pref.getString("email");
-    return email; 
-  }
-  Widget loginButton(){
-      return new RaisedButton(
-        onPressed: signIn,
-        child: Text('Login'),
-        color: Colors.blue,
-        textColor: Colors.white,
-        elevation: 7.0, 
-      //   FirebaseAuth.instance
-      //       .signInWithEmailAndPassword(
-      //           email: _email, password: _password)
-      //       .then((FirebaseUser user) {
-      //     Navigator.of(context).pushReplacementNamed('/homepage');
-      //   }).catchError((e) {
-      //     print(e);
-      //   });  
-    );
-  }
-  Widget signUpButton(){
-      return new RaisedButton(
-        child: Text('Sign Up'),
-        color: Colors.blue,
-        textColor: Colors.white,
-        elevation: 7.0,
-        onPressed: () {
-        //Navigator.of(context).pushNamed('/signup');
-        Navigator.push(context, MaterialPageRoute(builder: (contect) => SignupPage()));
-        },
-      );
-  }
-  Widget forgotPasswordButton(){
-    return new FlatButton(
-      child: Text('Forgot Passwrod?'),
-      textColor: Colors.blue,
-      onPressed: (){
-         Navigator.push(context, MaterialPageRoute(builder: (contect) => ResetPassword()));
-      },
-    );
-  }
-  Widget getUserEmail(){
-    return Padding(
-        padding: const EdgeInsets.fromLTRB(0.0, 10.0, 0.0, 0.0),
-        child: new TextFormField(
-          onEditingComplete: onEdit,
-                    controller: username,
-                    decoration: InputDecoration(
-                        hintText: "username",
-                        hintStyle: new TextStyle(color: Colors.grey.withOpacity(0.3))),
-          validator: (input){
-            if(input.isEmpty){
-               return 'Please Try Again By Entering an Email';
-            }
-          },
-          )
-    );
-  }
-  Widget gertUserPassword(){
-    return Padding(
-    padding: const EdgeInsets.fromLTRB(0.0, 10.0, 0.0, 0.0),
-    child: new TextFormField(
-      onEditingComplete: onEdit,
-                      controller: password,
-                      obscureText: true,
-                      decoration: InputDecoration(
-                          hintText: "password",
-                          hintStyle:
-                          new TextStyle(color: Colors.grey.withOpacity(0.3))),
-      validator: (input) {
-        if(input.isEmpty){
-          return 'Please Try Again By Entering a Password';
-          }
-        },
-        ),
-
-
-    );
-
-  }
-
-  void onEdit(){
-    if(username.text.length!=0) {
-      _email = username.text;
-    }
-    if(password.text.length!=0) {
-      _password = password.text;
-    }
-  }
-  _onChanged(bool value) async {
-    sharedPreferences = await SharedPreferences.getInstance();
-    setState(() {
-      checkValue = value;
-      sharedPreferences.setBool("check", checkValue);
-      sharedPreferences.setString("username", username.text);
-      sharedPreferences.setString("password", password.text);
-    });
-  }
-
-  getCredential() async {
-    sharedPreferences = await SharedPreferences.getInstance();
-    setState(() {
-      checkValue = sharedPreferences.getBool("check");
-      print(checkValue);
-      if (checkValue != null) {
-        if (checkValue) {
-          username.text = sharedPreferences.getString("username");
-          password.text = sharedPreferences.getString("password");
-          signIn();
-        } else {
-          username.clear();
-          password.clear();
-          sharedPreferences.clear();
-        }
-      } else {
-        checkValue = false;
-      }
-    });
-  }
-
-
-Future<void> signIn() async{
-    if(username.text.length!=0 && password.text.length!=0) {
-      _email = username.text;
-      _password = password.text;
-    }
-    final formState = _formKey.currentState;
-    if(formState.validate()){
-      formState.save();
-      try{
-        FirebaseUser user = await FirebaseAuth.instance.signInWithEmailAndPassword(email: _email , password: _password);
-        Navigator.push(context, MaterialPageRoute(builder: (contect) => HomePage()));
-        saveEmail();
-        setState(() {loggedIn = true;});
-        user.sendEmailVerification();
-      }catch(e){
-        print('Error: $e');
-        
-        setState(() { _errorMessage = e.message;});
-      
-      }
-    }
-    
-  }
-  Widget _showErrorMessage() { 
-    if (_errorMessage != null) {
-      print(_errorMessage +"ASFDSA");
-      return new Text(
-        _errorMessage,
-        style: TextStyle(
-            fontSize: 13.0,
-            color: Colors.red,
-            height: 1.0,
-            fontWeight: FontWeight.w300), 
-      );
-    } else {
-      return new Container(
-        height: 0.0,
-      );
-    }
-  }
-  void _showDialog() {
-    // flutter defined function
-
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        // return object of type Dialog
-        return AlertDialog(
-          title: new Text("Passwrod Resset"),
-          content: new Text("An Email Has Been Sent to " + _email),
-          actions: <Widget>[
-            // usually buttons at the bottom of the dialog
-            new FlatButton(
-              child: new Text("Return to Login"),
-              onPressed: () {
-                 Navigator.push(context, MaterialPageRoute(builder: (contect) => LoginPage()));
-              },
-            ),
-          ],
-        );
-      }, 
-    );
-  }
-/* 
-   Future<void> verificationEmail() async {
-    print(_email);
-    if(_email != null){
-      try{
-        await FirebaseAuth.instance.sendPasswordResetEmail(email: _email);
-        setState(() { sent = true;});
-        print(sent);
-        //print('sent');
-      }catch(e){
-        setState(() { _errorMessage = e.message;});
-      }
-    }else {
-      print("No");
-    }
-  } */
-
 }
-
