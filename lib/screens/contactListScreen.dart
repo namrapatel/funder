@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:funder/screens/groupTransaction.dart';
 import 'package:funder/screens/individualTransaction.dart';
 
 class ContactListScreen extends StatelessWidget {
@@ -13,7 +14,7 @@ class ContactListScreen extends StatelessWidget {
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => IndividualTransaction(),
+                    builder: (context) => GroupTransaction(),
                   ));
             },
             icon: Icon(Icons.navigate_next),

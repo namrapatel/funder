@@ -65,6 +65,7 @@ flutter:
     - assets/purplecharacters.png
     - assets/bluecharacters.png
     - assets/greencharacters.png
+    - assets/dimeloginbackground.jpg
 
   fonts:
     - family: Varela
