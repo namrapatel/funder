@@ -10,10 +10,14 @@
          final String photoUrl;
          final String displayName;
          final String bio;
+         final bool friends;
+         final String phoneNumber;
 
 
          const User(
              {
+             this.phoneNumber,
+             this.friends,
              this.uid,
              this.photoUrl,
              this.email,
@@ -28,6 +32,7 @@
              uid: document.documentID,
              displayName: document['displayName'],
              bio: document['bio'],
+             phoneNumber:document['phoneNumber']
 
            );
          }

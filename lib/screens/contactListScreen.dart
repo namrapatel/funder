@@ -7,6 +7,127 @@ import 'package:Dime/loginpage.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert' as JSON;
 import 'package:contacts_service/contacts_service.dart';
+import 'package:Dime/classes/user.dart';
+List<User> allUsers=[];
+
+
+
+class DataSearch extends SearchDelegate<String>{
+
+  final recentSearches=[User(displayName:'Dhruv Patel',photoUrl:'https://platform-lookaside.fbsbx.com/platform/profilepic/?asid=2250762621659276&height=800&width=800&ext=1565358714&hash=AeTMZgz--e2JNS2J',uid:'bK5iO87AyBbyUtkRXOiyGEfVis83')];
+
+
+  @override
+  List<Widget> buildActions(BuildContext context) {
+    // TODO: implement buildActions
+    return [IconButton(
+      icon: Icon(Icons.clear),
+      onPressed: (){
+        query='';
+
+      },
+    )];
+  }
+
+  @override
+  Widget buildLeading(BuildContext context) {
+    // TODO: implement buildLeading
+    return IconButton(icon: AnimatedIcon(icon: AnimatedIcons.menu_arrow, progress: transitionAnimation),
+        onPressed: (){
+          close(context, null);
+        });
+  }
+
+  @override
+  Widget buildResults(BuildContext context) {
+    // TODO: implement buildResults
+    return null;
+  }
+
+  @override
+  Widget buildSuggestions(BuildContext context) {
+    // TODO: implement buildSuggestions
+    print(allUsers);
+    final suggestionList= query.isEmpty?recentSearches:allUsers.where(
+            (contact)=>(contact.phoneNumber==null?
+
+            ((contact.displayName.startsWith(query))):
+            ((contact.displayName.startsWith(query))|| ((contact.phoneNumber.startsWith(query)))))).toList();
+//                :((contact.displayName.startsWith(query.toLowerCase()))||(contact.displayName.startsWith(query.toUpperCase())))
+//                ||contact.phoneNumber.startsWith(query))).toList();
+
+//        (contact)=>(contact.phoneNumber==null?
+//        (contact)=>
+//    ((contact.displayName.startsWith(query.toLowerCase()))||(contact.displayName.startsWith(query.toUpperCase())))).toList();
+////                :((contact.displayName.startsWith(query.toLowerCase()))||(contact.displayName.startsWith(query.toUpperCase())))
+////                ||contact.phoneNumber.startsWith(query))).toList();
+
+
+
+    return
+        ListView.builder(
+          shrinkWrap: true,
+        itemBuilder: (context,index)=>
+
+            ListTile(
+              leading: CircleAvatar(
+                radius: 20,
+                backgroundImage: NetworkImage(suggestionList[index].photoUrl),
+              ),
+              trailing: Checkbox(
+                  activeColor: Colors.black,
+                  value: false,
+                  checkColor: Colors.white,
+                  onChanged: (bool value) {
+//                    setState(() {
+//                      value1 = value;
+//                    });
+                  }),
+
+              title: RichText(
+                text:TextSpan(
+                  text: suggestionList[index].displayName.substring(0,query.length),
+                  style: TextStyle(
+                    color: Colors.black,fontWeight: FontWeight.bold),
+                  children: [
+                    TextSpan(
+                      text: suggestionList[index].displayName.substring(query.length),
+                      style: TextStyle(
+                  color:Colors.grey
+              )
+                    )
+                  ]
+                  )
+                ),
+
+                subtitle: RichText(text:
+                TextSpan(
+                text: suggestionList[index].phoneNumber!=null&&suggestionList[index].phoneNumber.startsWith(query)?suggestionList[index].phoneNumber.substring(0,query.length):suggestionList[index].phoneNumber,
+                style: TextStyle(
+                    color: Colors.black,fontWeight: FontWeight.bold),
+                children: [
+                  TextSpan(
+                      text: suggestionList[index].phoneNumber!=null&&suggestionList[index].phoneNumber.startsWith(query)?suggestionList[index].phoneNumber.substring(query.length):'',
+                      style: TextStyle(
+                          color:Colors.grey
+                      )
+                  )
+                ]
+            )
+        ),
+//                suggestionList[index].displayName),
+//          subtitle: Text(
+//            suggestionList[index].phoneNumber != null ? suggestionList[index].phoneNumber : '',
+//            style: TextStyle(fontSize: screenF(12)),
+//          ),
+
+            ),itemCount: suggestionList.length);
+
+
+  }
+
+}
+
 
 class ContactListScreen extends StatefulWidget {
   @override
@@ -16,35 +137,31 @@ class ContactListScreen extends StatefulWidget {
 class _ContactListScreenState extends State<ContactListScreen> {
   TextEditingController editingController = TextEditingController();
 
-//  getContactsPermission() async{
-//
-//    PermissionStatus permission = await PermissionHandler().checkPermissionStatus(PermissionGroup.contacts);
-//
-//    if(permission== PermissionStatus.denied||permission== PermissionStatus.disabled||permission== PermissionStatus.restricted){
-//      Map<PermissionGroup, PermissionStatus> permissions = await PermissionHandler().requestPermissions([PermissionGroup.contacts]);
-//
-//      if(permissions[PermissionGroup.contacts]==PermissionStatus.denied){
-//        print('user denied it');
-//        permissionGranted=false;
-//
-//      }else if(permissions[PermissionGroup.contacts]==PermissionStatus.granted){
-//        print('user accepts');
-//        permissionGranted=true;
-//      }
-//
-//    }
-//
-//
-//
-//  }
-
   @override
   void initState() {
     super.initState();
+    if(allUsers.length==0) {
+      getAllUsers();
+    }
 
 //    getContactsPermission();
   }
 
+  getAllUsers() async{
+    List<User> users=[];
+    QuerySnapshot userDocs= await Firestore.instance.collection('users').getDocuments();
+    for(var doc in userDocs.documents){
+      String name = doc.data['displayName'];
+      String photo = doc.data['photoUrl'];
+      String uid = doc.documentID;
+      String phone = doc.data['phoneNumber'];
+      users.add(User(displayName:name,photoUrl:photo,uid:uid,phoneNumber: phone));
+    }
+    setState(() {
+      allUsers=users;
+    });
+
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -69,9 +186,19 @@ class _ContactListScreenState extends State<ContactListScreen> {
               },
               icon: Icon(Icons.done),
               iconSize: screenH(25),
+            ),
+            IconButton(
+              onPressed: (){
+                showSearch(context: context, delegate:DataSearch() );
+
+              },
+              icon: Icon(Icons.search),
+              iconSize: screenH(25),
             )
           ],
         ),
+        drawer: Drawer(),
+
         body: buildPage());
   }
 }
@@ -81,22 +208,7 @@ Widget buildPage() {
   return Container(
     child: Column(
       children: <Widget>[
-        Ink(
-          color: Colors.white,
-          child: Padding(
-            padding: const EdgeInsets.all(15.0),
-            child: TextField(
-              onChanged: (value) {},
-              controller: editingController,
-              decoration: InputDecoration(
-                  labelText: "Search",
-                  hintText: "Search or Add Friends",
-                  prefixIcon: Icon(Icons.search),
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(20.0)))),
-            ),
-          ),
-        ),
+
         Expanded(child: buildContacts()),
       ],
     ),
