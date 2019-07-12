@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'worldpage.dart';
-
+import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'homepage.dart';
 import 'loginpage.dart';
 import 'profilepage.dart';
@@ -85,7 +85,7 @@ class _MyHomePageState extends State<MyHomePage>
               title: Container(height: 0.0),
               backgroundColor: Colors.white),
           BottomNavigationBarItem(
-              icon: Icon(Icons.explore,
+              icon: Icon(Ionicons.ios_people,
                   color: (_page == 1) ? Colors.black : Colors.grey),
               title: Container(height: 0.0),
               backgroundColor: Colors.white),

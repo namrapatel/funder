@@ -130,7 +130,7 @@ class _SettingsPageState extends State<SettingsPage> {
             left: (MediaQuery.of(context).size.width / 21),
             right: (MediaQuery.of(context).size.width / 21),
             child: Material(
-              elevation: 3.0,
+              elevation: 10.0,
               borderRadius: BorderRadius.circular(15.0),
               child: Container(
                 height: screenH(530),

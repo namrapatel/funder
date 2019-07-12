@@ -92,12 +92,12 @@ class _ProfilePageState extends State<ProfilePage> {
           Positioned(
             top: (MediaQuery.of(context).size.height / 3.5),
             //top: 220,
-            left: (MediaQuery.of(context).size.width / 3),
-            right: (MediaQuery.of(context).size.width / 3),
+            left: (MediaQuery.of(context).size.width / 4),
+            right: (MediaQuery.of(context).size.width / 4),
             child: Column(
               children: <Widget>[
                 Text(
-                  '$displayName',
+                  '$displayName', // Add display name in Account Settings - that should be the error message
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 17.0,
