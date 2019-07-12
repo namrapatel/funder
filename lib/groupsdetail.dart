@@ -106,13 +106,13 @@ class GroupsDetailPage extends StatelessWidget {
                   tabs: [
                     Tab(
                         icon: Icon(Icons.inbox, color: Colors.black),
-                        text: "Pending"),
+                       ),
                     Tab(
                         icon: Icon(Icons.history, color: Colors.black),
-                        text: "History"),
+                        ),
                     Tab(
                         icon: Icon(Icons.chat, color: Colors.black),
-                        text: "Chat"),
+                        ),
                   ],
                 ),
               ),

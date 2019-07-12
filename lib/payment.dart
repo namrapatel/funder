@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_credit_card/flutter_credit_card.dart';
 
 import 'addCard.dart';
 import 'viewCards.dart';
@@ -12,11 +13,9 @@ class PaymentsPage extends StatefulWidget {
 }
 
 class _PaymentsPageState extends State<PaymentsPage> {
-
   final screenH = ScreenUtil.instance.setHeight;
   final screenW = ScreenUtil.instance.setWidth;
   final screenF = ScreenUtil.instance.setSp;
-
 
   @override
   Widget build(BuildContext context) {
@@ -67,18 +66,20 @@ class _PaymentsPageState extends State<PaymentsPage> {
             //top: 190,
             top: (MediaQuery.of(context).size.height / 3.7),
             //left: 90,
+
             left: (MediaQuery.of(context).size.width / 4.8),
             right: (MediaQuery.of(context).size.width / 4.8),
             child: Text("CAD \$500.00 ", style: TextStyle(fontSize: 35),),
+
           ),
           Positioned(
             top: (MediaQuery.of(context).size.height / 9),
             left: (MediaQuery.of(context).size.width / 3.8),
+
             right: (MediaQuery.of(context).size.width / 3.8),
             child: Text("Payment Methods", style: TextStyle(fontSize: 20, color: Colors.white, ),),
+
           ),
-
-
           Positioned(
               top: (MediaQuery.of(context).size.height / 2.8),
               left: (MediaQuery.of(context).size.width / 7),
@@ -88,25 +89,31 @@ class _PaymentsPageState extends State<PaymentsPage> {
                 height: screenH(75),
                 child: new FlatButton(
                     child: Text("Add Funds", style: TextStyle(color: Colors.white, fontSize: 20),),
+
                     color: Colors.black,
-                    onPressed: (){},
-                    shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(15.0))
-                ),
-              )
-          ),
+                    onPressed: () {},
+                    shape: new RoundedRectangleBorder(
+                        borderRadius: new BorderRadius.circular(15.0))),
+              )),
           Positioned(
             top: (MediaQuery.of(context).size.height / 4.8),
             left: (MediaQuery.of(context).size.width / 8),
-            child: Text("Dime Cash", style: TextStyle(fontSize: 15),),
+            child: Text(
+              "Dime Cash",
+              style: TextStyle(fontSize: 15),
+            ),
           ),
           Positioned(
             top: (MediaQuery.of(context).size.height / 1.72),
             //left: 30,
             left: (MediaQuery.of(context).size.width / 14),
-            child: Text("Payment Methods", style: TextStyle(fontSize: 15),),
+            child: Text(
+              "Payment Methods",
+              style: TextStyle(fontSize: 15),
+            ),
           ),
-
           Positioned(
+
               top: (MediaQuery.of(context).size.height / 2.25),
               left: (MediaQuery.of(context).size.width / 3.45),
               right: (MediaQuery.of(context).size.width / 3.45),
@@ -118,14 +125,16 @@ class _PaymentsPageState extends State<PaymentsPage> {
                     child: Text("Redeem", style: TextStyle(fontSize: 15, color: Colors.black),),
                   )
           ),
+
           Positioned(
             top: (MediaQuery.of(context).size.height / 1.61),
             //top: 425,
             left: 0,
-            child:Container(
+            child: Container(
                 color: Colors.white,
                 width: screenW(415),
                 child: ListTile(
+
                   onTap: (){
                           Navigator.push(
                             context,
@@ -139,14 +148,16 @@ class _PaymentsPageState extends State<PaymentsPage> {
                 )
             ),
 
+
           ),
           Positioned(
             top: (MediaQuery.of(context).size.height / 1.45),
             left: 0,
-            child:Container(
+            child: Container(
                 color: Colors.white,
                 width: screenW(415),
                 child: ListTile(
+
                   onTap: (){
                           Navigator.push(
                             context,
@@ -159,38 +170,41 @@ class _PaymentsPageState extends State<PaymentsPage> {
                 )
             ),
 
+
           ),
           Positioned(
             top: (MediaQuery.of(context).size.height / 1.199),
             left: 0,
-            child:Container(
+            child: Container(
                 color: Colors.white,
                 width: screenW(415),
                 child: ListTile(
-                  onTap: (){
+                  onTap: () {
                     _showBottom();
                   },
-                  title: Text("Add Promo Code", style: TextStyle(color: Colors.black),),
-
-                )
-            ),
-
+                  title: Text(
+                    "Add Promo Code",
+                    style: TextStyle(color: Colors.black),
+                  ),
+                )),
           ),
           Positioned(
             top: (MediaQuery.of(context).size.height / 1.25),
             left: (MediaQuery.of(context).size.width / 14),
-            child: Text("Promotions", style: TextStyle(fontSize: 15),),
+            child: Text(
+              "Promotions",
+              style: TextStyle(fontSize: 15),
+            ),
           ),
-
         ],
       ),
     );
   }
 
-  void _showBottom(){
+  void _showBottom() {
     showModalBottomSheet<void>(
         context: context,
-        builder: (BuildContext context){
+        builder: (BuildContext context) {
           return new Container(
             padding: new EdgeInsets.all(15.0),
             height: 1000,
@@ -206,48 +220,54 @@ class _PaymentsPageState extends State<PaymentsPage> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
                         TextField(
-                          decoration: InputDecoration(hintText: "Enter your promo code"),
+                          decoration: InputDecoration(
+                              hintText: "Enter your promo code"),
                           autofocus: true,
                         ),
                         SizedBox(height: 15.0),
-                        Row(children: <Widget>[
-                          SizedBox(
-                            width: 150,
-                            height: 40,
-                            child: new OutlineButton(
-                                child: Text("Cancel", style: TextStyle(color: Colors.black, fontSize: 15),),
-                                color: Colors.black,
-                                onPressed: (){
-                                  Navigator.of(context).pop();
-                                },
-                                shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(15.0))
+                        Row(
+                          children: <Widget>[
+                            SizedBox(
+                              width: 150,
+                              height: 40,
+                              child: new OutlineButton(
+                                  child: Text(
+                                    "Cancel",
+                                    style: TextStyle(
+                                        color: Colors.black, fontSize: 15),
+                                  ),
+                                  color: Colors.black,
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                  shape: new RoundedRectangleBorder(
+                                      borderRadius:
+                                          new BorderRadius.circular(15.0))),
                             ),
-                          ),
-                          SizedBox(
-                            width: 150,
-                            height: 40,
-                            child: new RaisedButton(
-                                child: Text("Add", style: TextStyle(color: Colors.white, fontSize: 15),),
-                                color: Colors.black,
-                                onPressed: (){},
-                                shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(15.0))
-                            ),
-                          )
-                        ],)
-
+                            SizedBox(
+                              width: 150,
+                              height: 40,
+                              child: new RaisedButton(
+                                  child: Text(
+                                    "Add",
+                                    style: TextStyle(
+                                        color: Colors.white, fontSize: 15),
+                                  ),
+                                  color: Colors.black,
+                                  onPressed: () {},
+                                  shape: new RoundedRectangleBorder(
+                                      borderRadius:
+                                          new BorderRadius.circular(15.0))),
+                            )
+                          ],
+                        )
                       ],
                     ),
                   ),
                 ),
-
-
-
-
               ],
             ),
           );
-        }
-    );
+        });
   }
-
 }

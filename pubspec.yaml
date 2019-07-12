@@ -39,7 +39,9 @@ dev_dependencies:
   permission_handler: ^3.1.0
   contacts_service: ^0.2.8
   flutter_credit_card:
-  flutter_material_color_picker:
+
+
+
 
 
 # For information on the generic Dart part of this file, see the
