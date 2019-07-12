@@ -67,6 +67,7 @@ class _SettingsPageState extends State<SettingsPage> {
           Positioned(
             top: (MediaQuery.of(context).size.height / 12),
             left: (MediaQuery.of(context).size.width / 3.8),
+            right: (MediaQuery.of(context).size.width / 3.8),
             child: Text(
               "Account Settings",
               style: TextStyle(
@@ -87,7 +88,8 @@ class _SettingsPageState extends State<SettingsPage> {
           ),
           Positioned(
             top: (MediaQuery.of(context).size.height / 5.5),
-            left: (MediaQuery.of(context).size.width / 2.6),
+            left: (MediaQuery.of(context).size.width / 3.6),
+            right: (MediaQuery.of(context).size.width / 6.6),
             child: Column(
               children: <Widget>[
                 Text(
@@ -113,7 +115,9 @@ class _SettingsPageState extends State<SettingsPage> {
           ),
           Positioned(
             top: (MediaQuery.of(context).size.height / 3.8),
-            left: (MediaQuery.of(context).size.width / 2.6),
+            left: (MediaQuery.of(context).size.width / 2.5),
+            right: (MediaQuery.of(context).size.width / 3.7),
+
             child: OutlineButton(
                 child: Text("Change Picture"),
                 onPressed: () {},

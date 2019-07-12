@@ -74,7 +74,8 @@ class _ProfilePageState extends State<ProfilePage> {
           ),
           Positioned(
             top: (MediaQuery.of(context).size.height / 7.5),
-            left: (MediaQuery.of(context).size.width / 2 - 50.0),
+            left: (MediaQuery.of(context).size.width / 2.6),
+            right: (MediaQuery.of(context).size.width / 2.6),
             child: CircleAvatar(
               backgroundImage: NetworkImage(url),
               radius: screenH(62.5),

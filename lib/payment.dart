@@ -67,12 +67,14 @@ class _PaymentsPageState extends State<PaymentsPage> {
             //top: 190,
             top: (MediaQuery.of(context).size.height / 3.7),
             //left: 90,
-            left: (MediaQuery.of(context).size.width / 4),
+            left: (MediaQuery.of(context).size.width / 4.8),
+            right: (MediaQuery.of(context).size.width / 4.8),
             child: Text("CAD \$500.00 ", style: TextStyle(fontSize: 35),),
           ),
           Positioned(
             top: (MediaQuery.of(context).size.height / 9),
             left: (MediaQuery.of(context).size.width / 3.8),
+            right: (MediaQuery.of(context).size.width / 3.8),
             child: Text("Payment Methods", style: TextStyle(fontSize: 20, color: Colors.white, ),),
           ),
 
@@ -80,6 +82,7 @@ class _PaymentsPageState extends State<PaymentsPage> {
           Positioned(
               top: (MediaQuery.of(context).size.height / 2.8),
               left: (MediaQuery.of(context).size.width / 7),
+              right: (MediaQuery.of(context).size.width / 7),
               child: new SizedBox(
                 width: screenW(300),
                 height: screenH(75),
@@ -105,7 +108,8 @@ class _PaymentsPageState extends State<PaymentsPage> {
 
           Positioned(
               top: (MediaQuery.of(context).size.height / 2.25),
-              left: (MediaQuery.of(context).size.width / 2.45),
+              left: (MediaQuery.of(context).size.width / 3.45),
+              right: (MediaQuery.of(context).size.width / 3.45),
               child: OutlineButton(
                     splashColor: Colors.white,
                     highlightedBorderColor: Colors.white,
