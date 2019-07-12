@@ -87,185 +87,126 @@ class _HomePageOneState extends State<HomePageOne> {
           height: screenH(260),
           decoration: BoxDecoration(
             color: Colors.black,
-            // boxShadow: [
-            //   BoxShadow(
-            //       color: Colors.black.withOpacity(0.6),
-            //       blurRadius: 10,
-            //       spreadRadius: 0.2,
-            //       offset: Offset(0, 7)),
-            // ],
           )),
       Column(children: <Widget>[
         Column(
           children: <Widget>[
             SizedBox(
-              height: screenH(40),
+              height: screenH(42),
             ),
             Row(
               children: <Widget>[
-                SizedBox(
-                  width: screenW(5),
+                Padding(
+                  padding: EdgeInsets.only(left: screenW(27.0)),
+                  child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text("Your Balance",
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: screenF(20),
+                            fontWeight: FontWeight.bold)),
+                  ),
                 ),
+                Spacer(),
                 IconButton(
+                  icon: Icon(Icons.more_vert),
                   onPressed: () {},
+                  iconSize: screenH(25),
                   color: Colors.white,
-                  icon: Icon(Icons.menu),
-                  iconSize: screenH(25.0),
-                ),
-                Spacer(),
-                Text(
-                  "Dime",
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontSize: screenF(20),
-                      fontWeight: FontWeight.bold),
-                ),
-                Spacer(),
-                // SizedBox(width: 278),
-                IconButton(
-                  onPressed: () async {
-                    await getContactsPermission();
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => ContactListScreen(),
-                        ));
-                  },
-                  color: Colors.white,
-                  icon: Icon(Icons.create),
-                  iconSize: screenH(25.0),
-                ),
+                )
               ],
             ),
-          ],
-        ),
-        SizedBox(height: screenH(15)),
-        Align(
-            alignment: Alignment.centerLeft,
-            child: Padding(
-              padding: EdgeInsets.only(left: screenW(20.0)),
-              child: Text("Recents",
-                  style: TextStyle(
-                      fontSize: screenF(15), color: Colors.grey[100])),
-            )),
-        SizedBox(height: screenH(10)),
-        Container(
-          height: screenH(125),
-          child: uid == null
-              ? CircularProgressIndicator()
-              : StreamBuilder<QuerySnapshot>(
-                  stream: _firestore
-                      .collection('users')
-                      .document('$uid')
-                      .collection('requests')
-                      .orderBy('timestamp', descending: true)
-                      .snapshots(),
-                  builder: (context, snapshot) {
-                    print(uid);
-                    print('wtf');
-                    if (!snapshot.hasData ||
-                        snapshot.data.documents.length == 0) {
-                      return Container(
-                        width: screenW(250),
-                        child: Padding(
-                          padding:
-                              EdgeInsets.symmetric(vertical: screenH(30.0)),
-                          child: Text(
-                            "Recents will appear once you interact with other users.",
-                            style: TextStyle(color: Colors.white),
-                            textAlign: TextAlign.center,
-                          ),
+            Column(
+              children: <Widget>[
+                SizedBox(
+                  height: screenH(15),
+                ),
+                Row(
+                  children: <Widget>[
+                    SizedBox(width: screenW(100)),
+                    Text("\$236.78",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: screenF(45),
+                        )),
+                    SizedBox(width: screenW(10)),
+                    Container(
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.all(Radius.circular(15.0)),
+                          color: Colors.grey[850]),
+                      child: Column(children: <Widget>[
+                        Padding(
+                          padding: EdgeInsets.symmetric(
+                              horizontal: screenW(8.0), vertical: screenH(3.0)),
+                          child: Text("+2.39%",
+                              style: TextStyle(
+                                  color: Colors.white, fontSize: screenF(13))),
                         ),
-                      );
-                    }
-                    final docs = snapshot.data.documents;
-                    List<RecentCard> recentCards = [];
-
-                    for (var doc in docs) {
-                      String requesterId = doc.data['requesterId'].toString();
-                      String requesterName =
-                          doc.data['requesterName'].toString();
-                      String requesterPhoto =
-                          doc.data['requesterPhoto'].toString();
-                      print(uid);
-                      print(currentUserModel.uid);
-                      if (currentUserModel.uid != requesterId) {
-                        recentCards.add(RecentCard(
-                            personId: requesterId,
-                            personName: requesterName,
-                            profilePic: requesterPhoto));
-                      }
-                      List requestedFromIds = doc.data['requestedFromIds'];
-                      List requestedFromNames = doc.data['requestedFromNames'];
-                      List requestedFromPhotos =
-                          doc.data['requestedFromPhotos'];
-                      for (int i = 0; i < requestedFromIds.length; i++) {
-                        if (currentUserModel.uid != requestedFromIds[i]) {
-                          recentCards.add(RecentCard(
-                              personId: requestedFromIds[i],
-                              personName: requestedFromNames[i],
-                              profilePic: requestedFromPhotos[i]));
-                        }
-                      }
-                    }
-                    SizedBox(height: screenH(10));
-                    return Container(
-                      height: screenH(165),
-                      child: ListView.builder(
-                          padding: EdgeInsets.only(
-                            bottom: screenH(15.0),
-                          ),
-                          shrinkWrap: true,
-                          scrollDirection: Axis.horizontal,
-                          itemCount: recentCards.length,
-                          itemBuilder: (BuildContext context, int index) {
-                            return recentCards[index];
-                          }),
-                    );
-                  }),
+                      ]),
+                    ),
+                  ],
+                ),
+                Text("August 9th, 2019",
+                    style: TextStyle(
+                      color: Colors.grey,
+                      fontSize: screenF(15),
+                    )),
+              ],
+            ),
+            SizedBox(
+              height: screenH(15),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: <Widget>[
+                Container(
+                  height: screenH(40),
+                  width: screenW(150),
+                  child: FlatButton(
+                    shape: new RoundedRectangleBorder(
+                        borderRadius: new BorderRadius.circular(10.0)),
+                    onPressed: () async {
+                      await getContactsPermission();
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ContactListScreen(),
+                          ));
+                    },
+                    color: Colors.grey[850],
+                    child: Text("Send",
+                        style: TextStyle(
+                          color: Colors.white,
+                        )),
+                  ),
+                ),
+                Container(
+                  height: screenH(40),
+                  width: screenW(150),
+                  child: FlatButton(
+                    shape: new RoundedRectangleBorder(
+                        borderRadius: new BorderRadius.circular(10.0)),
+                    onPressed: () async {
+                      await getContactsPermission();
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ContactListScreen(),
+                          ));
+                    },
+                    color: Colors.grey[850],
+                    child: Text("Request",
+                        style: TextStyle(
+                          color: Colors.white,
+                        )),
+                  ),
+                )
+              ],
+            )
+          ],
         ),
       ]),
     ]);
-  }
-}
-
-class RecentCard extends StatelessWidget {
-  final String personId, personName, profilePic;
-  RecentCard({this.personId, this.personName, this.profilePic});
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.only(left: screenW(15.0)),
-      child: Container(
-          width: screenW(100),
-          decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(10),
-              boxShadow: [
-                BoxShadow(
-                    color: Colors.white.withOpacity(0.1),
-                    blurRadius: screenW(10),
-                    spreadRadius: 0.2,
-                    offset: Offset(3, 3)),
-              ]),
-          child: Column(
-            children: <Widget>[
-              Container(
-                child: Padding(
-                  padding: EdgeInsets.only(top: screenH(15.0)),
-                  child: CircleAvatar(
-                      backgroundImage: NetworkImage(this.profilePic),
-                      radius: screenW(22)),
-                ),
-              ),
-              Padding(
-                padding: EdgeInsets.symmetric(
-                    horizontal: screenW(12.0), vertical: screenH(15)),
-                child: Text(this.personName),
-              )
-            ],
-          )),
-    );
   }
 }
 
@@ -294,7 +235,7 @@ class _HomePageTwoState extends State<HomePageTwo> {
                   style: TextStyle(
                       fontSize: screenF(15), color: Colors.grey[700])),
             )),
-        SizedBox(height: screenH(10)),
+        SizedBox(height: screenH(20)),
         Container(
             height: screenH(165),
             child: Column(
@@ -428,12 +369,13 @@ class RequestCard extends StatelessWidget {
     for (var photo in photos) {
       photoWidgets.add(Column(children: <Widget>[
         Padding(
-          padding: EdgeInsets.symmetric(vertical: 2.0, horizontal: 1),
+          padding: EdgeInsets.symmetric(
+              vertical: screenH(2.0), horizontal: screenH(1)),
           child: CircleAvatar(
               backgroundImage: NetworkImage(photo), radius: screenH(10)),
         ),
         SizedBox(
-          width: 5,
+          width: screenW(5),
         )
       ]));
     }
@@ -464,16 +406,12 @@ class RequestCard extends StatelessWidget {
             children: <Widget>[
               Row(
                 children: <Widget>[
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: screenH(15.0)),
-                    child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          CircleAvatar(
-                            radius: screenH(20),
-                            backgroundImage: NetworkImage(this.requesterPhoto),
-                          )
-                        ]),
+                  CircleAvatar(
+                    radius: screenH(20),
+                    backgroundImage: NetworkImage(this.requesterPhoto),
+                  ),
+                  SizedBox(
+                    width: screenW(15),
                   ),
                   Padding(
                     padding: EdgeInsets.only(top: screenH(10.0)),
@@ -483,6 +421,9 @@ class RequestCard extends StatelessWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
+                          SizedBox(
+                            height: screenH(10),
+                          ),
                           Text(
                             event,
                             style: TextStyle(fontSize: screenF(18)),
@@ -557,17 +498,15 @@ class RequestCard extends StatelessWidget {
                   SizedBox(width: screenW(10)),
                   Container(
                     height: screenH(40),
-                    width: screenW(120),
+                    width: screenW(140),
                     child: FlatButton(
                       shape: new RoundedRectangleBorder(
                           borderRadius: new BorderRadius.circular(10.0)),
                       onPressed: () {},
                       color: type == 'Pay'
-                          ? Colors.greenAccent[700].withOpacity(0.2)
+                          ? Colors.black
                           : Colors.blueGrey.withOpacity(0.2),
-                      textColor: type == 'Pay'
-                          ? Colors.greenAccent[700]
-                          : Colors.blueGrey,
+                      textColor: type == 'Pay' ? Colors.white : Colors.blueGrey,
                       child: Text(type),
                     ),
                   ),
@@ -632,12 +571,16 @@ class _HomePageThreeState extends State<HomePageThree> {
                             height: screenH(267),
                             child: Column(
                               children: <Widget>[
-                                Container(
-                                  height: screenH(120),
-                                  child: Image(
-                                    image: AssetImage('assets/groupselfie.png'),
-                                  ),
+                                SizedBox(
+                                  height: screenH(60),
                                 ),
+                                // Container(
+                                //   height: screenH(120),
+                                //   child: Image(
+                                //     image: AssetImage('assets/groupselfie.png'),
+                                //   ),
+                                // ),
+
                                 SizedBox(
                                   height: screenH(10),
                                 ),
@@ -645,14 +588,17 @@ class _HomePageThreeState extends State<HomePageThree> {
                                     style: TextStyle(
                                         fontWeight: FontWeight.bold,
                                         fontSize: screenF(18))),
+                                SizedBox(
+                                  height: 0,
+                                ),
                                 Container(
-                                    width: screenW(350),
+                                    width: screenW(330),
                                     child: Text(
                                       "You're not a part of any groups, create or join one now!",
                                       textAlign: TextAlign.center,
                                     )),
                                 SizedBox(
-                                  height: screenH(20),
+                                  height: screenH(40),
                                 ),
                                 Container(
                                   height: screenH(40),
@@ -694,18 +640,27 @@ class _HomePageThreeState extends State<HomePageThree> {
                               settleType: settleType));
                         }
                         SizedBox(height: screenH(10));
-                        return Container(
-                          height: screenH(267),
-                          child: ListView.builder(
-                              padding: EdgeInsets.only(
-                                bottom: screenH(15.0),
-                              ),
-                              shrinkWrap: true,
-                              scrollDirection: Axis.horizontal,
-                              itemCount: groupCards.length,
-                              itemBuilder: (BuildContext context, int index) {
-                                return groupCards[index];
-                              }),
+                        return InkWell(
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => GroupsDetailPage(),
+                                ));
+                          },
+                          child: Container(
+                            height: screenH(267),
+                            child: ListView.builder(
+                                padding: EdgeInsets.only(
+                                  bottom: screenH(15.0),
+                                ),
+                                shrinkWrap: true,
+                                scrollDirection: Axis.horizontal,
+                                itemCount: groupCards.length,
+                                itemBuilder: (BuildContext context, int index) {
+                                  return groupCards[index];
+                                }),
+                          ),
                         );
                       })
             ],
@@ -732,8 +687,8 @@ class GroupCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.only(left: screenW(15.0)),
-      child: Container(
+        padding: EdgeInsets.only(left: screenW(15.0)),
+        child: Container(
           width: screenW(190),
           decoration: BoxDecoration(
               color: Colors.white,
@@ -745,92 +700,89 @@ class GroupCard extends StatelessWidget {
                     spreadRadius: 0.2,
                     offset: Offset(0, 6)),
               ]),
-          child: Column(
-            children: <Widget>[
-              Container(
-                child: Padding(
-                    padding: EdgeInsets.only(top: screenH(15.0)),
-                    child: Container(
-                      height: screenH(120),
-                      child: Opacity(
-                        opacity: 0.8,
-                        child: ClipRRect(
-                            borderRadius: new BorderRadius.circular(5.0),
-                            child: Image(
-                              image: NetworkImage(this.groupPic),
-                            )),
-                      ),
-                    )),
-              ),
-              Padding(
-                  padding: EdgeInsets.symmetric(vertical: screenH(10)),
+          child: Column(children: <Widget>[
+            Container(
+              child: Padding(
+                  padding: EdgeInsets.only(top: screenH(15.0)),
                   child: Container(
-                    width: screenW(155),
-                    child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Text(this.groupName,
-                              style: TextStyle(
-                                  fontSize: 16, color: Colors.grey[800])),
-                          SizedBox(
-                            height: 5,
-                          ),
-                          Container(
-                            decoration: BoxDecoration(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(15.0)),
-                                color: settleType == 1
-                                    ? Colors.greenAccent[700].withOpacity(0.2)
+                    height: screenH(120),
+                    child: Opacity(
+                      opacity: 0.8,
+                      child: ClipRRect(
+                          borderRadius: new BorderRadius.circular(5.0),
+                          child: Image(
+                            image: NetworkImage(this.groupPic),
+                          )),
+                    ),
+                  )),
+            ),
+            Padding(
+                padding: EdgeInsets.symmetric(vertical: screenH(10)),
+                child: Container(
+                  width: screenW(155),
+                  child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Text(this.groupName,
+                            style: TextStyle(
+                                fontSize: screenF(16),
+                                color: Colors.grey[800])),
+                        SizedBox(
+                          height: screenH(5),
+                        ),
+                        Container(
+                          decoration: BoxDecoration(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(15.0)),
+                              color: settleType == 1
+                                  ? Colors.greenAccent[700].withOpacity(0.2)
+                                  : settleType == -1
+                                      ? Colors.red.withOpacity(0.2)
+                                      : Colors.grey.withOpacity(0.2)),
+                          child: Column(children: <Widget>[
+                            Padding(
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: screenW(8.0),
+                                  vertical: screenH(3.0)),
+                              child: Text(
+                                "${settleType == 1 ? "+" : settleType == -1 ? "-" : ""} \$${balanceValue.toString()}",
+                                style: settleType == 1
+                                    ? greenSubStyle
                                     : settleType == -1
-                                        ? Colors.red.withOpacity(0.2)
-                                        : Colors.grey.withOpacity(0.2)),
-                            child: Column(
-                              children: <Widget>[
-                                Padding(
-                                  padding: EdgeInsets.symmetric(
-                                      horizontal: screenW(8.0),
-                                      vertical: screenH(3.0)),
-                                  child: Text(
-                                    "${settleType == 1 ? "+" : settleType == -1 ? "-" : ""} \$${balanceValue.toString()}",
-                                    style: settleType == 1
-                                        ? greenSubStyle
-                                        : settleType == -1
-                                            ? redSubStyle
-                                            : blackSubStyle,
-                                  ),
-                                ),
-                                SizedBox(
-                                  height: 25,
-                                ),
-                                Row(
-                                  children: <Widget>[
-                                    CircleAvatar(
-                                        backgroundImage:
-                                            AssetImage("assets/namrapatel.png"),
-                                        radius: screenH(10)),
-                                    SizedBox(
-                                      width: 5,
-                                    ),
-                                    CircleAvatar(
-                                        backgroundImage: AssetImage(
-                                            "assets/shehabsalem.jpeg"),
-                                        radius: screenH(10)),
-                                    SizedBox(
-                                      width: 5,
-                                    ),
-                                    CircleAvatar(
-                                        backgroundImage: AssetImage(
-                                            "assets/dhruvpatel.jpeg"),
-                                        radius: screenH(10)),
-                                  ],
-                                )
-                              ],
+                                        ? redSubStyle
+                                        : blackSubStyle,
+                              ),
                             ),
-                          ),
-                        ]),
-                  ))
-            ],
-          )),
-    );
+                          ]),
+                        ),
+                        SizedBox(
+                          height: screenH(25),
+                        ),
+                        Row(
+                          children: <Widget>[
+                            CircleAvatar(
+                                backgroundImage:
+                                    AssetImage("assets/namrapatel.png"),
+                                radius: screenH(10)),
+                            SizedBox(
+                              width: 5,
+                            ),
+                            CircleAvatar(
+                                backgroundImage:
+                                    AssetImage("assets/shehabsalem.jpeg"),
+                                radius: screenH(10)),
+                            SizedBox(
+                              width: 5,
+                            ),
+                            CircleAvatar(
+                                backgroundImage:
+                                    AssetImage("assets/dhruvpatel.jpeg"),
+                                radius: screenH(10)),
+                          ],
+                        )
+                      ]),
+                ))
+          ]),
+        ));
   }
 }

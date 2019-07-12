@@ -38,6 +38,7 @@ dev_dependencies:
   flutter_vector_icons:
   permission_handler: ^3.1.0
   contacts_service: ^0.2.8
+  flutter_credit_card:
 
 
 # For information on the generic Dart part of this file, see the
