@@ -3,6 +3,16 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
+import 'package:Dime/homepage.dart';
+import 'package:Dime/screens/individualTransaction.dart';
+import 'package:permission_handler/permission_handler.dart';
+import 'package:Dime/loginpage.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert' as JSON;
+import 'package:contacts_service/contacts_service.dart';
+
 class WorldPage extends StatefulWidget {
   @override
   _WorldPageState createState() => _WorldPageState();
@@ -13,18 +23,19 @@ class _WorldPageState extends State<WorldPage> {
   final screenW = ScreenUtil.instance.setWidth;
   final screenF = ScreenUtil.instance.setSp;
 
+
   @override
   Widget build(BuildContext context) {
     return ListView(children: [
       Container(
-          height: 260.0,
+          height: screenH(340.0),
           color: Colors.white,
           child: Column(
             children: <Widget>[
-              Padding(padding: EdgeInsets.fromLTRB(0, 20, 0, 0),),
+              Padding(padding: EdgeInsets.fromLTRB(0, screenH(25), 0, 0),),
               Text("Invite your Friends", style: TextStyle(fontSize: 20, color: Colors.black), ),
               Padding(
-                padding: EdgeInsets.fromLTRB(20, 10, 20, 20),
+                padding: EdgeInsets.all(screenH(20)),
                 child: Text("Dime is better with friends! Invite your friends and earn bonus cash back.", style: TextStyle(fontSize: 15, color: Colors.grey), textAlign: TextAlign.center, ),
               ),
               // Spacer(),
@@ -35,7 +46,8 @@ class _WorldPageState extends State<WorldPage> {
                     backgroundColor: Color(0xFF0078FF),
                     elevation: 7,
                     child: Icon(MaterialCommunityIcons.facebook_messenger, size: 28,),
-                    onPressed: (){},
+                    onPressed: (){
+                    },
                   ),
                   Spacer(),
                     FloatingActionButton(
@@ -66,7 +78,7 @@ class _WorldPageState extends State<WorldPage> {
               ),
               Spacer(),
 
-              Padding(padding: EdgeInsets.fromLTRB(15, 0, 15, 15),
+              Padding(padding: EdgeInsets.fromLTRB(screenW(15), 0, screenW(15), screenW(15)),
               child: TextField(
               onChanged: (value) {},
               //controller: editingController,
@@ -75,7 +87,6 @@ class _WorldPageState extends State<WorldPage> {
                   hintText: "Search or Add Friends",
                   prefixIcon: Icon(Icons.search),
                   border: OutlineInputBorder(
-                      borderSide: const BorderSide(color: Colors.black, width: 0.0),
                       borderRadius: BorderRadius.all(Radius.circular(20.0)))),
             ),
               ),
@@ -94,12 +105,13 @@ class _WorldPageState extends State<WorldPage> {
               indicatorColor: Colors.black,
               
               ),
+
               Container(
-                  height: 815, 
+                  height: screenH(900), 
                   child: TabBarView(
                     children: [
                       _myListView(context),
-                      _myListView2(context)
+                      buildContacts()
                       ],
                   ))
             ],
@@ -111,7 +123,7 @@ class _WorldPageState extends State<WorldPage> {
     return ListView.separated(
       physics: const NeverScrollableScrollPhysics(),
       padding: EdgeInsets.all(0),
-      itemCount: 15,
+      itemCount: 8,
       itemBuilder: (context, index) {
         return ListTile(
           leading: CircleAvatar(
@@ -119,8 +131,8 @@ class _WorldPageState extends State<WorldPage> {
           ),
           title: Text('Person $index'),
           trailing: SizedBox(
-          width: 35.0,
-          height: 35.0,
+          width: screenW(35),
+          height: screenW(35),
           child: FloatingActionButton(
             elevation: 0,
             backgroundColor: Colors.black,
@@ -141,20 +153,123 @@ class _WorldPageState extends State<WorldPage> {
       },
     );
   }
-  Widget _myListView2(BuildContext context) {
-    return ListView.separated(
-      physics: const NeverScrollableScrollPhysics(),
-      padding: EdgeInsets.all(0),
-      itemCount: 15,
-      itemBuilder: (context, index) {
-        return ListTile(
-          leading: CircleAvatar(
-            backgroundImage: AssetImage('assets/dhruvpatel.jpeg'),
+
+
+  Widget buildContacts() {
+  return FutureBuilder<List<ContactTile>>(
+      future: getContacts(),
+      builder: (context, snapshot) {
+        if (!snapshot.hasData)
+          return Container(
+              alignment: FractionalOffset.center,
+              child: CircularProgressIndicator());
+
+        return ListView(
+          children: snapshot.data,
+          padding: EdgeInsets.only(
+            bottom: screenH(15.0),
           ),
-          title: Text('Person $index'),
+          scrollDirection: Axis.vertical,
+        );
+      });
+}
+
+Future<List<ContactTile>> getContacts() async {
+  var accessToken = await fbLogin.currentAccessToken;
+  List<ContactTile> contactsTiles = [];
+  final token = accessToken.token;
+  final graphResponse = await http.get(
+      'https://graph.facebook.com/v3.3/me?fields=friends&access_token=${token}');
+  final profile = JSON.jsonDecode(graphResponse.body);
+  Map userProfile = profile;
+  List<String> fbFriendsIds = [];
+  for (var key in userProfile["friends"]['data']) {
+    String fbId = key['id'];
+    fbFriendsIds.add(fbId);
+  }
+  for (var id in fbFriendsIds) {
+    QuerySnapshot docSnap = await Firestore.instance
+        .collection('users')
+        .where('facebookUid', isEqualTo: id)
+        .getDocuments();
+    List<DocumentSnapshot> docs = docSnap.documents;
+    List<String> fbContacts = [];
+    for (var doc in docs) {
+      String name = doc.data['displayName'];
+      String photo = doc.data['photoUrl'];
+      String uid = doc.documentID;
+      fbContacts.add(uid);
+      contactsTiles.add(ContactTile(name, photo, uid));
+    }
+
+    Firestore.instance
+        .collection('users')
+        .document(currentUserModel.uid)
+        .updateData({"contacts": FieldValue.arrayUnion(fbContacts)});
+  }
+  if (permissionGranted == true) {
+    Iterable<Contact> contacts = await ContactsService.getContacts();
+    for (var contact in contacts) {
+      var phone = contact.phones.toList();
+      print(phone[0].value);
+      String number = phone[0].value;
+      QuerySnapshot querySnap = await Firestore.instance
+          .collection('users')
+          .where('phoneNumber', isEqualTo: number)
+          .getDocuments();
+
+      List<DocumentSnapshot> docs = querySnap.documents;
+      List<String> contacts = [];
+
+      for (var doc in docs) {
+        String name = doc.data['displayName'];
+        String photo = doc.data['photoUrl'];
+        String uid = doc.documentID;
+        contacts.add(uid);
+        contactsTiles.add(ContactTile(name, photo, uid, phoneNumber: number));
+      }
+      Firestore.instance
+          .collection('users')
+          .document(currentUserModel.uid)
+          .updateData({"contacts": FieldValue.arrayUnion(contacts)});
+    }
+  }
+  return contactsTiles;
+}
+
+}
+
+class ContactTile extends StatefulWidget {
+  ContactTile(this.contactName, this.personImage, this.uid, {this.phoneNumber});
+  final String contactName, personImage, phoneNumber, uid;
+  @override
+  _ContactTileState createState() => _ContactTileState();
+}
+
+class _ContactTileState extends State<ContactTile> {
+
+    final screenH = ScreenUtil.instance.setHeight;
+  final screenW = ScreenUtil.instance.setWidth;
+  final screenF = ScreenUtil.instance.setSp;
+
+  bool value1 = false;
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+        decoration: BoxDecoration(color: Colors.white),
+        height: screenH(97),
+        width: screenW(372),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            ListTile(
+              leading: CircleAvatar(
+                radius: 20,
+                backgroundImage: NetworkImage(widget.personImage),
+              ),
           trailing: SizedBox(
-          width: 35.0,
-          height: 35.0,
+          width: screenW(35),
+          height: screenW(35),
           child: FloatingActionButton(
             elevation: 0,
             backgroundColor: Colors.black,
@@ -162,17 +277,17 @@ class _WorldPageState extends State<WorldPage> {
             onPressed: () {},
           ),
         ),
-          subtitle: Text("(123) 456-7890",
-              style: TextStyle(
-                fontSize: screenF(13),
-              )),
-        );
-      },
-      separatorBuilder: (context, index) {
-        return Divider(
-          color: Colors.grey[500],
-        );
-      },
-    );
+              title: Text(widget.contactName),
+              subtitle: Text(
+                widget.phoneNumber != null ? widget.phoneNumber : '',
+                style: TextStyle(fontSize: screenF(12)),
+              ),
+            ),
+            Divider(
+              color: Colors.grey[400],
+              height: screenH(1),
+            )
+          ],
+        ));
   }
 }
