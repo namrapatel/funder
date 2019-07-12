@@ -8,8 +8,6 @@ import 'loginpage.dart';
 import 'profilepage.dart';
 import 'notificationspage.dart';
 
-
-
 void main() => runApp(Dime());
 
 class Dime extends StatelessWidget {
@@ -20,8 +18,8 @@ class Dime extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: "Dime",
-
       home: LoginPage(),
+
       routes: <String, WidgetBuilder>{
         '/homepage': (BuildContext context) => new MyHomePage(),
         '/loginpage': (BuildContext context) => new LoginPage(),

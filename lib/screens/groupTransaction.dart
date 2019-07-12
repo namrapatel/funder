@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:funder/screens/Transactions/PaymentTypeSection.dart';
-import 'package:funder/screens/Transactions/groupMembers.dart';
-import 'package:funder/screens/individualTransaction.dart';
+import 'individualTransaction.dart';
+import 'package:Dime/screens/Transactions/groupMembers.dart';
+import 'package:Dime/screens/Transactions/PaymentTypeSection.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class GroupTransaction extends StatelessWidget {
@@ -707,4 +707,6 @@ class _BuildRecurringState extends State<BuildRecurring> {
       ),
     );
   }
+
 }
+

@@ -1,5 +1,6 @@
 import 'dart:ui' as prefix0;
 
+import 'package:Dime/groupsdetail.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -131,7 +132,7 @@ class _HomePageOneState extends State<HomePageOne> {
                         ));
                   },
                   color: Colors.white,
-                  icon: Icon(Icons.add),
+                  icon: Icon(Icons.create),
                   iconSize: screenH(25.0),
                 ),
               ],
@@ -664,7 +665,14 @@ class _HomePageThreeState extends State<HomePageThree> {
                                       "Create a Group",
                                       style: TextStyle(color: Colors.white),
                                     ),
-                                    onPressed: () {},
+                                    onPressed: () {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                GroupsDetailPage(),
+                                          ));
+                                    },
                                   ),
                                 )
                               ],
@@ -825,10 +833,4 @@ class GroupCard extends StatelessWidget {
           )),
     );
   }
-}
-
-Widget buildNullGroup(BuildContext context) {
-  return Container(
-    child: Text("You currently have no groups."),
-  );
 }
