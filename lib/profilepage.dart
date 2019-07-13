@@ -72,15 +72,19 @@ class _ProfilePageState extends State<ProfilePage> {
               ),
             ),
           ),
-          Positioned(
-            top: (MediaQuery.of(context).size.height / 7.5),
-            left: (MediaQuery.of(context).size.width / 2.6),
-            right: (MediaQuery.of(context).size.width / 2.6),
-            child: CircleAvatar(
-              backgroundImage: NetworkImage(url),
-              radius: screenH(62.5),
-            )
-          ),
+            
+            Center(
+              child: Padding(
+                padding: EdgeInsets.fromLTRB(0, 0, 0, screenH(480)),
+                child: CircleAvatar(
+                  backgroundImage: NetworkImage(url),
+                  radius: screenH(62.5),
+                ),
+              ),
+            ),
+
+
+
           Positioned(
             top: (MediaQuery.of(context).size.height / 2.5),
             left: (MediaQuery.of(context).size.width / 13),
@@ -89,37 +93,36 @@ class _ProfilePageState extends State<ProfilePage> {
             color: Colors.grey[700],
           ),
           ),
-          Positioned(
-            top: (MediaQuery.of(context).size.height / 3.5),
-            //top: 220,
-            left: (MediaQuery.of(context).size.width / 4),
-            right: (MediaQuery.of(context).size.width / 4),
-            child: Column(
-              children: <Widget>[
-                Text(
-                  '$displayName', // Add display name in Account Settings - that should be the error message
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 17.0,
-                  ),
-                  textAlign: TextAlign.center,
+          Center(
+                child: Padding(
+                  padding: EdgeInsets.fromLTRB(0, screenH(250), 0, 0),
+                  child: Column(
+                     children: <Widget>[
+                    Text(
+                      '$displayName', // Add display name in Account Settings - that should be the error message
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 17.0,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                    SizedBox(
+                      height: screenH(15),
+                    ),
+                    Text(
+                      '(123) 456-7890',
+                      style: TextStyle(
+                          fontFamily: 'Comfortaa',
+                          fontWeight: FontWeight.bold,
+                          fontSize: 17.0,
+                          color: Colors.grey),
+                    ),
+                    SizedBox(
+                      height: screenH(125),
+                    ),
+                  ],
+              ),
                 ),
-                SizedBox(
-                  height: screenH(15),
-                ),
-                Text(
-                  '(123) 456-7890',
-                  style: TextStyle(
-                      fontFamily: 'Comfortaa',
-                      fontWeight: FontWeight.bold,
-                      fontSize: 17.0,
-                      color: Colors.grey),
-                ),
-                SizedBox(
-                  height: screenH(125),
-                ),
-              ],
-            ),
           ),
           Positioned(
               top: (MediaQuery.of(context).size.height / 2.25),
