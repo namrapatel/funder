@@ -19,7 +19,8 @@ final screenH = ScreenUtil.instance.setHeight;
 final screenW = ScreenUtil.instance.setWidth;
 final screenF = ScreenUtil.instance.setSp;
 final _firestore = Firestore.instance;
-bool permissionGranted = true;
+
+
 
 class HomePage extends StatefulWidget {
   @override
@@ -50,27 +51,27 @@ class HomePageOne extends StatefulWidget {
 class _HomePageOneState extends State<HomePageOne> {
   String uid = currentUserModel.uid;
 
-  getContactsPermission() async {
-    PermissionStatus permission = await PermissionHandler()
-        .checkPermissionStatus(PermissionGroup.contacts);
-
-    if (permission == PermissionStatus.denied ||
-        permission == PermissionStatus.disabled ||
-        permission == PermissionStatus.restricted) {
-      Map<PermissionGroup, PermissionStatus> permissions =
-          await PermissionHandler()
-              .requestPermissions([PermissionGroup.contacts]);
-
-      if (permissions[PermissionGroup.contacts] == PermissionStatus.denied) {
-        print('user denied it');
-        permissionGranted = false;
-      } else if (permissions[PermissionGroup.contacts] ==
-          PermissionStatus.granted) {
-        print('user accepts');
-        permissionGranted = true;
-      }
-    }
-  }
+//  getContactsPermission() async {
+//    PermissionStatus permission = await PermissionHandler()
+//        .checkPermissionStatus(PermissionGroup.contacts);
+//
+//    if (permission == PermissionStatus.denied ||
+//        permission == PermissionStatus.disabled ||
+//        permission == PermissionStatus.restricted) {
+//      Map<PermissionGroup, PermissionStatus> permissions =
+//          await PermissionHandler()
+//              .requestPermissions([PermissionGroup.contacts]);
+//
+//      if (permissions[PermissionGroup.contacts] == PermissionStatus.denied) {
+//        print('user denied it');
+//        permissionGranted = false;
+//      } else if (permissions[PermissionGroup.contacts] ==
+//          PermissionStatus.granted) {
+//        print('user accepts');
+//        permissionGranted = true;
+//      }
+//    }
+//  }
 
   @override
   Widget build(BuildContext context) {
@@ -124,7 +125,7 @@ class _HomePageOneState extends State<HomePageOne> {
                 // SizedBox(width: 278),
                 IconButton(
                   onPressed: () async {
-                    await getContactsPermission();
+//                    await getContactsPermission();
                     Navigator.push(
                         context,
                         MaterialPageRoute(

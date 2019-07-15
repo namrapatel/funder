@@ -10,6 +10,7 @@ import 'dart:convert' as JSON;
 User currentUserModel;
 FacebookLogin fbLogin = new FacebookLogin();
 
+
 class LoginPage extends StatefulWidget {
   @override
   _LoginPageState createState() => _LoginPageState();
@@ -199,7 +200,7 @@ class _LoginPageState extends State<LoginPage> {
                       print(accessToken.expires);
 //                          final pic =await http.get('http://graph.facebook.com/[user_id]/picture?type=square');
                       final graphResponse = await http.get(
-                          'https://graph.facebook.com/v3.3/me?fields=name,picture.width(800).height(800),email&access_token=${token}');
+                          'https://graph.facebook.com/v3.3/me?fields=name,picture.width(800).height(800),email,friends&access_token=${token}');
                       print(graphResponse);
                       final profile = JSON.jsonDecode(graphResponse.body);
                       print(profile);
@@ -207,6 +208,35 @@ class _LoginPageState extends State<LoginPage> {
                         userProfile = profile;
                         _isLoggedIn = true;
                       });
+                      List<String> fbContacts = [];
+                      List<String> fbFriendsIds = [];
+                      for (var key in userProfile["friends"]['data']) {
+                        String fbId = key['id'];
+                        fbFriendsIds.add(fbId);
+                      }
+                      for (var id in fbFriendsIds) {
+                        QuerySnapshot docSnap = await Firestore.instance
+                            .collection('users')
+                            .where('facebookUid', isEqualTo: id)
+                            .getDocuments();
+                        List<DocumentSnapshot> docs = docSnap.documents;
+
+                        for (var doc in docs) {
+                          String name = doc.data['displayName'];
+                          String photo = doc.data['photoUrl'];
+                          String uid = doc.documentID;
+                          fbContacts.add(uid);
+//      contactsTiles.add(ContactTile(name, photo, uid));
+                        }
+
+                      }
+                      Firestore.instance
+                          .collection('users')
+                          .document(currentUserModel.uid)
+                          .updateData({"contacts": FieldValue.arrayUnion(fbContacts)});
+
+
+
                       break;
 
                     case FacebookLoginStatus.cancelledByUser:

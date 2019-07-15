@@ -13,6 +13,8 @@ List<String>selectedUsersUids=[];
 List<ContactTile> suggestionList=[];
 Set<String> selections;
 List allContacts=[];
+bool syncedContacts=false;
+bool permissionGranted;
 
 
 class DataSearch extends SearchDelegate<
@@ -121,6 +123,28 @@ class _ContactListScreenState extends State<ContactListScreen> {
           ),
           title: Text("Select Contacts"),
           actions: <Widget>[
+            syncedContacts==false?
+            FlatButton(
+                shape: new RoundedRectangleBorder(
+                    borderRadius:
+                    new BorderRadius.circular(15.0)),
+            color: Colors.white,
+            child: Text(
+            "Sync",
+            style: TextStyle(color: Colors.black),
+            ),
+            onPressed: () async{
+              await syncContacts();
+            setState(() {
+              buildContacts();
+            });
+
+
+
+            },
+
+
+        ):SizedBox(width: 1),
             IconButton(
               onPressed: () {
                 Navigator.push(
@@ -179,67 +203,98 @@ Widget buildContacts() {
       });
 }
 
+
+
 Future<List<ContactTile>> getContacts() async {
-  var accessToken = await fbLogin.currentAccessToken;
+//  var accessToken = await fbLogin.currentAccessToken;
   List<ContactTile> contactsTiles = [];
-  List<String> fbContacts = [];
-  final token = accessToken.token;
-  final graphResponse = await http.get(
-      'https://graph.facebook.com/v3.3/me?fields=friends&access_token=${token}');
-  final profile = JSON.jsonDecode(graphResponse.body);
-  Map userProfile = profile;
-  List<String> fbFriendsIds = [];
-  for (var key in userProfile["friends"]['data']) {
-    String fbId = key['id'];
-    fbFriendsIds.add(fbId);
-  }
-  for (var id in fbFriendsIds) {
-    QuerySnapshot docSnap = await Firestore.instance
-        .collection('users')
-        .where('facebookUid', isEqualTo: id)
-        .getDocuments();
-    List<DocumentSnapshot> docs = docSnap.documents;
+//  List<String> fbContacts = [];
+//  final token = accessToken.token;
+//  final graphResponse = await http.get(
+//      'https://graph.facebook.com/v3.3/me?fields=friends&access_token=${token}');
+//  final profile = JSON.jsonDecode(graphResponse.body);
+//  Map userProfile = profile;
+//  List<String> fbFriendsIds = [];
+//  for (var key in userProfile["friends"]['data']) {
+//    String fbId = key['id'];
+//    fbFriendsIds.add(fbId);
+//  }
+//  for (var id in fbFriendsIds) {
+//    QuerySnapshot docSnap = await Firestore.instance
+//        .collection('users')
+//        .where('facebookUid', isEqualTo: id)
+//        .getDocuments();
+//    List<DocumentSnapshot> docs = docSnap.documents;
+//
+//    for (var doc in docs) {
+//      String name = doc.data['displayName'];
+//      String photo = doc.data['photoUrl'];
+//      String uid = doc.documentID;
+//      fbContacts.add(uid);
+////      contactsTiles.add(ContactTile(name, photo, uid));
+//    }
+//
+//  }
+//  addContact(fbContacts);
 
-    for (var doc in docs) {
-      String name = doc.data['displayName'];
-      String photo = doc.data['photoUrl'];
-      String uid = doc.documentID;
-      fbContacts.add(uid);
-      contactsTiles.add(ContactTile(name, photo, uid));
-    }
+  DocumentSnapshot documentSnapshot= await Firestore.instance.collection('users').document(currentUserModel.uid).get();
+  allContacts =documentSnapshot.data['contacts'];
+  print('allcontacts');
+  print(allContacts);
+  for(var contact in allContacts) {
+    DocumentSnapshot docSnap = await Firestore.instance
+        .collection('users').document(contact).get();
+    String name=docSnap.data['displayName'];
+    String photo = docSnap.data['photoUrl'];
+    String phone = docSnap.data['phoneNumber'];
+            contactsTiles.add(ContactTile(name, photo, contact, phoneNumber: phone));
 
   }
-  addContact(fbContacts);
+print(contactsTiles);
+  return contactsTiles;
+}
+
+syncContacts() async {
+  List<String> contacts = [];
+  print(permissionGranted);
   if (permissionGranted == true) {
-    List<String> contacts = [];
     Iterable<Contact> phoneContacts = await ContactsService.getContacts();
     for (var contact in phoneContacts) {
       var phone = contact.phones.toList();
       print(phone[0].value);
       String number = phone[0].value;
+      print(number);
       QuerySnapshot querySnap = await Firestore.instance
           .collection('users')
           .where('phoneNumber', isEqualTo: number)
           .getDocuments();
 
       List<DocumentSnapshot> docs = querySnap.documents;
-
-
       for (var doc in docs) {
-        String name = doc.data['displayName'];
-        String photo = doc.data['photoUrl'];
         String uid = doc.documentID;
         contacts.add(uid);
-        contactsTiles.add(ContactTile(name, photo, uid, phoneNumber: number));
       }
-
     }
     addContact(contacts);
+    syncedContacts=true;
+
+
+
+  }else{
+    Map<PermissionGroup, PermissionStatus> permissions =
+    await PermissionHandler()
+        .requestPermissions([PermissionGroup.contacts]);
+
+    if (permissions[PermissionGroup.contacts] == PermissionStatus.denied) {
+      print('user denied it');
+      permissionGranted = false;
+    } else if (permissions[PermissionGroup.contacts] ==
+        PermissionStatus.granted) {
+      print('user accepts');
+      permissionGranted = true;
+      syncContacts();
+    }
   }
-  DocumentSnapshot documentSnapshot= await Firestore.instance.collection('users').document(currentUserModel.uid).get();
-  allContacts =documentSnapshot.data['contacts'];
-  print(allContacts);
-  return contactsTiles;
 }
 
 addContact(List contacts){
@@ -309,6 +364,7 @@ class _ContactTileState extends State<ContactTile> {
                         List ids= [];
                         ids.add(widget.uid);
                         addContact(ids);
+                        buildContacts();
                       },
                     ):SizedBox(width: 88),
                     Checkbox(
