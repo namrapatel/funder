@@ -7,6 +7,69 @@ import 'package:Dime/loginpage.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert' as JSON;
 import 'package:contacts_service/contacts_service.dart';
+import 'package:Dime/classes/user.dart';
+List<ContactTile> allUsers=[];
+List<String>selectedUsersUids=[];
+List<ContactTile> suggestionList=[];
+Set<String> selections;
+
+
+class DataSearch extends SearchDelegate<
+    String> {
+
+  final recentSearches=[ContactTile('Dhruv Patel','https://platform-lookaside.fbsbx.com/platform/profilepic/?asid=2250762621659276&height=800&width=800&ext=1565358714&hash=AeTMZgz--e2JNS2J','bK5iO87AyBbyUtkRXOiyGEfVis83',)];
+
+
+  @override
+  List<Widget> buildActions(BuildContext context) {
+    // TODO: implement buildActions
+    return [IconButton(
+      icon: Icon(Icons.clear),
+      onPressed: (){
+        query='';
+
+      },
+    )];
+  }
+
+  @override
+  Widget buildLeading(BuildContext context) {
+    // TODO: implement buildLeading
+
+    return IconButton(icon: AnimatedIcon(icon: AnimatedIcons.menu_arrow, progress: transitionAnimation),
+        onPressed: (){
+          close(context, null);
+        });
+  }
+
+  @override
+  Widget buildResults(BuildContext context) {
+    // TODO: implement buildResults
+    return null;
+  }
+
+  @override
+  Widget buildSuggestions(BuildContext context) {
+    // TODO: implement buildSuggestions
+    suggestionList= query.isEmpty?recentSearches:allUsers.where(
+            (contact)=>(contact.phoneNumber==null?
+
+        ((contact.contactName.startsWith(query))):
+        ((contact.contactName.startsWith(query))|| ((contact.phoneNumber.startsWith(query)))))).toList();
+
+    return
+      ListView.builder(
+          shrinkWrap: true,
+
+          itemBuilder: (BuildContext context, int index) {
+            return suggestionList[index];
+          },itemCount: suggestionList.length);
+
+
+  }
+
+}
+
 
 class ContactListScreen extends StatefulWidget {
   @override
@@ -16,35 +79,33 @@ class ContactListScreen extends StatefulWidget {
 class _ContactListScreenState extends State<ContactListScreen> {
   TextEditingController editingController = TextEditingController();
 
-//  getContactsPermission() async{
-//
-//    PermissionStatus permission = await PermissionHandler().checkPermissionStatus(PermissionGroup.contacts);
-//
-//    if(permission== PermissionStatus.denied||permission== PermissionStatus.disabled||permission== PermissionStatus.restricted){
-//      Map<PermissionGroup, PermissionStatus> permissions = await PermissionHandler().requestPermissions([PermissionGroup.contacts]);
-//
-//      if(permissions[PermissionGroup.contacts]==PermissionStatus.denied){
-//        print('user denied it');
-//        permissionGranted=false;
-//
-//      }else if(permissions[PermissionGroup.contacts]==PermissionStatus.granted){
-//        print('user accepts');
-//        permissionGranted=true;
-//      }
-//
-//    }
-//
-//
-//
-//  }
-
   @override
   void initState() {
     super.initState();
+    if(allUsers.length==0) {
+      getAllUsers();
+    }
 
 //    getContactsPermission();
   }
 
+  getAllUsers() async{
+    List<ContactTile> users=[];
+    QuerySnapshot userDocs= await Firestore.instance.collection('users').getDocuments();
+
+    for(var doc in userDocs.documents){
+      String name = doc.data['displayName'];
+      String photo = doc.data['photoUrl'];
+      String uid = doc.documentID;
+      String phone = doc.data['phoneNumber'];
+      users.add(ContactTile(name,photo,uid,phoneNumber: phone));
+
+    }
+    setState(() {
+      allUsers=users;
+    });
+
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -69,9 +130,19 @@ class _ContactListScreenState extends State<ContactListScreen> {
               },
               icon: Icon(Icons.done),
               iconSize: screenH(25),
+            ),
+            IconButton(
+              onPressed: (){
+                showSearch(context: context, delegate:DataSearch() );
+
+              },
+              icon: Icon(Icons.search),
+              iconSize: screenH(25),
             )
           ],
         ),
+        drawer: Drawer(),
+
         body: buildPage());
   }
 }
@@ -81,22 +152,7 @@ Widget buildPage() {
   return Container(
     child: Column(
       children: <Widget>[
-        Ink(
-          color: Colors.white,
-          child: Padding(
-            padding: const EdgeInsets.all(15.0),
-            child: TextField(
-              onChanged: (value) {},
-              controller: editingController,
-              decoration: InputDecoration(
-                  labelText: "Search",
-                  hintText: "Search or Add Friends",
-                  prefixIcon: Icon(Icons.search),
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(20.0)))),
-            ),
-          ),
-        ),
+
         Expanded(child: buildContacts()),
       ],
     ),
@@ -185,17 +241,25 @@ Future<List<ContactTile>> getContacts() async {
   return contactsTiles;
 }
 
-class ContactTile extends StatefulWidget {
+class ContactTile extends StatefulWidget{
   ContactTile(this.contactName, this.personImage, this.uid, {this.phoneNumber});
   final String contactName, personImage, phoneNumber, uid;
+
+
   @override
   _ContactTileState createState() => _ContactTileState();
 }
 
 class _ContactTileState extends State<ContactTile> {
   bool value1 = false;
+
   @override
   Widget build(BuildContext context) {
+    if(selectedUsersUids.contains(widget.uid)){
+      setState(() {
+        value1=true;
+      });
+    }
     return Container(
         decoration: BoxDecoration(color: Colors.white),
         height: screenH(97),
@@ -204,19 +268,34 @@ class _ContactTileState extends State<ContactTile> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             ListTile(
+              onTap: (){
+
+              },
               leading: CircleAvatar(
                 radius: 20,
                 backgroundImage: NetworkImage(widget.personImage),
               ),
               trailing: Checkbox(
                   activeColor: Colors.black,
-                  value: value1,
                   checkColor: Colors.white,
+                  value: value1,
                   onChanged: (bool value) {
                     setState(() {
-                      value1 = value;
+                      if(widget.uid==currentUserModel.uid) {
+                        value1 = false;
+                      }else {
+                        value1=value;
+                        if (value1 == true) {
+                          selectedUsersUids.add(widget.uid);
+                        } else {
+                          selectedUsersUids.remove(widget.uid);
+                        }
+                      }
+                      selections=selectedUsersUids.toSet();
+                      print(selections);
                     });
                   }),
+
               title: Text(widget.contactName),
               subtitle: Text(
                 widget.phoneNumber != null ? widget.phoneNumber : '',
