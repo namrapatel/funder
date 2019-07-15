@@ -12,12 +12,13 @@ List<ContactTile> allUsers=[];
 List<String>selectedUsersUids=[];
 List<ContactTile> suggestionList=[];
 Set<String> selections;
+List allContacts=[];
 
 
 class DataSearch extends SearchDelegate<
     String> {
 
-  final recentSearches=[ContactTile('Dhruv Patel','https://platform-lookaside.fbsbx.com/platform/profilepic/?asid=2250762621659276&height=800&width=800&ext=1565358714&hash=AeTMZgz--e2JNS2J','bK5iO87AyBbyUtkRXOiyGEfVis83',)];
+//  final recentSearches=[ContactTile('Dhruv Patel','https://platform-lookaside.fbsbx.com/platform/profilepic/?asid=2250762621659276&height=800&width=800&ext=1565358714&hash=AeTMZgz--e2JNS2J','bK5iO87AyBbyUtkRXOiyGEfVis83',)];
 
 
   @override
@@ -51,7 +52,7 @@ class DataSearch extends SearchDelegate<
   @override
   Widget buildSuggestions(BuildContext context) {
     // TODO: implement buildSuggestions
-    suggestionList= query.isEmpty?recentSearches:allUsers.where(
+    suggestionList= query.isEmpty?[]: allUsers.where(
             (contact)=>(contact.phoneNumber==null?
 
         ((contact.contactName.startsWith(query))):
@@ -181,6 +182,7 @@ Widget buildContacts() {
 Future<List<ContactTile>> getContacts() async {
   var accessToken = await fbLogin.currentAccessToken;
   List<ContactTile> contactsTiles = [];
+  List<String> fbContacts = [];
   final token = accessToken.token;
   final graphResponse = await http.get(
       'https://graph.facebook.com/v3.3/me?fields=friends&access_token=${token}');
@@ -197,7 +199,7 @@ Future<List<ContactTile>> getContacts() async {
         .where('facebookUid', isEqualTo: id)
         .getDocuments();
     List<DocumentSnapshot> docs = docSnap.documents;
-    List<String> fbContacts = [];
+
     for (var doc in docs) {
       String name = doc.data['displayName'];
       String photo = doc.data['photoUrl'];
@@ -206,14 +208,12 @@ Future<List<ContactTile>> getContacts() async {
       contactsTiles.add(ContactTile(name, photo, uid));
     }
 
-    Firestore.instance
-        .collection('users')
-        .document(currentUserModel.uid)
-        .updateData({"contacts": FieldValue.arrayUnion(fbContacts)});
   }
+  addContact(fbContacts);
   if (permissionGranted == true) {
-    Iterable<Contact> contacts = await ContactsService.getContacts();
-    for (var contact in contacts) {
+    List<String> contacts = [];
+    Iterable<Contact> phoneContacts = await ContactsService.getContacts();
+    for (var contact in phoneContacts) {
       var phone = contact.phones.toList();
       print(phone[0].value);
       String number = phone[0].value;
@@ -223,7 +223,7 @@ Future<List<ContactTile>> getContacts() async {
           .getDocuments();
 
       List<DocumentSnapshot> docs = querySnap.documents;
-      List<String> contacts = [];
+
 
       for (var doc in docs) {
         String name = doc.data['displayName'];
@@ -232,13 +232,22 @@ Future<List<ContactTile>> getContacts() async {
         contacts.add(uid);
         contactsTiles.add(ContactTile(name, photo, uid, phoneNumber: number));
       }
-      Firestore.instance
-          .collection('users')
-          .document(currentUserModel.uid)
-          .updateData({"contacts": FieldValue.arrayUnion(contacts)});
+
     }
+    addContact(contacts);
   }
+  DocumentSnapshot documentSnapshot= await Firestore.instance.collection('users').document(currentUserModel.uid).get();
+  allContacts =documentSnapshot.data['contacts'];
+  print(allContacts);
   return contactsTiles;
+}
+
+addContact(List contacts){
+  Firestore.instance
+      .collection('users')
+      .document(currentUserModel.uid)
+      .updateData({"contacts": FieldValue.arrayUnion(contacts)});
+
 }
 
 class ContactTile extends StatefulWidget{
@@ -259,6 +268,10 @@ class _ContactTileState extends State<ContactTile> {
       setState(() {
         value1=true;
       });
+    }else{
+      setState(() {
+        value1=false;
+      });
     }
     return Container(
         decoration: BoxDecoration(color: Colors.white),
@@ -275,28 +288,56 @@ class _ContactTileState extends State<ContactTile> {
                 radius: 20,
                 backgroundImage: NetworkImage(widget.personImage),
               ),
-              trailing: Checkbox(
-                  activeColor: Colors.black,
-                  checkColor: Colors.white,
-                  value: value1,
-                  onChanged: (bool value) {
-                    setState(() {
-                      if(widget.uid==currentUserModel.uid) {
-                        value1 = false;
-                      }else {
-                        value1=value;
-                        if (value1 == true) {
-                          selectedUsersUids.add(widget.uid);
-                        } else {
-                          selectedUsersUids.remove(widget.uid);
-                        }
-                      }
-                      selections=selectedUsersUids.toSet();
-                      print(selections);
-                    });
-                  }),
+              trailing: Container(
+                height: screenH(97),
+                width: screenW(200),
+                child: Row(
+                  children: <Widget>[
 
-              title: Text(widget.contactName),
+                    SizedBox(width: 50),
+                    !allContacts.contains(widget.uid)?
+                    FlatButton(
+                      shape: new RoundedRectangleBorder(
+                          borderRadius:
+                          new BorderRadius.circular(15.0)),
+                      color: Colors.black,
+                      child: Text(
+                        "Add",
+                        style: TextStyle(color: Colors.white),
+                      ),
+                      onPressed: () {
+                        List ids= [];
+                        ids.add(widget.uid);
+                        addContact(ids);
+                      },
+                    ):SizedBox(width: 88),
+                    Checkbox(
+                        activeColor: Colors.black,
+                        checkColor: Colors.white,
+                        value: value1,
+                        onChanged: (bool value) {
+                          setState(() {
+                            if(widget.uid==currentUserModel.uid) {
+                              value1 = false;
+                            }else {
+                              value1=value;
+                              if (value1 == true) {
+                                selectedUsersUids.add(widget.uid);
+                              } else {
+                                selectedUsersUids.remove(widget.uid);
+
+                              }
+                            }
+                            selections=selectedUsersUids.toSet();
+                            print(selections);
+                          });
+                        }),
+
+                  ],
+                ),
+              ),
+
+              title: Text(widget.contactName=="You currently don't have a display name"?'':widget.contactName),
               subtitle: Text(
                 widget.phoneNumber != null ? widget.phoneNumber : '',
                 style: TextStyle(fontSize: screenF(12)),
