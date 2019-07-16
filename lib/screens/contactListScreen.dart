@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:Dime/homepage.dart';
 import 'package:Dime/screens/individualTransaction.dart';
+import 'groupTransaction.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:Dime/loginpage.dart';
 import 'package:http/http.dart' as http;
@@ -150,7 +151,7 @@ class _ContactListScreenState extends State<ContactListScreen> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => IndividualTransaction(),
+                      builder: (context) => GroupTransaction(),
                     ));
               },
               icon: Icon(Icons.done),
