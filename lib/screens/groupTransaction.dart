@@ -10,6 +10,12 @@ class GroupTransaction extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
+          leading: IconButton(
+            icon: Icon(Icons.arrow_back_ios),
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          ),
           backgroundColor: Colors.black,
           title: Text("Create a Group"),
         ),
@@ -106,7 +112,6 @@ class _GroupTransactionScreenState extends State<GroupTransactionScreen> {
                         // (it will be the same for everyone in this case)
                         print(splitCharge);
                       } else {
-                        
                         print("Custom Values selected!");
                       }
                     },
@@ -707,6 +712,4 @@ class _BuildRecurringState extends State<BuildRecurring> {
       ),
     );
   }
-
 }
-

@@ -70,13 +70,13 @@ class GroupsDetailPage extends StatelessWidget {
                       Center(
                         child: CircleAvatar(
                             backgroundImage:
-                                AssetImage('assets/roommates.jpeg'),
+                                AssetImage('assets/lakersnation.jpeg'),
                             radius: 50),
                       ),
                       SizedBox(
                         height: 10,
                       ),
-                      Text("Roommates",
+                      Text("Lakers Nation",
                           style: TextStyle(
                             color: Colors.white,
                             fontSize: ScreenUtil.instance.setSp(25.0),
@@ -84,10 +84,10 @@ class GroupsDetailPage extends StatelessWidget {
                       Row(
                         children: <Widget>[
                           SizedBox(
-                            width: 17,
+                            width: (17),
                           ),
                           colorCard(
-                              "Your Balance", 29.99, -1, context, Colors.white),
+                              "Your Balance", 29.12, -1, context, Colors.white),
                           colorCard("Monthly Spending", 508.93, 1, context,
                               Colors.white)
                         ],

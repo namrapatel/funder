@@ -66,67 +66,70 @@ class _PaymentTypeSectionState extends State<PaymentTypeSection> {
         SizedBox(
           height: 20.0,
         ),
-        Row(
-          children: <Widget>[
-            SizedBox(
-              width: 20.0,
-            ),
-            Container(
-              height: 30,
-              width: 140,
-              child: InkWell(
-                onTap: () {
-                  setState(() {
-                    splitIsSelected = true;
-                  });
-                },
-                child: Center(
-                  child: Text(
-                    'Split the Total',
-                    style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 12.0,
-                        fontWeight: FontWeight.bold),
+        Padding(
+          padding: const EdgeInsets.only(left: 15.0),
+          child: Row(
+            children: <Widget>[
+              SizedBox(
+                width: 20.0,
+              ),
+              Container(
+                height: 30,
+                width: 140,
+                child: InkWell(
+                  onTap: () {
+                    setState(() {
+                      splitIsSelected = true;
+                    });
+                  },
+                  child: Center(
+                    child: Text(
+                      'Split the Total',
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 12.0,
+                          fontWeight: FontWeight.bold),
+                    ),
                   ),
                 ),
-              ),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.all(Radius.circular(10)),
-                color: splitIsSelected == false
-                    ? Colors.black.withOpacity(0.03)
-                    : Colors.black.withOpacity(0.15),
-              ),
-            ),
-            SizedBox(
-              width: 25,
-            ),
-            Container(
-              height: 30,
-              width: 140,
-              child: InkWell(
-                onTap: () {
-                  setState(() {
-                    splitIsSelected = false;
-                  });
-                },
-                child: Center(
-                  child: Text(
-                    'Custom Values',
-                    style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 12.0,
-                        fontWeight: FontWeight.bold),
-                  ),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.all(Radius.circular(10)),
+                  color: splitIsSelected == false
+                      ? Colors.black.withOpacity(0.03)
+                      : Colors.black.withOpacity(0.15),
                 ),
               ),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.all(Radius.circular(10)),
-                color: splitIsSelected == true
-                    ? Colors.black.withOpacity(0.03)
-                    : Colors.black.withOpacity(0.15),
+              SizedBox(
+                width: 25,
               ),
-            ),
-          ],
+              Container(
+                height: 30,
+                width: 140,
+                child: InkWell(
+                  onTap: () {
+                    setState(() {
+                      splitIsSelected = false;
+                    });
+                  },
+                  child: Center(
+                    child: Text(
+                      'Custom Values',
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 12.0,
+                          fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                ),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.all(Radius.circular(10)),
+                  color: splitIsSelected == true
+                      ? Colors.black.withOpacity(0.03)
+                      : Colors.black.withOpacity(0.15),
+                ),
+              ),
+            ],
+          ),
         )
       ],
     );

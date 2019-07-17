@@ -138,7 +138,7 @@ class _HomePageOneState extends State<HomePageOne> {
                         Padding(
                           padding: EdgeInsets.symmetric(
                               horizontal: screenW(8.0), vertical: screenH(3.0)),
-                          child: Text("+2.39%",
+                          child: Text("+13.22",
                               style: TextStyle(
                                   color: Colors.white, fontSize: screenF(13))),
                         ),
@@ -710,8 +710,12 @@ class GroupCard extends StatelessWidget {
                       opacity: 0.8,
                       child: ClipRRect(
                           borderRadius: new BorderRadius.circular(5.0),
-                          child: Image(
-                            image: NetworkImage(this.groupPic),
+                          child: Padding(
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 8.0),
+                            child: Image(
+                              image: NetworkImage(this.groupPic),
+                            ),
                           )),
                     ),
                   )),

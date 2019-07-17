@@ -78,6 +78,7 @@ flutter:
     - assets/defaultprofile.png
     - assets/dhruvpatel.jpeg
     - assets/groupselfie.png
+    - assets/horror.png
 
 
   fonts:

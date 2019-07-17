@@ -54,7 +54,7 @@ class _GroupMembersSection extends State<GroupMembersSection> {
 
 List<GroupCard> requestFrom = [
   GroupCard("Namra", "assets/namrapatel.png", 0),
-  GroupCard("Sean", "assets/seanmei.jpeg", 0),
+  GroupCard("Dhruv", "assets/dhruvpatel.jpeg", 0),
   GroupCard("Shehab", "assets/shehabsalem.jpeg", 0),
   GroupCard("Taher", "assets/taher.jpeg", 0),
   GroupCard("Sean", "assets/seanmei.jpeg", 0),

@@ -360,14 +360,14 @@ class _RTransState extends State<RTrans> {
                 width: 20,
               ),
               CircleAvatar(
-                backgroundImage: AssetImage('assets/taher.jpeg'),
+                backgroundImage: AssetImage('assets/lakersnation.jpeg'),
                 radius: 20,
               ),
               SizedBox(
                 width: 20,
               ),
               Text(
-                'Taher Ankleshwaria',
+                'Lakers Nation',
                 style: TextStyle(
                     color: Colors.black,
                     fontSize: 18,
@@ -1040,7 +1040,7 @@ class _ITransState extends State<ITrans> {
                 width: 20,
               ),
               Text(
-                'Taher Ankleshwaria',
+                'Clark Kent',
                 style: TextStyle(
                     color: Colors.black,
                     fontSize: 18,
